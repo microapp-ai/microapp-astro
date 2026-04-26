@@ -1,0 +1,128 @@
+---
+/**
+ * BaseLayout.astro — Astro HTML shell for all Microapp pages
+ * 
+ * This renders as pure static HTML on first byte.
+ * No JavaScript executes before the page is visible.
+ */
+export interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  keywords?: string[];
+  ogImage?: string;
+  jsonLd?: object[];
+  noIndex?: boolean;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  keywords = [],
+  ogImage = "https://microapp.io/og-image.png",
+  jsonLd = [],
+  noIndex = false,
+} = Astro.props;
+
+const canonicalUrl = canonical
+  ? `https://microapp.io${canonical}`
+  : `https://microapp.io${Astro.url.pathname}`;
+
+const analyticsEndpoint = import.meta.env.VITE_ANALYTICS_ENDPOINT || "";
+const analyticsWebsiteId = import.meta.env.VITE_ANALYTICS_WEBSITE_ID || "";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {keywords.length > 0 && <meta name="keywords" content={keywords.join(", ")} />}
+    {noIndex && <meta name="robots" content="noindex, nofollow" />}
+
+    <!-- Canonical -->
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Microapp" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@microapp_io" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Sitemap -->
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         PERFORMANCE: Resource hints
+    ════════════════════════════════════════════════════════════════ -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://d2xsxph8kpxj0f.cloudfront.net" crossorigin />
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
+    <link rel="preconnect" href="https://d36hbw14aib5lz.cloudfront.net" crossorigin />
+    <link rel="dns-prefetch" href="https://www.googletagservices.com" />
+    <link rel="dns-prefetch" href="https://googleads.g.doubleclick.net" />
+    <link rel="dns-prefetch" href="https://tpc.googlesyndication.com" />
+    <link rel="dns-prefetch" href="https://manus-analytics.com" />
+    <link rel="dns-prefetch" href="https://plausible.io" />
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         FONTS: Non-blocking with font-display=optional
+         Eliminates render-blocking font chain entirely.
+    ════════════════════════════════════════════════════════════════ -->
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800&family=Inter:wght@400;500;600&family=Caveat:wght@600;700&display=optional"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800&family=Inter:wght@400;500;600&family=Caveat:wght@600;700&display=optional"
+      />
+    </noscript>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         ADSENSE: async so it never blocks rendering
+    ════════════════════════════════════════════════════════════════ -->
+    <script
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4016939081639634"
+      crossorigin="anonymous"></script>
+
+    <!-- JSON-LD Structured Data -->
+    {jsonLd.map((schema) => (
+      <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    ))}
+  </head>
+  <body>
+    <slot />
+
+    <!-- Analytics: defer so it never blocks rendering -->
+    {analyticsEndpoint && analyticsWebsiteId && (
+      <script
+        defer
+        src={`${analyticsEndpoint}/umami`}
+        data-website-id={analyticsWebsiteId}
+      />
+    )}
+  </body>
+</html>

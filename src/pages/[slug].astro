@@ -1,0 +1,47 @@
+---
+/**
+ * [slug].astro — Dynamic route that generates one static HTML page per tool
+ * 
+ * At build time, Astro calls getStaticPaths() which:
+ * 1. Fetches all 126 tools from Supabase
+ * 2. Generates one static .html file per tool
+ * 3. Each file contains full SEO HTML (H1, breadcrumb, intro, FAQ, related tools)
+ * 4. The interactive widget loads as a React island (client:load)
+ * 
+ * Result: Google sees real HTML on first byte. LCP = H1 text (~0.3s).
+ */
+import ToolLayout from "../layouts/ToolLayout.astro";
+import ToolIsland from "../components/ToolIsland";
+import FaqAccordion from "../components/FaqAccordion";
+import { getAllTools } from "../lib/supabase";
+import type { ToolMetadata } from "../lib/types";
+
+export async function getStaticPaths() {
+  const tools = await getAllTools();
+  
+  return tools.map((tool) => ({
+    params: { slug: tool.slug },
+    props: { tool },
+  }));
+}
+
+interface Props {
+  tool: ToolMetadata;
+}
+
+const { tool } = Astro.props;
+---
+
+<ToolLayout tool={tool}>
+  <!-- React island: interactive tool widget (loads after HTML is visible) -->
+  <div slot="tool-widget">
+    <ToolIsland slug={tool.slug} client:load />
+  </div>
+  
+  <!-- React island: FAQ accordion (loads when visible) -->
+  {tool.faqs && tool.faqs.length > 0 && (
+    <div slot="faq-accordion">
+      <FaqAccordion faqs={tool.faqs} client:visible />
+    </div>
+  )}
+</ToolLayout>

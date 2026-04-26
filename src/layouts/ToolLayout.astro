@@ -1,0 +1,313 @@
+---
+/**
+ * ToolLayout.astro — Static HTML shell for all tool pages
+ * 
+ * This is the KEY performance win: everything EXCEPT the interactive widget
+ * renders as static HTML on first byte. Google sees:
+ *   - H1 with tool name
+ *   - Breadcrumb navigation
+ *   - Intro paragraph (keyword-rich)
+ *   - How-to steps
+ *   - FAQ section (JSON-LD + visible HTML)
+ *   - Related tools internal links
+ * 
+ * The interactive tool widget is a React island (client:load).
+ */
+import BaseLayout from "./BaseLayout.astro";
+import type { ToolMetadata } from "../lib/types";
+
+export interface Props {
+  tool: ToolMetadata;
+}
+
+const { tool } = Astro.props;
+
+// Build JSON-LD structured data
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://microapp.io" },
+    { "@type": "ListItem", "position": 2, "name": tool.categoryLabel, "item": `https://microapp.io${tool.categoryHref}` },
+    { "@type": "ListItem", "position": 3, "name": tool.label, "item": `https://microapp.io/${tool.slug}` },
+  ],
+};
+
+const softwareSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": tool.label,
+  "description": tool.description,
+  "applicationCategory": tool.schemaCategory || "UtilitiesApplication",
+  "operatingSystem": "Web",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "url": `https://microapp.io/${tool.slug}`,
+};
+
+const faqSchema = tool.faqs && tool.faqs.length > 0 ? {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": tool.faqs.map((faq) => ({
+    "@type": "Question",
+    "name": faq.question,
+    "acceptedAnswer": { "@type": "Answer", "text": faq.answer },
+  })),
+} : null;
+
+const jsonLd = [breadcrumbSchema, softwareSchema, ...(faqSchema ? [faqSchema] : [])];
+
+const logoWebpUrl = "https://d2xsxph8kpxj0f.cloudfront.net/310519663095424537/KyAxZPcLXNnGAfTcLGBXYN/microapp-logo-optimized.webp";
+const logoPngUrl = "https://d2xsxph8kpxj0f.cloudfront.net/310519663095424537/KyAxZPcLXNnGAfTcLGBXYN/microapp-logo-optimized.png";
+
+const categories = [
+  { label: "Text", href: "/text-tools" },
+  { label: "Numbers", href: "/number-calculators" },
+  { label: "Time & Date", href: "/time-date-tools" },
+  { label: "Colors & Design", href: "/color-design-tools" },
+  { label: "Dev Tools", href: "/developer-tools" },
+  { label: "Generators", href: "/random-generators" },
+];
+---
+
+<BaseLayout
+  title={tool.title}
+  description={tool.description}
+  canonical={`/${tool.slug}`}
+  keywords={tool.keywords}
+  jsonLd={jsonLd}
+>
+  <div class="min-h-screen bg-white flex flex-col">
+    <!-- ── Navigation (static HTML — no JS needed) ── -->
+    <header class="sticky top-0 z-50 bg-white border-b border-[#E8E6DE]">
+      <div class="container mx-auto px-4 max-w-7xl">
+        <div class="flex items-center justify-between h-14">
+          <!-- Logo -->
+          <a href="/" class="flex items-center no-underline">
+            <picture>
+              <source srcset={logoWebpUrl} type="image/webp" />
+              <img
+                src={logoPngUrl}
+                alt="Microapp"
+                width="150"
+                height="35"
+                style="height:28px;width:auto"
+                fetchpriority="high"
+              />
+            </picture>
+          </a>
+
+          <!-- Desktop nav -->
+          <nav class="hidden md:flex items-center gap-6">
+            {categories.map((c) => (
+              <a
+                href={c.href}
+                style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:0.875rem;color:#4B5563;text-decoration:none"
+                class="hover:text-[#1B6B45] transition-colors"
+              >
+                {c.label}
+              </a>
+            ))}
+          </nav>
+
+          <!-- CTA -->
+          <div class="flex items-center gap-2">
+            <a
+              href="/"
+              class="hidden md:inline-flex items-center justify-center px-4 py-2 rounded-full text-sm font-semibold text-white bg-[#1B6B45] hover:bg-[#155538] transition-colors"
+              style="font-family:'Plus Jakarta Sans',sans-serif"
+            >
+              All Tools
+            </a>
+            <!-- Mobile menu toggle (React island handles interactivity) -->
+            <div id="mobile-nav-root" class="md:hidden"></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ── Main Content ── -->
+    <main class="flex-1">
+      <div class="container mx-auto px-4 max-w-7xl py-8 md:py-12">
+
+        <!-- Breadcrumb (static HTML) -->
+        <nav aria-label="Breadcrumb" class="mb-6">
+          <ol class="flex items-center gap-1.5 text-sm" style="font-family:'Inter',sans-serif;color:#6B7280">
+            <li><a href="/" class="hover:text-[#1B6B45] transition-colors" style="color:#6B7280">Home</a></li>
+            <li style="color:#D1D5DB">›</li>
+            <li>
+              <a href={tool.categoryHref} class="hover:text-[#1B6B45] transition-colors" style="color:#6B7280">
+                {tool.categoryLabel}
+              </a>
+            </li>
+            <li style="color:#D1D5DB">›</li>
+            <li style="color:#1A1A1A;font-weight:600">{tool.label}</li>
+          </ol>
+        </nav>
+
+        <!-- Tool Header (static HTML — LCP target) -->
+        <div class="mb-8">
+          <div class="flex items-center gap-3 mb-3">
+            <h1
+              style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:clamp(1.5rem,4vw,2.25rem);color:#1A1A1A;letter-spacing:-0.03em;line-height:1.15;margin:0"
+            >
+              {tool.label}
+            </h1>
+            {tool.badge && (
+              <span
+                style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.7rem;background:#FFE234;color:#1A1A1A;padding:0.2rem 0.6rem;border-radius:9999px;letter-spacing:0.05em;text-transform:uppercase"
+              >
+                {tool.badge}
+              </span>
+            )}
+          </div>
+          {tool.intro && (
+            <p
+              style="font-family:'Inter',sans-serif;font-size:1rem;color:#374151;line-height:1.7;max-width:65ch;margin:0"
+            >
+              {tool.intro}
+            </p>
+          )}
+        </div>
+
+        <!-- ── React Island: Interactive Tool Widget ── -->
+        <!-- This is the ONLY part that needs JavaScript -->
+        <div class="mb-10">
+          <slot name="tool-widget" />
+        </div>
+
+        <!-- ── How To Use (static HTML) ── -->
+        {tool.howTo && tool.howTo.length > 0 && (
+          <section class="max-w-3xl mb-10" aria-labelledby="how-to-heading">
+            <h2
+              id="how-to-heading"
+              style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.4rem;color:#1A1A1A;letter-spacing:-0.02em;margin-bottom:1.25rem"
+            >
+              How to Use
+            </h2>
+            <ol style="display:flex;flex-direction:column;gap:0.75rem;padding:0;margin:0;list-style:none">
+              {tool.howTo.map((step, i) => (
+                <li style="display:flex;align-items:flex-start;gap:1rem">
+                  <span
+                    style="flex-shrink:0;width:1.75rem;height:1.75rem;border-radius:9999px;background:#E8F5EE;display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.8rem;color:#1B6B45;margin-top:0.1rem"
+                  >
+                    {i + 1}
+                  </span>
+                  <p style="font-family:'Inter',sans-serif;font-size:0.95rem;color:#374151;line-height:1.65;margin:0">
+                    {step}
+                  </p>
+                </li>
+              ))}
+            </ol>
+          </section>
+        )}
+
+        <!-- ── Related Tools (static HTML — internal linking for SEO) ── -->
+        {tool.relatedTools && tool.relatedTools.length > 0 && (
+          <section class="max-w-3xl mb-10" aria-labelledby="related-heading">
+            <h2
+              id="related-heading"
+              style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.4rem;color:#1A1A1A;letter-spacing:-0.02em;margin-bottom:1.25rem"
+            >
+              Related Tools
+            </h2>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:0.75rem">
+              {tool.relatedTools.map((rt) => (
+                <a
+                  href={rt.slug.startsWith('/') ? rt.slug : `/${rt.slug}`}
+                  style="display:flex;align-items:center;gap:0.75rem;padding:0.875rem 1rem;border:1.5px solid #E8E6DE;border-radius:0.875rem;background:white;text-decoration:none;transition:border-color 0.15s,background 0.15s"
+                  class="hover:border-[#1B6B45] hover:bg-[#F7FBF9]"
+                >
+                  {rt.emoji && <span style="font-size:1.25rem;flex-shrink:0">{rt.emoji}</span>}
+                  <span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:0.875rem;color:#1A1A1A;line-height:1.3">
+                    {rt.title}
+                  </span>
+                </a>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <!-- ── FAQ Section (static HTML — FAQPage JSON-LD above) ── -->
+        {tool.faqs && tool.faqs.length > 0 && (
+          <section class="max-w-3xl mb-10" aria-labelledby="faq-heading">
+            <h2
+              id="faq-heading"
+              style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.4rem;color:#1A1A1A;letter-spacing:-0.02em;margin-bottom:1.25rem"
+            >
+              Frequently Asked Questions
+            </h2>
+            <!-- FAQ accordion is a React island for interactivity -->
+            <slot name="faq-accordion" />
+            <!-- Fallback static version for no-JS / crawlers -->
+            <noscript>
+              <dl style="display:flex;flex-direction:column;gap:1rem">
+                {tool.faqs.map((faq) => (
+                  <div style="border:1.5px solid #E8E6DE;border-radius:0.875rem;padding:1rem 1.25rem">
+                    <dt style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.95rem;color:#1A1A1A;margin-bottom:0.5rem">
+                      {faq.question}
+                    </dt>
+                    <dd style="font-family:'Inter',sans-serif;font-size:0.9rem;color:#374151;line-height:1.7;margin:0">
+                      {faq.answer}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </noscript>
+          </section>
+        )}
+
+      </div>
+    </main>
+
+    <!-- ── Footer (static HTML) ── -->
+    <footer style="background:#1A1A1A;color:white;padding:3rem 0 2rem">
+      <div class="container mx-auto px-4 max-w-7xl">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2rem;margin-bottom:2.5rem">
+          <div>
+            <a href="/" style="display:inline-block;margin-bottom:1rem">
+              <picture>
+                <source srcset={logoWebpUrl} type="image/webp" />
+                <img src={logoPngUrl} alt="Microapp" width="120" height="28" style="height:22px;width:auto;filter:brightness(0) invert(1)" />
+              </picture>
+            </a>
+            <p style="font-family:'Inter',sans-serif;font-size:0.875rem;color:#9CA3AF;line-height:1.6;max-width:28ch">
+              Free online utility tools for everyone. No signup, no ads on tools.
+            </p>
+          </div>
+          <div>
+            <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.875rem;color:white;margin-bottom:0.875rem;text-transform:uppercase;letter-spacing:0.05em">
+              Categories
+            </h3>
+            <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.5rem">
+              {categories.map((c) => (
+                <li>
+                  <a href={c.href} style="font-family:'Inter',sans-serif;font-size:0.875rem;color:#9CA3AF;text-decoration:none" class="hover:text-white transition-colors">
+                    {c.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.875rem;color:white;margin-bottom:0.875rem;text-transform:uppercase;letter-spacing:0.05em">
+              Company
+            </h3>
+            <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.5rem">
+              <li><a href="/about" style="font-family:'Inter',sans-serif;font-size:0.875rem;color:#9CA3AF;text-decoration:none" class="hover:text-white transition-colors">About</a></li>
+              <li><a href="/privacy" style="font-family:'Inter',sans-serif;font-size:0.875rem;color:#9CA3AF;text-decoration:none" class="hover:text-white transition-colors">Privacy Policy</a></li>
+              <li><a href="/terms" style="font-family:'Inter',sans-serif;font-size:0.875rem;color:#9CA3AF;text-decoration:none" class="hover:text-white transition-colors">Terms</a></li>
+            </ul>
+          </div>
+        </div>
+        <div style="border-top:1px solid #374151;padding-top:1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
+          <p style="font-family:'Inter',sans-serif;font-size:0.8rem;color:#6B7280;margin:0">
+            © {new Date().getFullYear()} Microapp. All rights reserved.
+          </p>
+          <p style="font-family:'Inter',sans-serif;font-size:0.8rem;color:#6B7280;margin:0">
+            Made with ♥ for the web
+          </p>
+        </div>
+      </div>
+    </footer>
+  </div>
+</BaseLayout>

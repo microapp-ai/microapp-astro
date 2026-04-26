@@ -1,0 +1,22 @@
+---
+/**
+ * index.astro — Microapp Home Page
+ * 
+ * Static HTML shell with SEO, then React island for interactive tool grid.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import HomeIsland from "../components/HomeIsland";
+
+const title = "Microapp — Free Online Tools for Everyone";
+const description = "100+ free online utility tools: word counter, age calculator, password generator, unit converter, and more. No signup required.";
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical="https://microapp.io/"
+  ogType="website"
+>
+  <!-- React island: full interactive home page with category filtering -->
+  <HomeIsland client:load />
+</BaseLayout>
