@@ -1,4 +1,8 @@
 ---
+// In Astro 5 "server" output mode, pages must explicitly opt in to prerendering.
+// This keeps all tool pages as fully static HTML (same as the previous static build).
+export const prerender = true;
+
 /**
  * [slug].astro — Dynamic route that generates one static HTML page per tool
  * 

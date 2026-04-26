@@ -1,13 +1,30 @@
 import { defineConfig } from "astro/config";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
+import cloudflare from "@astrojs/cloudflare";
 import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 
-// SSG (static) mode — all 126 tool pages pre-built at deploy time
+/**
+ * OUTPUT STRATEGY
+ * ───────────────
+ * output: "server"  — Astro 5 removed the "hybrid" mode. In Astro 5,
+ *                     "server" with `export const prerender = true` on each
+ *                     page is the equivalent of the old "hybrid" mode.
+ *
+ * All existing tool pages export `prerender = true` (added in [slug].astro)
+ * so they remain fully static (pre-rendered at build time).
+ * ISR via Cloudflare KV will be wired in once the KV namespace is created
+ * in the Cloudflare dashboard.
+ */
 export default defineConfig({
   site: "https://microapp.io",
-  output: "static",
+  output: "server",
+  adapter: cloudflare({
+    platformProxy: {
+      enabled: true, // makes Cloudflare bindings available in dev
+    },
+  }),
   integrations: [
     react(),
     sitemap({
