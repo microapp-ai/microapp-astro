@@ -1,4 +1,5 @@
 ---
+import "../styles/global.css";
 /**
  * BaseLayout.astro — Astro HTML shell for all Microapp pages
  * 
@@ -25,8 +26,9 @@ const {
   noIndex = false,
 } = Astro.props;
 
+// If canonical is already a full URL, use it as-is; otherwise prepend base
 const canonicalUrl = canonical
-  ? `https://microapp.io${canonical}`
+  ? (canonical.startsWith('http') ? canonical : `https://microapp.io${canonical}`)
   : `https://microapp.io${Astro.url.pathname}`;
 
 const analyticsEndpoint = import.meta.env.VITE_ANALYTICS_ENDPOINT || "";
