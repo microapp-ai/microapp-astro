@@ -1,0 +1,91 @@
+---
+export const prerender = true;
+import BaseLayout from "../layouts/BaseLayout.astro";
+import HomeNav from "../components/HomeNav.astro";
+import AuthModal from "../components/AuthModal";
+---
+<BaseLayout
+  title="Terms of Service — Microapp"
+  description="Microapp terms of service. Free to use, no warranty, fair use expected."
+  canonical="https://microapp.io/terms-of-service"
+>
+  <div class="min-h-screen bg-white flex flex-col">
+    <HomeNav />
+
+    <main class="flex-1">
+      <div class="max-w-3xl mx-auto px-4 py-16">
+
+        <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:clamp(2rem,5vw,3rem);color:#1A1A1A;letter-spacing:-0.03em;margin-bottom:0.5rem">
+          Terms of Service
+        </h1>
+        <p style="font-family:'Inter',sans-serif;font-size:0.9rem;color:#6B7280;margin-bottom:2rem">
+          Last updated: April 2025
+        </p>
+
+        <p style="font-family:'Inter',sans-serif;font-size:1rem;color:#374151;line-height:1.8;margin-bottom:2rem">
+          By using Microapp you agree to these terms. They're short and written in plain English.
+        </p>
+
+        {[
+          {
+            heading: "1. Free to use",
+            body: "All tools on Microapp are free to use for personal and commercial purposes. No attribution required."
+          },
+          {
+            heading: "2. No warranty",
+            body: "Tools are provided \"as is\" without warranty of any kind. While we strive for accuracy, please verify critical calculations independently before relying on them for important decisions."
+          },
+          {
+            heading: "3. Fair use",
+            body: "Please don't use Microapp to scrape, abuse, or overload our infrastructure. Automated bulk requests are not permitted without prior written permission."
+          },
+          {
+            heading: "4. User-generated content",
+            body: "If you submit ratings or reviews, you grant Microapp a non-exclusive license to display that content on the site. You are responsible for ensuring your reviews are accurate and not defamatory."
+          },
+          {
+            heading: "5. Intellectual property",
+            body: "The Microapp name, logo, and site design are our property. The underlying tool logic is original work. You may not copy or redistribute the site's code without permission."
+          },
+          {
+            heading: "6. Limitation of liability",
+            body: "Microapp is not liable for any damages arising from the use or inability to use our tools, including but not limited to data loss or financial loss."
+          },
+          {
+            heading: "7. Changes",
+            body: "We may update these terms at any time. Continued use of the site after changes constitutes acceptance of the new terms."
+          },
+          {
+            heading: "8. Contact",
+            body: "Questions? Email hello@microapp.io."
+          },
+        ].map(section => (
+          <div style="margin-bottom:2rem">
+            <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:1.2rem;color:#1A1A1A;margin-bottom:0.75rem">
+              {section.heading}
+            </h2>
+            <p style="font-family:'Inter',sans-serif;font-size:1rem;color:#374151;line-height:1.8;margin:0">
+              {section.body}
+            </p>
+          </div>
+        ))}
+
+        <div style="margin-top:3rem;padding-top:2rem;border-top:1px solid #E8E6DE">
+          <a href="/" style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.95rem;color:#1B6B45;text-decoration:none">
+            ← Browse all 136 tools
+          </a>
+        </div>
+
+      </div>
+    </main>
+
+    <footer style="background:#1A1A1A;color:white;padding:2rem 0;text-align:center">
+      <p style="font-family:'Inter',sans-serif;font-size:0.85rem;color:#6B7280;margin:0">
+        © {new Date().getFullYear()} Microapp. All rights reserved. ·
+        <a href="/about" style="color:#9CA3AF;text-decoration:none;margin:0 0.5rem">About</a> ·
+        <a href="/privacy-policy" style="color:#9CA3AF;text-decoration:none;margin:0 0.5rem">Privacy</a>
+      </p>
+    </footer>
+  </div>
+  <AuthModal client:load />
+</BaseLayout>

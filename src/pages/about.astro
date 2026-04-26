@@ -1,0 +1,78 @@
+---
+export const prerender = true;
+import BaseLayout from "../layouts/BaseLayout.astro";
+import HomeNav from "../components/HomeNav.astro";
+import AuthModal from "../components/AuthModal";
+---
+<BaseLayout
+  title="About Microapp — Free Online Tools for Everyone"
+  description="Microapp is a collection of 136+ free online utility tools built for speed, privacy, and simplicity. No account needed, no ads on tools."
+  canonical="https://microapp.io/about"
+>
+  <div class="min-h-screen bg-white flex flex-col">
+    <HomeNav />
+
+    <main class="flex-1">
+      <div class="max-w-3xl mx-auto px-4 py-16">
+
+        <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:clamp(2rem,5vw,3rem);color:#1A1A1A;letter-spacing:-0.03em;margin-bottom:1.5rem">
+          About Microapp
+        </h1>
+
+        <p style="font-family:'Inter',sans-serif;font-size:1.1rem;color:#374151;line-height:1.8;margin-bottom:1.5rem">
+          Microapp is a growing collection of <strong>136+ free online utility tools</strong> designed to help
+          you get things done faster — without installing anything, creating an account, or sitting through ads.
+        </p>
+
+        <p style="font-family:'Inter',sans-serif;font-size:1rem;color:#374151;line-height:1.8;margin-bottom:1.5rem">
+          From everyday tasks like counting words and calculating percentages, to developer tools like JSON
+          formatting and Base64 encoding, every tool on Microapp is built with three principles in mind:
+        </p>
+
+        <ul style="font-family:'Inter',sans-serif;font-size:1rem;color:#374151;line-height:1.8;margin-bottom:2rem;padding-left:1.5rem">
+          <li style="margin-bottom:0.5rem"><strong>Speed</strong> — tools load instantly and work offline where possible.</li>
+          <li style="margin-bottom:0.5rem"><strong>Privacy</strong> — your data never leaves your browser. We don't log inputs.</li>
+          <li><strong>Simplicity</strong> — no clutter, no dark patterns, no upsells.</li>
+        </ul>
+
+        <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:1.5rem;color:#1A1A1A;margin-bottom:1rem">
+          Our mission
+        </h2>
+        <p style="font-family:'Inter',sans-serif;font-size:1rem;color:#374151;line-height:1.8;margin-bottom:2rem">
+          The web is full of tool sites that bury useful functionality behind paywalls, email capture forms,
+          and aggressive ads. We believe utility tools should just <em>work</em> — for everyone, for free,
+          every time.
+        </p>
+
+        <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:1.5rem;color:#1A1A1A;margin-bottom:1rem">
+          Contact
+        </h2>
+        <p style="font-family:'Inter',sans-serif;font-size:1rem;color:#374151;line-height:1.8;margin-bottom:0.5rem">
+          Have a suggestion for a new tool, found a bug, or just want to say hi?
+        </p>
+        <p style="font-family:'Inter',sans-serif;font-size:1rem;color:#374151;line-height:1.8">
+          Reach us at <a href="mailto:hello@microapp.io" style="color:#1B6B45;font-weight:600">hello@microapp.io</a>
+        </p>
+
+        <div style="margin-top:3rem;padding-top:2rem;border-top:1px solid #E8E6DE">
+          <a
+            href="/"
+            style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.95rem;color:#1B6B45;text-decoration:none"
+          >
+            ← Browse all 136 tools
+          </a>
+        </div>
+
+      </div>
+    </main>
+
+    <footer style="background:#1A1A1A;color:white;padding:2rem 0;text-align:center">
+      <p style="font-family:'Inter',sans-serif;font-size:0.85rem;color:#6B7280;margin:0">
+        © {new Date().getFullYear()} Microapp. All rights reserved. ·
+        <a href="/privacy-policy" style="color:#9CA3AF;text-decoration:none;margin:0 0.5rem">Privacy</a> ·
+        <a href="/terms-of-service" style="color:#9CA3AF;text-decoration:none;margin:0 0.5rem">Terms</a>
+      </p>
+    </footer>
+  </div>
+  <AuthModal client:load />
+</BaseLayout>

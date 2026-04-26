@@ -1,0 +1,88 @@
+---
+export const prerender = true;
+import BaseLayout from "../layouts/BaseLayout.astro";
+import HomeNav from "../components/HomeNav.astro";
+import AuthModal from "../components/AuthModal";
+---
+<BaseLayout
+  title="Privacy Policy — Microapp"
+  description="Microapp privacy policy. We don't track your inputs, sell your data, or require an account to use our tools."
+  canonical="https://microapp.io/privacy-policy"
+>
+  <div class="min-h-screen bg-white flex flex-col">
+    <HomeNav />
+
+    <main class="flex-1">
+      <div class="max-w-3xl mx-auto px-4 py-16">
+
+        <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:clamp(2rem,5vw,3rem);color:#1A1A1A;letter-spacing:-0.03em;margin-bottom:0.5rem">
+          Privacy Policy
+        </h1>
+        <p style="font-family:'Inter',sans-serif;font-size:0.9rem;color:#6B7280;margin-bottom:2rem">
+          Last updated: April 2025
+        </p>
+
+        <p style="font-family:'Inter',sans-serif;font-size:1rem;color:#374151;line-height:1.8;margin-bottom:2rem">
+          Your privacy matters to us. This policy explains what data Microapp collects, how we use it,
+          and your rights.
+        </p>
+
+        {[
+          {
+            heading: "1. Data we do NOT collect",
+            body: "Microapp tools run entirely in your browser. Text you type, files you upload, and any other inputs are never sent to our servers. We have no access to the content you process with our tools."
+          },
+          {
+            heading: "2. Analytics",
+            body: "We use privacy-friendly, cookie-free analytics (no cross-site tracking) to understand aggregate traffic patterns — e.g. which tools are most popular. No personally identifiable information is collected."
+          },
+          {
+            heading: "3. Accounts (optional)",
+            body: "If you create an account to rate or review tools, we store your email address and the ratings/reviews you submit. We do not sell this data to third parties. You can delete your account at any time by emailing hello@microapp.io."
+          },
+          {
+            heading: "4. Cookies",
+            body: "We use a single session cookie if you are logged in. We do not use advertising cookies or third-party tracking pixels."
+          },
+          {
+            heading: "5. Third-party services",
+            body: "We use Supabase for authentication and data storage, and Cloudflare for CDN and DDoS protection. Both are GDPR-compliant services."
+          },
+          {
+            heading: "6. Changes to this policy",
+            body: "We may update this policy occasionally. Material changes will be noted at the top of this page with a revised date."
+          },
+          {
+            heading: "7. Contact",
+            body: "Questions? Email us at hello@microapp.io."
+          },
+        ].map(section => (
+          <div style="margin-bottom:2rem">
+            <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:1.2rem;color:#1A1A1A;margin-bottom:0.75rem">
+              {section.heading}
+            </h2>
+            <p style="font-family:'Inter',sans-serif;font-size:1rem;color:#374151;line-height:1.8;margin:0">
+              {section.body}
+            </p>
+          </div>
+        ))}
+
+        <div style="margin-top:3rem;padding-top:2rem;border-top:1px solid #E8E6DE">
+          <a href="/" style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.95rem;color:#1B6B45;text-decoration:none">
+            ← Browse all 136 tools
+          </a>
+        </div>
+
+      </div>
+    </main>
+
+    <footer style="background:#1A1A1A;color:white;padding:2rem 0;text-align:center">
+      <p style="font-family:'Inter',sans-serif;font-size:0.85rem;color:#6B7280;margin:0">
+        © {new Date().getFullYear()} Microapp. All rights reserved. ·
+        <a href="/about" style="color:#9CA3AF;text-decoration:none;margin:0 0.5rem">About</a> ·
+        <a href="/terms-of-service" style="color:#9CA3AF;text-decoration:none;margin:0 0.5rem">Terms</a>
+      </p>
+    </footer>
+  </div>
+  <AuthModal client:load />
+</BaseLayout>
