@@ -101,12 +101,11 @@ const analyticsWebsiteId = import.meta.env.VITE_ANALYTICS_WEBSITE_ID || "";
     </noscript>
 
     <!-- ═══════════════════════════════════════════════════════════════
-         ADSENSE: async so it never blocks rendering
+         ADSENSE: Lazy-loaded AFTER page is interactive
+         The script is NOT in <head>. It is injected by JS only after
+         the browser fires 'load' + a 2s idle delay, ensuring it never
+         blocks FCP, LCP, or TBT.
     ════════════════════════════════════════════════════════════════ -->
-    <script
-      async
-      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4016939081639634"
-      crossorigin="anonymous"></script>
 
     <!-- JSON-LD Structured Data -->
     {jsonLd.map((schema) => (
@@ -124,5 +123,40 @@ const analyticsWebsiteId = import.meta.env.VITE_ANALYTICS_WEBSITE_ID || "";
         data-website-id={analyticsWebsiteId}
       />
     )}
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         ADSENSE LAZY LOADER
+         Waits for 'load' event + requestIdleCallback (or 2s fallback)
+         before injecting the AdSense script. This removes adsbygoogle.js
+         from the critical path entirely — FCP and LCP are never blocked.
+    ════════════════════════════════════════════════════════════════ -->
+    <script is:inline>
+      (function () {
+        var adsLoaded = false;
+        function loadAds() {
+          if (adsLoaded) return;
+          adsLoaded = true;
+          var s = document.createElement('script');
+          s.async = true;
+          s.crossOrigin = 'anonymous';
+          s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4016939081639634';
+          document.head.appendChild(s);
+        }
+        function scheduleAds() {
+          if ('requestIdleCallback' in window) {
+            // Fire during browser idle time, max 2s wait
+            requestIdleCallback(loadAds, { timeout: 2000 });
+          } else {
+            // Fallback: 2s after load for browsers without rIC
+            setTimeout(loadAds, 2000);
+          }
+        }
+        if (document.readyState === 'complete') {
+          scheduleAds();
+        } else {
+          window.addEventListener('load', scheduleAds, { once: true });
+        }
+      })();
+    </script>
   </body>
 </html>
