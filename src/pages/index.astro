@@ -11,14 +11,72 @@ import HomeIsland from "../components/HomeIsland";
 
 const title = "Microapp — Free Online Tools for Everyone";
 const description = "100+ free online utility tools: word counter, age calculator, password generator, unit converter, and more. No signup required.";
+
+const logoWebpUrl = "/images/microapp-logo-optimized.webp";
+const logoPngUrl = "/images/microapp-logo-optimized.png";
+const categories = [
+  { label: "Text", href: "/#text" },
+  { label: "Numbers", href: "/#numbers" },
+  { label: "Time & Date", href: "/#time-date" },
+  { label: "Colors & Design", href: "/#colors-design" },
+  { label: "Dev Tools", href: "/#dev-tools" },
+  { label: "Generators", href: "/#generators" },
+];
 ---
 
 <BaseLayout
   title={title}
   description={description}
   canonical="https://microapp.io/"
-  ogType="website"
 >
-  <!-- React island: full interactive home page with category filtering -->
-  <HomeIsland client:load />
+  <div class="min-h-screen bg-white flex flex-col">
+    <!-- ── Navigation (static HTML — no JS needed) ── -->
+    <header class="sticky top-0 z-50 bg-white border-b border-[#E8E6DE]">
+      <div class="container mx-auto px-4 max-w-7xl">
+        <div class="flex items-center justify-between h-14">
+          <!-- Logo -->
+          <a href="/" class="flex items-center no-underline">
+            <picture>
+              <source srcset={logoWebpUrl} type="image/webp" />
+              <img
+                src={logoPngUrl}
+                alt="Microapp"
+                width="150"
+                height="35"
+                style="height:28px;width:auto"
+                fetchpriority="high"
+              />
+            </picture>
+          </a>
+          <!-- Desktop nav -->
+          <nav class="hidden md:flex items-center gap-6">
+            {categories.map((c) => (
+              <a
+                href={c.href}
+                style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:0.875rem;color:#4B5563;text-decoration:none"
+                class="hover:text-[#1B6B45] transition-colors"
+              >
+                {c.label}
+              </a>
+            ))}
+          </nav>
+          <!-- CTA -->
+          <div class="flex items-center gap-2">
+            <a
+              href="/word-counter"
+              class="hidden md:inline-flex items-center justify-center px-4 py-2 rounded-full text-sm font-semibold text-white bg-[#1B6B45] hover:bg-[#155538] transition-colors"
+              style="font-family:'Plus Jakarta Sans',sans-serif"
+            >
+              Try Word Counter
+            </a>
+            <!-- Mobile menu toggle placeholder -->
+            <div id="mobile-nav-root" class="md:hidden"></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- React island: full interactive home page with category filtering -->
+    <HomeIsland client:load />
+  </div>
 </BaseLayout>
