@@ -31,7 +31,7 @@ const catIcons = ["T", "#", "⏱", "⚡", "</>", "✍", "🎨"];
 const megaMenu = [
   {
     category: "Text Tools",
-    href: "/#text",
+    href: l("/categories/text-tools"),
     color: "#E8F5EE",
     iconColor: "#1B6B45",
             tools: [
@@ -45,7 +45,7 @@ const megaMenu = [
   },
   {
     category: "Numbers",
-    href: "/#numbers",
+    href: l("/categories/number-calculators"),
     color: "#FFF0F0",
     iconColor: "#E05252",
     tools: [
@@ -59,7 +59,7 @@ const megaMenu = [
   },
   {
     category: "Time & Date",
-    href: "/#time",
+    href: l("/categories/time-date-tools"),
     color: "#F5F0FF",
     iconColor: "#7C3AED",
     tools: [
@@ -70,7 +70,7 @@ const megaMenu = [
   },
   {
     category: "Generators",
-    href: "/#generators",
+    href: l("/categories/generators"),
     color: "#FFF9E0",
     iconColor: "#B8860B",
     tools: [
@@ -84,7 +84,7 @@ const megaMenu = [
   },
   {
     category: "Dev Tools",
-    href: "/#dev",
+    href: l("/categories/dev-tools"),
     color: "#F0F4FF",
     iconColor: "#4F6EF7",
     tools: [
@@ -98,7 +98,7 @@ const megaMenu = [
   },
   {
     category: "Writing & AI",
-    href: "/#writing",
+    href: l("/categories/writing-ai"),
     color: "#F0F8FF",
     iconColor: "#2563EB",
     tools: [
@@ -112,7 +112,7 @@ const megaMenu = [
   },
   {
     category: "Colors & Design",
-    href: "/#design",
+    href: l("/categories/color-design-tools"),
     color: "#FFF0F8",
     iconColor: "#C026D3",
     tools: [
@@ -233,7 +233,7 @@ const megaMenu = [
         <a href="/word-counter" class="px-3 py-2 rounded-lg text-sm font-semibold text-gray-600 hover:bg-gray-50 hover:text-[#1B6B45] transition-colors no-underline" style="font-family:'Plus Jakarta Sans',sans-serif">
           Popular
         </a>
-        <a href="/#writing" class="px-3 py-2 rounded-lg text-sm font-semibold text-gray-600 hover:bg-gray-50 hover:text-[#1B6B45] transition-colors no-underline" style="font-family:'Plus Jakarta Sans',sans-serif">
+        <a href={l("/categories/writing-ai")} class="px-3 py-2 rounded-lg text-sm font-semibold text-gray-600 hover:bg-gray-50 hover:text-[#1B6B45] transition-colors no-underline" style="font-family:'Plus Jakarta Sans',sans-serif">
           AI Tools
         </a>
       </nav>
@@ -299,7 +299,7 @@ const megaMenu = [
           Popular
         </a>
         <a
-          href="/#writing"
+          href={l("/categories/writing-ai")}
           class="flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl text-sm font-semibold text-gray-700 bg-[#F9F8F4] hover:bg-[#EFF6FF] hover:text-[#2563EB] transition-colors no-underline"
           style="font-family:'Plus Jakarta Sans',sans-serif"
         >

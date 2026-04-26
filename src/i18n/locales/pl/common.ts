@@ -4,6 +4,7 @@
  */
 const common = {
   nav: {
+    home: "Strona główna",
     logoAlt: "Microapp",
     allTools: "Wszystkie narzędzia",
     popular: "Popularne",

@@ -1,5 +1,6 @@
 const common = {
   nav: {
+    home: "होम",
     logoAlt: "माइक्रोऐप",
     allTools: "सभी उपकरण",
     popular: "लोकप्रिय",

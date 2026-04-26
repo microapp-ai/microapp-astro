@@ -1,5 +1,6 @@
 const common = {
   nav: {
+    home: "الرئيسية",
     logoAlt: "تطبيق مصغر",
     allTools: "جميع الأدوات",
     popular: "شائع",
