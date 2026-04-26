@@ -13,8 +13,15 @@ export interface CategoryMeta {
   label: string;
   /** Short description for SEO and hub page */
   description: string;
-  /** Emoji icon */
+  /** Emoji icon (fallback) */
   icon: string;
+  /**
+   * Cartoon app-icon illustration tile.
+   * Convention: /images/cat-{slug}.png
+   * Style: white rounded-square tile, colorful cartoon/skeuomorphic illustration,
+   * soft drop shadow — matches the hero image on the home page.
+   */
+  illustration: string;
   /** Background color (light) */
   color: string;
   /** Icon/accent color */
@@ -30,6 +37,7 @@ export const CATEGORIES: CategoryMeta[] = [
     label: "Text Tools",
     description: "Word counters, character counters, text formatters, case converters, diff checkers, and more — all free, all instant.",
     icon: "T",
+    illustration: "/images/cat-text-tools.png",
     color: "#E8F5EE",
     iconColor: "#1B6B45",
     anchor: "/#text",
@@ -40,6 +48,7 @@ export const CATEGORIES: CategoryMeta[] = [
     label: "Number Calculators",
     description: "Percentage calculators, unit converters, loan calculators, BMI, GPA, tip calculator, and dozens more math tools.",
     icon: "#",
+    illustration: "/images/cat-number-calculators.png",
     color: "#FFF0F0",
     iconColor: "#E05252",
     anchor: "/#numbers",
@@ -50,6 +59,7 @@ export const CATEGORIES: CategoryMeta[] = [
     label: "Time & Date Tools",
     description: "Age calculators, date difference tools, countdown timers, stopwatch, Pomodoro timer, and more.",
     icon: "⏱",
+    illustration: "/images/cat-time-date-tools.png",
     color: "#F5F0FF",
     iconColor: "#7C3AED",
     anchor: "/#time",
@@ -60,6 +70,7 @@ export const CATEGORIES: CategoryMeta[] = [
     label: "Generators",
     description: "Password generators, lorem ipsum, random number generators, coin flip, dice roller, name generators, and more.",
     icon: "⚡",
+    illustration: "/images/cat-generators.png",
     color: "#FFF9E0",
     iconColor: "#B8860B",
     anchor: "/#generators",
@@ -70,6 +81,7 @@ export const CATEGORIES: CategoryMeta[] = [
     label: "Dev Tools",
     description: "JSON formatter, Base64 encoder, QR code reader, regex tester, cURL builder, Markdown to HTML, and more.",
     icon: "</>",
+    illustration: "/images/cat-dev-tools.png",
     color: "#F0F4FF",
     iconColor: "#4F6EF7",
     anchor: "/#dev",
@@ -80,6 +92,7 @@ export const CATEGORIES: CategoryMeta[] = [
     label: "Writing & AI",
     description: "AI bio generator, paraphrasing tool, text summarizer, cover letter generator, hashtag generator, and more.",
     icon: "✍",
+    illustration: "/images/cat-writing-ai.png",
     color: "#F0F8FF",
     iconColor: "#2563EB",
     anchor: "/#writing",
@@ -90,6 +103,7 @@ export const CATEGORIES: CategoryMeta[] = [
     label: "Colors & Design",
     description: "Color converter, hex to RGB, color palette generator, gradient generator, color name finder, and more.",
     icon: "🎨",
+    illustration: "/images/cat-color-design-tools.png",
     color: "#FFF0F8",
     iconColor: "#C026D3",
     anchor: "/#design",
