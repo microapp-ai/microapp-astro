@@ -6,8 +6,11 @@
  * 1. Logo
  * 2. Mega-menu "Tools" dropdown (Capterra-style, 7 categories)
  * 3. Language selector icon (Globe)
- * 4. Login + Sign up buttons
+ * 4. Auth buttons (NavAuthIsland — shows login/signup or user avatar)
+ * 5. AuthModal — global modal overlay for sign in / sign up / forgot password
  */
+import NavAuthIsland from "./NavAuthIsland";
+import AuthModal from "./AuthModal";
 const logoWebpUrl = "/images/microapp-logo-optimized.webp";
 const logoPngUrl  = "/images/microapp-logo-optimized.png";
 
@@ -247,23 +250,10 @@ const megaMenu = [
           </span>
         </button>
 
-        <!-- Login -->
-        <a
-          href="/login"
-          class="hidden sm:inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold text-gray-700 hover:text-[#1B6B45] hover:bg-gray-50 transition-colors no-underline"
-          style="font-family:'Plus Jakarta Sans',sans-serif"
-        >
-          Log in
-        </a>
-
-        <!-- Sign up -->
-        <a
-          href="/signup"
-          class="inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold text-white bg-[#1B6B45] hover:bg-[#155538] transition-colors no-underline shadow-sm"
-          style="font-family:'Plus Jakarta Sans',sans-serif"
-        >
-          Sign up
-        </a>
+        <!-- Auth buttons (React island — shows login/signup or user avatar) -->
+        <div class="hidden sm:flex items-center">
+          <NavAuthIsland client:load />
+        </div>
 
         <!-- Mobile hamburger -->
         <button
@@ -297,16 +287,13 @@ const megaMenu = [
         </a>
       ))}
       <div class="pt-3 border-t border-[#E8E6DE] flex gap-2">
-        <a href="/login" class="flex-1 text-center px-4 py-2 rounded-full text-sm font-semibold text-gray-700 border border-gray-200 hover:border-[#1B6B45] hover:text-[#1B6B45] transition-colors no-underline" style="font-family:'Plus Jakarta Sans',sans-serif">
-          Log in
-        </a>
-        <a href="/signup" class="flex-1 text-center px-4 py-2 rounded-full text-sm font-semibold text-white bg-[#1B6B45] hover:bg-[#155538] transition-colors no-underline" style="font-family:'Plus Jakarta Sans',sans-serif">
-          Sign up
-        </a>
+        <NavAuthIsland client:load />
       </div>
     </div>
   </div>
 </header>
+<!-- Global auth modal (renders on all pages that include HomeNav) -->
+<AuthModal client:load />
 
 <script>
   // ── Mega-menu interaction ──────────────────────────────────────────────────

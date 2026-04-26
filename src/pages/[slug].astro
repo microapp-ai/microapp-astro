@@ -17,6 +17,8 @@ export const prerender = true;
 import ToolLayout from "../layouts/ToolLayout.astro";
 import ToolIsland from "../components/ToolIsland";
 import FaqAccordion from "../components/FaqAccordion";
+import ToolRatings from "../components/ToolRatings";
+import AuthModal from "../components/AuthModal";
 import { getAllTools } from "../lib/supabase";
 import type { ToolMetadata } from "../lib/types";
 
@@ -48,4 +50,12 @@ const { tool } = Astro.props;
       <FaqAccordion faqs={tool.faqs} client:visible />
     </div>
   )}
+
+  <!-- React island: Ratings & Reviews (loads when visible to preserve LCP) -->
+  <div slot="ratings">
+    <ToolRatings slug={tool.slug} client:visible />
+  </div>
+
+  <!-- Global auth modal (needed on tool pages for "Sign in to rate" flow) -->
+  <AuthModal client:load />
 </ToolLayout>
