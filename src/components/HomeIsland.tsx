@@ -267,7 +267,7 @@ export default function Home() {
             {/* Hero illustration */}
             <div className="hidden lg:flex justify-end items-end">
               <img
-                src="https://d2xsxph8kpxj0f.cloudfront.net/310519663095424537/KyAxZPcLXNnGAfTcLGBXYN/microapp-hero-cartoon-LJUUUh2MtcNtbQguFxd9bw.webp"
+                src="/images/microapp-hero-cartoon.webp"
                 alt="Microapp tools illustration with cartoon characters"
                 width={560}
                 height={480}
@@ -473,7 +473,7 @@ export default function Home() {
             </div>
             <div>
               <img
-                src="https://d2xsxph8kpxj0f.cloudfront.net/310519663095424537/KyAxZPcLXNnGAfTcLGBXYN/microapp-tools-cartoon-7CJFwqQfDFQGXBVBFRpHHN.webp"
+                src="/images/microapp-tools-cartoon.webp"
                 alt="Tool cards illustration"
                 width={600}
                 height={450}

@@ -30,7 +30,7 @@ export interface FAQItem {
 
 const SITE_NAME = "Microapp";
 const BASE_URL = "https://microapp.io";
-const OG_IMAGE = "https://d2xsxph8kpxj0f.cloudfront.net/310519663095424537/KyAxZPcLXNnGAfTcLGBXYN/microapp-og-image-isixJvB9XtCx5sTHbsM9AC.png";
+const OG_IMAGE = "https://microapp.io/images/microapp-og-image.webp";
 
 function setMeta(name: string, content: string, attr: "name" | "property" = "name") {
   let el = document.querySelector(`meta[${attr}="${name}"]`) as HTMLMetaElement | null;
