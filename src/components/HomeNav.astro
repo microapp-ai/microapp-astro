@@ -1,0 +1,394 @@
+---
+/**
+ * HomeNav.astro — Microapp Global Navigation
+ * 
+ * Sections:
+ * 1. Logo
+ * 2. Mega-menu "Tools" dropdown (Capterra-style, 7 categories)
+ * 3. Language selector icon (Globe)
+ * 4. Login + Sign up buttons
+ */
+const logoWebpUrl = "/images/microapp-logo-optimized.webp";
+const logoPngUrl  = "/images/microapp-logo-optimized.png";
+
+const megaMenu = [
+  {
+    category: "Text Tools",
+    href: "/#text",
+    color: "#E8F5EE",
+    iconColor: "#1B6B45",
+    tools: [
+      { label: "Word Counter",         href: "/word-counter" },
+      { label: "Character Counter",    href: "/character-counter" },
+      { label: "Text Repeater",        href: "/text-repeater" },
+      { label: "Sort Lines",           href: "/sort-lines" },
+      { label: "Text Diff Checker",    href: "/text-diff-checker" },
+      { label: "Remove Duplicates",    href: "/remove-duplicate-lines" },
+    ],
+  },
+  {
+    category: "Numbers",
+    href: "/#numbers",
+    color: "#FFF0F0",
+    iconColor: "#E05252",
+    tools: [
+      { label: "Percentage Calc",      href: "/percentage-calculator" },
+      { label: "Unit Converter",       href: "/unit-converter" },
+      { label: "Tip Calculator",       href: "/tip-calculator" },
+      { label: "Loan Calculator",      href: "/loan-calculator" },
+      { label: "Discount Calculator",  href: "/discount-calculator" },
+      { label: "GPA Calculator",       href: "/gpa-calculator" },
+    ],
+  },
+  {
+    category: "Time & Date",
+    href: "/#time",
+    color: "#F5F0FF",
+    iconColor: "#7C3AED",
+    tools: [
+      { label: "Age Calculator",       href: "/age-calculator" },
+      { label: "Days Between",         href: "/days-between" },
+      { label: "Age Difference",       href: "/age-difference-calculator" },
+    ],
+  },
+  {
+    category: "Generators",
+    href: "/#generators",
+    color: "#FFF9E0",
+    iconColor: "#B8860B",
+    tools: [
+      { label: "Password Generator",   href: "/password-generator" },
+      { label: "Lorem Ipsum",          href: "/lorem-ipsum" },
+      { label: "Random Number",        href: "/random-number-generator" },
+      { label: "Coin Flip",            href: "/coin-flip" },
+      { label: "Dice Roller",          href: "/dice-roller" },
+      { label: "Random Name",          href: "/random-name-generator" },
+    ],
+  },
+  {
+    category: "Dev Tools",
+    href: "/#dev",
+    color: "#F0F4FF",
+    iconColor: "#4F6EF7",
+    tools: [
+      { label: "JSON Formatter",       href: "/json-formatter" },
+      { label: "Base64 Tool",          href: "/base64" },
+      { label: "QR Code Reader",       href: "/qr-code-reader" },
+      { label: "cURL Builder",         href: "/curl-builder" },
+      { label: "SHA-256 Generator",    href: "/sha256-generator" },
+      { label: "Markdown to HTML",     href: "/markdown-to-html" },
+    ],
+  },
+  {
+    category: "Writing & AI",
+    href: "/#writing",
+    color: "#F0F8FF",
+    iconColor: "#2563EB",
+    tools: [
+      { label: "AI Bio Generator",     href: "/ai-bio-generator" },
+      { label: "Paraphrasing Tool",    href: "/paraphrasing-tool" },
+      { label: "Text Summarizer",      href: "/summarizer" },
+      { label: "Cover Letter Gen",     href: "/cover-letter-generator" },
+      { label: "Hashtag Generator",    href: "/hashtag-generator" },
+      { label: "Caption Generator",    href: "/caption-generator" },
+    ],
+  },
+  {
+    category: "Colors & Design",
+    href: "/#design",
+    color: "#FFF0F8",
+    iconColor: "#C026D3",
+    tools: [
+      { label: "Color Converter",      href: "/color-converter" },
+      { label: "Hex to RGB",           href: "/hex-to-rgb" },
+      { label: "Color Palette Gen",    href: "/color-palette-generator" },
+      { label: "Gradient Generator",   href: "/gradient-generator" },
+      { label: "Color Name Finder",    href: "/color-name-finder" },
+      { label: "Aspect Ratio Calc",    href: "/aspect-ratio-calculator" },
+    ],
+  },
+];
+---
+
+<header id="main-nav" class="sticky top-0 z-50 bg-white border-b border-[#E8E6DE]">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="flex items-center justify-between h-[60px] gap-4">
+
+      <!-- 1. Logo -->
+      <a href="/" class="flex items-center shrink-0 no-underline" aria-label="Microapp home">
+        <picture>
+          <source srcset={logoWebpUrl} type="image/webp" />
+          <img
+            src={logoPngUrl}
+            alt="Microapp"
+            width="150"
+            height="35"
+            style="height:28px;width:auto"
+            fetchpriority="high"
+          />
+        </picture>
+      </a>
+
+      <!-- 2. Desktop mega-menu -->
+      <nav class="hidden lg:flex items-center gap-1 flex-1 justify-center" aria-label="Main navigation">
+
+        <!-- Tools mega-menu trigger -->
+        <div class="relative group" id="mega-menu-root">
+          <button
+            id="mega-menu-btn"
+            aria-haspopup="true"
+            aria-expanded="false"
+            aria-controls="mega-menu-panel"
+            class="flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-semibold text-gray-700 hover:bg-gray-50 hover:text-[#1B6B45] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6B45]"
+            style="font-family:'Plus Jakarta Sans',sans-serif"
+          >
+            Tools
+            <svg class="w-4 h-4 transition-transform duration-200 group-[.open]:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+
+          <!-- Mega-menu panel -->
+          <div
+            id="mega-menu-panel"
+            role="region"
+            aria-label="Tool categories"
+            class="absolute left-1/2 -translate-x-1/2 top-full mt-1 hidden w-[860px] bg-white border border-[#E8E6DE] rounded-2xl shadow-xl overflow-hidden"
+            style="max-width:calc(100vw - 2rem)"
+          >
+            <!-- Category tabs + tool list -->
+            <div class="flex">
+              <!-- Left: category list -->
+              <div class="w-52 shrink-0 bg-[#F9F8F4] border-r border-[#E8E6DE] py-3">
+                {megaMenu.map((cat, i) => (
+                  <button
+                    class="mega-cat-btn w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-gray-700 hover:bg-white hover:text-[#1B6B45] transition-colors text-left"
+                    data-cat={i}
+                    style="font-family:'Plus Jakarta Sans',sans-serif"
+                  >
+                    <span
+                      class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 text-base"
+                      style={`background:${cat.color}`}
+                    >
+                      {i === 0 ? "T" : i === 1 ? "#" : i === 2 ? "⏱" : i === 3 ? "⚡" : i === 4 ? "</>" : i === 5 ? "✍" : "🎨"}
+                    </span>
+                    {cat.category}
+                  </button>
+                ))}
+                <div class="border-t border-[#E8E6DE] mt-2 pt-2 px-4">
+                  <a href="/" class="text-xs text-[#1B6B45] font-semibold hover:underline" style="font-family:'Plus Jakarta Sans',sans-serif">
+                    View all 136 tools →
+                  </a>
+                </div>
+              </div>
+
+              <!-- Right: tools grid for active category -->
+              <div class="flex-1 p-5">
+                {megaMenu.map((cat, i) => (
+                  <div class="mega-cat-panel hidden" data-panel={i}>
+                    <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3" style="font-family:'Plus Jakarta Sans',sans-serif">
+                      {cat.category}
+                    </p>
+                    <div class="grid grid-cols-2 gap-1.5">
+                      {cat.tools.map(tool => (
+                        <a
+                          href={tool.href}
+                          class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-gray-700 hover:bg-[#F0FFF4] hover:text-[#1B6B45] transition-colors no-underline"
+                          style="font-family:'Plus Jakarta Sans',sans-serif"
+                        >
+                          <span class="w-1.5 h-1.5 rounded-full bg-[#1B6B45] shrink-0 opacity-50"></span>
+                          {tool.label}
+                        </a>
+                      ))}
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-[#E8E6DE]">
+                      <a
+                        href={cat.href}
+                        class="text-xs font-semibold text-[#1B6B45] hover:underline"
+                        style="font-family:'Plus Jakarta Sans',sans-serif"
+                      >
+                        Browse all {cat.category} →
+                      </a>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Additional nav links -->
+        <a href="/word-counter" class="px-3 py-2 rounded-lg text-sm font-semibold text-gray-600 hover:bg-gray-50 hover:text-[#1B6B45] transition-colors no-underline" style="font-family:'Plus Jakarta Sans',sans-serif">
+          Popular
+        </a>
+        <a href="/#writing" class="px-3 py-2 rounded-lg text-sm font-semibold text-gray-600 hover:bg-gray-50 hover:text-[#1B6B45] transition-colors no-underline" style="font-family:'Plus Jakarta Sans',sans-serif">
+          AI Tools
+        </a>
+      </nav>
+
+      <!-- 3 & 4. Right side: Language + Auth -->
+      <div class="flex items-center gap-2 shrink-0">
+
+        <!-- Language selector -->
+        <button
+          id="lang-btn"
+          aria-label="Select language"
+          aria-haspopup="true"
+          class="relative p-2 rounded-lg text-gray-500 hover:bg-gray-100 hover:text-[#1B6B45] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6B45]"
+          title="Language (coming soon)"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
+          </svg>
+          <!-- Coming soon tooltip -->
+          <span class="lang-tooltip absolute right-0 top-full mt-1 px-2 py-1 text-xs bg-gray-800 text-white rounded whitespace-nowrap opacity-0 pointer-events-none transition-opacity">
+            i18n coming soon
+          </span>
+        </button>
+
+        <!-- Login -->
+        <a
+          href="/login"
+          class="hidden sm:inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold text-gray-700 hover:text-[#1B6B45] hover:bg-gray-50 transition-colors no-underline"
+          style="font-family:'Plus Jakarta Sans',sans-serif"
+        >
+          Log in
+        </a>
+
+        <!-- Sign up -->
+        <a
+          href="/signup"
+          class="inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold text-white bg-[#1B6B45] hover:bg-[#155538] transition-colors no-underline shadow-sm"
+          style="font-family:'Plus Jakarta Sans',sans-serif"
+        >
+          Sign up
+        </a>
+
+        <!-- Mobile hamburger -->
+        <button
+          id="mobile-menu-btn"
+          class="lg:hidden p-2 rounded-lg text-gray-500 hover:bg-gray-100 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6B45]"
+          aria-label="Open menu"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+        >
+          <svg id="hamburger-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+          <svg id="close-icon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="hidden lg:hidden border-t border-[#E8E6DE] bg-white">
+    <div class="max-w-7xl mx-auto px-4 py-4 space-y-1">
+      {megaMenu.map(cat => (
+        <a
+          href={cat.href}
+          class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-gray-700 hover:bg-[#F0FFF4] hover:text-[#1B6B45] transition-colors no-underline"
+          style="font-family:'Plus Jakarta Sans',sans-serif"
+        >
+          {cat.category}
+        </a>
+      ))}
+      <div class="pt-3 border-t border-[#E8E6DE] flex gap-2">
+        <a href="/login" class="flex-1 text-center px-4 py-2 rounded-full text-sm font-semibold text-gray-700 border border-gray-200 hover:border-[#1B6B45] hover:text-[#1B6B45] transition-colors no-underline" style="font-family:'Plus Jakarta Sans',sans-serif">
+          Log in
+        </a>
+        <a href="/signup" class="flex-1 text-center px-4 py-2 rounded-full text-sm font-semibold text-white bg-[#1B6B45] hover:bg-[#155538] transition-colors no-underline" style="font-family:'Plus Jakarta Sans',sans-serif">
+          Sign up
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  // ── Mega-menu interaction ──────────────────────────────────────────────────
+  const megaBtn   = document.getElementById('mega-menu-btn') as HTMLButtonElement | null;
+  const megaPanel = document.getElementById('mega-menu-panel') as HTMLElement | null;
+  const megaRoot  = document.getElementById('mega-menu-root') as HTMLElement | null;
+  const catBtns   = document.querySelectorAll<HTMLButtonElement>('.mega-cat-btn');
+  const catPanels = document.querySelectorAll<HTMLElement>('.mega-cat-panel');
+
+  let activeIdx = 0;
+
+  function showPanel(idx: number) {
+    catPanels.forEach((p, i) => p.classList.toggle('hidden', i !== idx));
+    catBtns.forEach((b, i) => {
+      b.classList.toggle('bg-white', i === idx);
+      b.classList.toggle('text-[#1B6B45]', i === idx);
+    });
+    activeIdx = idx;
+  }
+
+  function openMega() {
+    megaPanel?.classList.remove('hidden');
+    megaRoot?.classList.add('open');
+    megaBtn?.setAttribute('aria-expanded', 'true');
+    showPanel(activeIdx);
+  }
+
+  function closeMega() {
+    megaPanel?.classList.add('hidden');
+    megaRoot?.classList.remove('open');
+    megaBtn?.setAttribute('aria-expanded', 'false');
+  }
+
+  megaBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    megaPanel?.classList.contains('hidden') ? openMega() : closeMega();
+  });
+
+  catBtns.forEach((btn, i) => {
+    btn.addEventListener('mouseenter', () => showPanel(i));
+    btn.addEventListener('click', () => showPanel(i));
+  });
+
+  // Close on outside click
+  document.addEventListener('click', (e) => {
+    if (!megaRoot?.contains(e.target as Node)) closeMega();
+  });
+
+  // Close on Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeMega();
+  });
+
+  // ── Language tooltip ───────────────────────────────────────────────────────
+  const langBtn     = document.getElementById('lang-btn');
+  const langTooltip = langBtn?.querySelector<HTMLElement>('.lang-tooltip');
+
+  langBtn?.addEventListener('mouseenter', () => {
+    if (langTooltip) langTooltip.style.opacity = '1';
+  });
+  langBtn?.addEventListener('mouseleave', () => {
+    if (langTooltip) langTooltip.style.opacity = '0';
+  });
+  langBtn?.addEventListener('click', () => {
+    // Placeholder — will open language modal in i18n sprint
+    if (langTooltip) {
+      langTooltip.style.opacity = '1';
+      setTimeout(() => { langTooltip.style.opacity = '0'; }, 2000);
+    }
+  });
+
+  // ── Mobile menu ────────────────────────────────────────────────────────────
+  const mobileBtn  = document.getElementById('mobile-menu-btn') as HTMLButtonElement | null;
+  const mobileMenu = document.getElementById('mobile-menu') as HTMLElement | null;
+  const hamburger  = document.getElementById('hamburger-icon') as SVGElement | null;
+  const closeIcon  = document.getElementById('close-icon') as SVGElement | null;
+
+  mobileBtn?.addEventListener('click', () => {
+    const isOpen = !mobileMenu?.classList.contains('hidden');
+    mobileMenu?.classList.toggle('hidden', isOpen);
+    hamburger?.classList.toggle('hidden', !isOpen);
+    closeIcon?.classList.toggle('hidden', isOpen);
+    mobileBtn.setAttribute('aria-expanded', String(!isOpen));
+  });
+</script>
