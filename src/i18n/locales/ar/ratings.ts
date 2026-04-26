@@ -1,0 +1,30 @@
+const ratings = {
+  title: "التقييمات والمراجعات",
+  averageLabel: "من 5",
+  ratingCount: "{count} تقييم",
+  ratingCountPlural: "{count} تقييمات",
+  noRatings: "لا توجد تقييمات بعد. كن أول من يقيّم!",
+  yourRating: "تقييمك",
+  reviewPlaceholder: "اكتب مراجعة (اختياري)...",
+  submitButton: "إرسال التقييم",
+  updateButton: "تحديث التقييم",
+  submitting: "جارٍ الحفظ...",
+  successMessage: "شكراً لتقييمك!",
+  errorMessage: "فشل حفظ التقييم. الرجاء المحاولة مرة أخرى.",
+  signInPrompt: "سجّل الدخول لتقييم هذه الأداة",
+  signInButton: "تسجيل الدخول",
+  signUpButton: "التسجيل مجاناً",
+  reviewsTitle: "المراجعات",
+  noReviews: "لا توجد مراجعات بعد.",
+  anonymous: "مجهول",
+  editButton: "تعديل مراجعتك",
+  stars: {
+    1: "ضعيف",
+    2: "مقبول",
+    3: "جيد",
+    4: "جيد جداً",
+    5: "ممتاز",
+  },
+} as const;
+
+export default ratings;

@@ -71,3 +71,33 @@ export async function getToolBySlug(slug: string): Promise<ToolMetadata | null> 
 
   return data as ToolMetadata;
 }
+
+/**
+ * Fetch a translated version of a tool's metadata for a given locale.
+ * Returns null if no translation exists (caller should fall back to English).
+ *
+ * This assumes a `tool_metadata_translations` table with columns:
+ *   slug TEXT, locale TEXT, title TEXT, description TEXT, intro TEXT,
+ *   keywords TEXT[], how_to_steps JSONB, faqs JSONB
+ *
+ * If the table doesn't exist yet, this returns null gracefully.
+ */
+export async function getToolTranslation(
+  slug: string,
+  locale: string
+): Promise<Partial<ToolMetadata> | null> {
+  try {
+    const { data, error } = await supabase
+      .from("tool_metadata_translations")
+      .select("*")
+      .eq("slug", slug)
+      .eq("locale", locale)
+      .single();
+
+    if (error || !data) return null;
+    return data as Partial<ToolMetadata>;
+  } catch {
+    // Table doesn't exist yet — return null so caller falls back to English
+    return null;
+  }
+}

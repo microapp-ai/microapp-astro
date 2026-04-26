@@ -1,0 +1,81 @@
+---
+export const prerender = true;
+/**
+ * [lang]/[slug].astro — Locale-prefixed tool page
+ * e.g. /es/word-counter, /ru/age-calculator
+ *
+ * English uses /[slug].astro (no prefix). All other locales land here.
+ * Tool metadata is fetched from Supabase with locale fallback to English.
+ */
+import { NON_DEFAULT_LOCALES, getDir, type Locale } from "../../i18n/config";
+import { useTranslations, localizeUrl } from "../../i18n/utils";
+import ToolLayout from "../../layouts/ToolLayout.astro";
+import ToolIsland from "../../components/ToolIsland";
+import FaqAccordion from "../../components/FaqAccordion";
+import ToolRatings from "../../components/ToolRatings";
+import AuthModal from "../../components/AuthModal";
+import { getAllTools, getToolTranslation } from "../../lib/supabase";
+import type { ToolMetadata } from "../../lib/types";
+
+export async function getStaticPaths() {
+  const tools = await getAllTools();
+
+  // Generate one path per locale × tool combination
+  const paths = [];
+  for (const lang of NON_DEFAULT_LOCALES) {
+    for (const tool of tools) {
+      // Try to get a translated version of the tool metadata
+      const translated = await getToolTranslation(tool.slug, lang);
+      paths.push({
+        params: { lang, slug: tool.slug },
+        props: {
+          tool: translated
+            ? { ...tool, ...translated }  // merge translated fields over English base
+            : tool,                        // fallback: use English metadata
+          lang,
+          hasTranslation: !!translated,
+        },
+      });
+    }
+  }
+  return paths;
+}
+
+interface Props {
+  tool: ToolMetadata;
+  lang: Locale;
+  hasTranslation: boolean;
+}
+
+const { tool, lang, hasTranslation } = Astro.props;
+const t = await useTranslations(lang);
+const dir = getDir(lang);
+
+const siteUrl = "https://microapp.io";
+const hreflangAlternates = [
+  { hreflang: "x-default", href: `${siteUrl}/${tool.slug}` },
+  { hreflang: "en",        href: `${siteUrl}/${tool.slug}` },
+  ...NON_DEFAULT_LOCALES.map(l => ({
+    hreflang: l,
+    href: `${siteUrl}/${l}/${tool.slug}`,
+  })),
+];
+---
+
+<ToolLayout tool={tool} lang={lang} dir={dir} hreflangAlternates={hreflangAlternates}>
+  <div slot="tool-widget">
+    <ToolIsland slug={tool.slug} client:load lang={lang} />
+  </div>
+
+  {tool.faqs && tool.faqs.length > 0 && (
+    <div slot="faq-accordion">
+      <FaqAccordion faqs={tool.faqs} client:visible lang={lang} />
+    </div>
+  )}
+
+  <div slot="ratings">
+    <ToolRatings slug={tool.slug} client:visible lang={lang} />
+  </div>
+
+  <AuthModal client:load lang={lang} />
+</ToolLayout>

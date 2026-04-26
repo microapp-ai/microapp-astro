@@ -15,12 +15,16 @@
  */
 import BaseLayout from "./BaseLayout.astro";
 import type { ToolMetadata } from "../lib/types";
+import type { Locale } from "../i18n/config";
 
 export interface Props {
   tool: ToolMetadata;
+  lang?: Locale;
+  dir?: "ltr" | "rtl";
+  hreflangAlternates?: { hreflang: string; href: string }[];
 }
 
-const { tool } = Astro.props;
+const { tool, lang = "en", dir = "ltr", hreflangAlternates = [] } = Astro.props;
 
 // Build JSON-LD structured data
 const breadcrumbSchema = {
@@ -75,6 +79,9 @@ const categories = [
   canonical={`/${tool.slug}`}
   keywords={tool.keywords}
   jsonLd={jsonLd}
+  lang={lang}
+  dir={dir}
+  hreflangAlternates={hreflangAlternates}
 >
   <div class="min-h-screen bg-white flex flex-col">
     <!-- ── Navigation (static HTML — no JS needed) ── -->

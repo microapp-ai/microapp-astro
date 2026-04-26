@@ -2,29 +2,46 @@
 export const prerender = true;
 
 /**
- * index.astro — Microapp Home Page
+ * index.astro — Microapp Home Page (English / default locale)
+ *
+ * Other locales are served from src/pages/[lang]/index.astro
  */
 import BaseLayout from "../layouts/BaseLayout.astro";
 import HomeIsland from "../components/HomeIsland";
 import HomeNav from "../components/HomeNav.astro";
 import HomeFooter from "../components/HomeFooter.astro";
 import AuthModal from "../components/AuthModal";
+import { LOCALE_CODES, NON_DEFAULT_LOCALES } from "../i18n/config";
+
+const siteUrl = "https://microapp.io";
 
 const title = "Microapp — Free Online Tools for Everyone";
 const description = "100+ free online utility tools: word counter, age calculator, password generator, unit converter, and more. No signup required.";
+
+const hreflangAlternates = [
+  { hreflang: "x-default", href: `${siteUrl}/` },
+  { hreflang: "en",        href: `${siteUrl}/` },
+  ...NON_DEFAULT_LOCALES.map(l => ({
+    hreflang: l,
+    href: `${siteUrl}/${l}/`,
+  })),
+];
 ---
 
 <BaseLayout
   title={title}
   description={description}
-  canonical="https://microapp.io/"
+  canonical={`${siteUrl}/`}
+  lang="en"
+  dir="ltr"
+  hreflangAlternates={hreflangAlternates}
 >
   <div class="min-h-screen bg-white flex flex-col">
-    <HomeNav />
+    <HomeNav lang="en" />
     <!-- React island: full interactive home page with category filtering -->
     <HomeIsland client:load />
     <!-- Static footer (no JS needed) -->
-    <HomeFooter />
+    <HomeFooter lang="en" />
   </div>
   <!-- Global auth modal -->
   <AuthModal client:load />

@@ -11,6 +11,18 @@
  */
 import NavAuthIsland from "./NavAuthIsland";
 import AuthModal from "./AuthModal";
+import LanguageSwitcher from "./LanguageSwitcher";
+import { localizeUrl } from "../i18n/utils";
+import { LOCALES, type Locale } from "../i18n/config";
+
+interface Props {
+  lang?: Locale;
+}
+const { lang = "en" } = Astro.props;
+
+// Helper: localize a URL for the current language
+const l = (path: string) => localizeUrl(path, lang);
+
 const logoWebpUrl = "/images/microapp-logo-optimized.webp";
 const logoPngUrl  = "/images/microapp-logo-optimized.png";
 
@@ -22,13 +34,13 @@ const megaMenu = [
     href: "/#text",
     color: "#E8F5EE",
     iconColor: "#1B6B45",
-    tools: [
-      { label: "Word Counter",         href: "/word-counter" },
-      { label: "Character Counter",    href: "/character-counter" },
-      { label: "Text Repeater",        href: "/text-repeater" },
-      { label: "Sort Lines",           href: "/sort-lines" },
-      { label: "Text Diff Checker",    href: "/text-diff-checker" },
-      { label: "Remove Duplicates",    href: "/remove-duplicate-lines" },
+            tools: [
+      { label: "Word Counter",         href: l("/word-counter") },
+      { label: "Character Counter",    href: l("/character-counter") },
+      { label: "Text Repeater",        href: l("/text-repeater") },
+      { label: "Sort Lines",           href: l("/sort-lines") },
+      { label: "Text Diff Checker",    href: l("/text-diff-checker") },
+      { label: "Remove Duplicates",    href: l("/remove-duplicate-lines") },
     ],
   },
   {
@@ -37,12 +49,12 @@ const megaMenu = [
     color: "#FFF0F0",
     iconColor: "#E05252",
     tools: [
-      { label: "Percentage Calc",      href: "/percentage-calculator" },
-      { label: "Unit Converter",       href: "/unit-converter" },
-      { label: "Tip Calculator",       href: "/tip-calculator" },
-      { label: "Loan Calculator",      href: "/loan-calculator" },
-      { label: "Discount Calculator",  href: "/discount-calculator" },
-      { label: "GPA Calculator",       href: "/gpa-calculator" },
+      { label: "Percentage Calc",      href: l("/percentage-calculator") },
+      { label: "Unit Converter",       href: l("/unit-converter") },
+      { label: "Tip Calculator",       href: l("/tip-calculator") },
+      { label: "Loan Calculator",      href: l("/loan-calculator") },
+      { label: "Discount Calculator",  href: l("/discount-calculator") },
+      { label: "GPA Calculator",       href: l("/gpa-calculator") },
     ],
   },
   {
@@ -51,9 +63,9 @@ const megaMenu = [
     color: "#F5F0FF",
     iconColor: "#7C3AED",
     tools: [
-      { label: "Age Calculator",       href: "/age-calculator" },
-      { label: "Days Between",         href: "/days-between" },
-      { label: "Age Difference",       href: "/age-difference-calculator" },
+      { label: "Age Calculator",       href: l("/age-calculator") },
+      { label: "Days Between",         href: l("/days-between") },
+      { label: "Age Difference",       href: l("/age-difference-calculator") },
     ],
   },
   {
@@ -62,12 +74,12 @@ const megaMenu = [
     color: "#FFF9E0",
     iconColor: "#B8860B",
     tools: [
-      { label: "Password Generator",   href: "/password-generator" },
-      { label: "Lorem Ipsum",          href: "/lorem-ipsum" },
-      { label: "Random Number",        href: "/random-number-generator" },
-      { label: "Coin Flip",            href: "/coin-flip" },
-      { label: "Dice Roller",          href: "/dice-roller" },
-      { label: "Random Name",          href: "/random-name-generator" },
+      { label: "Password Generator",   href: l("/password-generator") },
+      { label: "Lorem Ipsum",          href: l("/lorem-ipsum") },
+      { label: "Random Number",        href: l("/random-number-generator") },
+      { label: "Coin Flip",            href: l("/coin-flip") },
+      { label: "Dice Roller",          href: l("/dice-roller") },
+      { label: "Random Name",          href: l("/random-name-generator") },
     ],
   },
   {
@@ -76,12 +88,12 @@ const megaMenu = [
     color: "#F0F4FF",
     iconColor: "#4F6EF7",
     tools: [
-      { label: "JSON Formatter",       href: "/json-formatter" },
-      { label: "Base64 Tool",          href: "/base64" },
-      { label: "QR Code Reader",       href: "/qr-code-reader" },
-      { label: "cURL Builder",         href: "/curl-builder" },
-      { label: "SHA-256 Generator",    href: "/sha256-generator" },
-      { label: "Markdown to HTML",     href: "/markdown-to-html" },
+      { label: "JSON Formatter",       href: l("/json-formatter") },
+      { label: "Base64 Tool",          href: l("/base64") },
+      { label: "QR Code Reader",       href: l("/qr-code-reader") },
+      { label: "cURL Builder",         href: l("/curl-builder") },
+      { label: "SHA-256 Generator",    href: l("/sha256-generator") },
+      { label: "Markdown to HTML",     href: l("/markdown-to-html") },
     ],
   },
   {
@@ -90,12 +102,12 @@ const megaMenu = [
     color: "#F0F8FF",
     iconColor: "#2563EB",
     tools: [
-      { label: "AI Bio Generator",     href: "/ai-bio-generator" },
-      { label: "Paraphrasing Tool",    href: "/paraphrasing-tool" },
-      { label: "Text Summarizer",      href: "/summarizer" },
-      { label: "Cover Letter Gen",     href: "/cover-letter-generator" },
-      { label: "Hashtag Generator",    href: "/hashtag-generator" },
-      { label: "Caption Generator",    href: "/caption-generator" },
+      { label: "AI Bio Generator",     href: l("/ai-bio-generator") },
+      { label: "Paraphrasing Tool",    href: l("/paraphrasing-tool") },
+      { label: "Text Summarizer",      href: l("/summarizer") },
+      { label: "Cover Letter Gen",     href: l("/cover-letter-generator") },
+      { label: "Hashtag Generator",    href: l("/hashtag-generator") },
+      { label: "Caption Generator",    href: l("/caption-generator") },
     ],
   },
   {
@@ -104,12 +116,12 @@ const megaMenu = [
     color: "#FFF0F8",
     iconColor: "#C026D3",
     tools: [
-      { label: "Color Converter",      href: "/color-converter" },
-      { label: "Hex to RGB",           href: "/hex-to-rgb" },
-      { label: "Color Palette Gen",    href: "/color-palette-generator" },
-      { label: "Gradient Generator",   href: "/gradient-generator" },
-      { label: "Color Name Finder",    href: "/color-name-finder" },
-      { label: "Aspect Ratio Calc",    href: "/aspect-ratio-calculator" },
+      { label: "Color Converter",      href: l("/color-converter") },
+      { label: "Hex to RGB",           href: l("/hex-to-rgb") },
+      { label: "Color Palette Gen",    href: l("/color-palette-generator") },
+      { label: "Gradient Generator",   href: l("/gradient-generator") },
+      { label: "Color Name Finder",    href: l("/color-name-finder") },
+      { label: "Aspect Ratio Calc",    href: l("/aspect-ratio-calculator") },
     ],
   },
 ];
@@ -120,7 +132,7 @@ const megaMenu = [
     <div class="flex items-center justify-between h-[60px] gap-4">
 
       <!-- ── Logo ── -->
-      <a href="/" class="flex items-center shrink-0 no-underline" aria-label="Microapp home">
+      <a href={l("/")} class="flex items-center shrink-0 no-underline" aria-label="Microapp home">
         <picture>
           <source srcset={logoWebpUrl} type="image/webp" />
           <img
@@ -229,22 +241,8 @@ const megaMenu = [
       <!-- ── Right side: Language + Auth + Hamburger ── -->
       <div class="flex items-center gap-2 shrink-0">
 
-        <!-- Language selector (all viewports) -->
-        <button
-          id="lang-btn"
-          aria-label="Select language"
-          aria-haspopup="true"
-          class="relative p-2 rounded-lg text-gray-500 hover:bg-gray-100 hover:text-[#1B6B45] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6B45]"
-          title="Language (coming soon)"
-        >
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
-          </svg>
-          <span class="lang-tooltip absolute right-0 top-full mt-1 px-2 py-1 text-xs bg-gray-800 text-white rounded whitespace-nowrap opacity-0 pointer-events-none transition-opacity">
-            i18n coming soon
-          </span>
-        </button>
+        <!-- Language switcher (all viewports) -->
+        <LanguageSwitcher currentLang={lang} mode="dropdown" client:load />
 
         <!-- Auth buttons — desktop only (mobile auth lives in the drawer) -->
         <div class="hidden lg:flex items-center">
@@ -386,6 +384,14 @@ const megaMenu = [
         </svg>
         View all 136 tools
       </a>
+
+      <!-- ── Language picker ── -->
+      <div class="pt-3 mt-1 border-t border-[#E8E6DE]">
+        <p style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.7rem;color:#9CA3AF;text-transform:uppercase;letter-spacing:0.08em;margin:0 0 0.5rem 0.25rem">
+          Language
+        </p>
+        <LanguageSwitcher currentLang={lang} mode="list" client:load />
+      </div>
 
       <!-- ── Auth CTA strip ── -->
       <div class="pt-3 mt-1 border-t border-[#E8E6DE]">

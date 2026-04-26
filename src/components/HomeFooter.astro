@@ -1,34 +1,36 @@
 ---
 /**
  * HomeFooter.astro — Improved home page footer
- *
- * Sections:
- *   Top strip  — Logo + tagline | Newsletter CTA
- *   Link grid  — Categories | Popular Tools | Company | Connect
- *   Bottom bar — Copyright | Privacy | Terms | Made with ♥
  */
+import { localizeUrl } from "../i18n/utils";
+import { type Locale } from "../i18n/config";
+
+interface Props { lang?: Locale; }
+const { lang = "en" } = Astro.props;
+const l = (path: string) => localizeUrl(path, lang);
+
 const logoWebpUrl = "/images/microapp-logo-optimized.webp";
 const logoPngUrl  = "/images/microapp-logo-optimized.png";
 
 const categories = [
-  { label: "Text Tools",      href: "/#text",       icon: "T" },
-  { label: "Numbers",         href: "/#numbers",    icon: "#" },
-  { label: "Time & Date",     href: "/#time",       icon: "⏱" },
-  { label: "Generators",      href: "/#generators", icon: "⚡" },
-  { label: "Dev Tools",       href: "/#dev",        icon: "</>" },
-  { label: "Writing & AI",    href: "/#writing",    icon: "✍" },
-  { label: "Colors & Design", href: "/#design",     icon: "🎨" },
+  { label: "Text Tools",      href: l("/#text"),       icon: "T" },
+  { label: "Numbers",         href: l("/#numbers"),    icon: "#" },
+  { label: "Time & Date",     href: l("/#time"),       icon: "⏱" },
+  { label: "Generators",      href: l("/#generators"), icon: "⚡" },
+  { label: "Dev Tools",       href: l("/#dev"),        icon: "</>" },
+  { label: "Writing & AI",    href: l("/#writing"),    icon: "✍" },
+  { label: "Colors & Design", href: l("/#design"),     icon: "🎨" },
 ];
 
 const popularTools = [
-  { label: "Word Counter",        href: "/word-counter" },
-  { label: "Age Calculator",      href: "/age-calculator" },
-  { label: "Password Generator",  href: "/password-generator" },
-  { label: "JSON Formatter",      href: "/json-formatter" },
-  { label: "Unit Converter",      href: "/unit-converter" },
-  { label: "Percentage Calc",     href: "/percentage-calculator" },
-  { label: "QR Code Reader",      href: "/qr-code-reader" },
-  { label: "Color Converter",     href: "/color-converter" },
+  { label: "Word Counter",        href: l("/word-counter") },
+  { label: "Age Calculator",      href: l("/age-calculator") },
+  { label: "Password Generator",  href: l("/password-generator") },
+  { label: "JSON Formatter",      href: l("/json-formatter") },
+  { label: "Unit Converter",      href: l("/unit-converter") },
+  { label: "Percentage Calc",     href: l("/percentage-calculator") },
+  { label: "QR Code Reader",      href: l("/qr-code-reader") },
+  { label: "Color Converter",     href: l("/color-converter") },
 ];
 
 const company = [

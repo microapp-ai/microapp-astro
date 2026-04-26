@@ -14,6 +14,12 @@ export interface Props {
   ogImage?: string;
   jsonLd?: object[];
   noIndex?: boolean;
+  /** BCP-47 language code, e.g. "en", "es", "ru" */
+  lang?: string;
+  /** Text direction: "ltr" or "rtl" (for Arabic) */
+  dir?: "ltr" | "rtl";
+  /** hreflang alternate links for SEO */
+  hreflangAlternates?: { hreflang: string; href: string }[];
 }
 
 const {
@@ -24,6 +30,9 @@ const {
   ogImage = "https://microapp.io/og-image.png",
   jsonLd = [],
   noIndex = false,
+  lang = "en",
+  dir = "ltr",
+  hreflangAlternates = [],
 } = Astro.props;
 
 // If canonical is already a full URL, use it as-is; otherwise prepend base
@@ -36,7 +45,7 @@ const analyticsWebsiteId = import.meta.env.VITE_ANALYTICS_WEBSITE_ID || "";
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang} dir={dir}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -47,6 +56,11 @@ const analyticsWebsiteId = import.meta.env.VITE_ANALYTICS_WEBSITE_ID || "";
 
     <!-- Canonical -->
     <link rel="canonical" href={canonicalUrl} />
+
+    <!-- hreflang alternates for i18n SEO -->
+    {hreflangAlternates.map(alt => (
+      <link rel="alternate" hreflang={alt.hreflang} href={alt.href} />
+    ))}
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />

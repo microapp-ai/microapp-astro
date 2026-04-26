@@ -1,0 +1,52 @@
+---
+export const prerender = true;
+/**
+ * [lang]/index.astro — Locale-prefixed home page
+ * e.g. /es/, /ru/, /de/
+ *
+ * English uses /index.astro (no prefix). All other locales land here.
+ */
+import { NON_DEFAULT_LOCALES, LOCALES, getDir, type Locale } from "../../i18n/config";
+import { useTranslations, localizeUrl } from "../../i18n/utils";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import HomeIsland from "../../components/HomeIsland";
+import HomeNav from "../../components/HomeNav.astro";
+import HomeFooter from "../../components/HomeFooter.astro";
+import AuthModal from "../../components/AuthModal";
+
+export function getStaticPaths() {
+  return NON_DEFAULT_LOCALES.map(lang => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params as { lang: Locale };
+const t = await useTranslations(lang);
+const dir = getDir(lang);
+const localeName = LOCALES[lang].label;
+
+// Build hreflang alternates
+const siteUrl = "https://microapp.io";
+const hreflangAlternates = [
+  { hreflang: "x-default", href: siteUrl + "/" },
+  ...NON_DEFAULT_LOCALES.map(l => ({
+    hreflang: l,
+    href: `${siteUrl}/${l}/`,
+  })),
+  { hreflang: "en", href: siteUrl + "/" },
+];
+---
+
+<BaseLayout
+  title={`Microapp — ${t("home.hero.subheadline").slice(0, 60)}`}
+  description={t("home.hero.subheadline")}
+  canonical={`${siteUrl}/`}
+  lang={lang}
+  dir={dir}
+  hreflangAlternates={hreflangAlternates}
+>
+  <div class="min-h-screen bg-white flex flex-col">
+    <HomeNav lang={lang} />
+    <HomeIsland client:load lang={lang} />
+    <HomeFooter lang={lang} />
+  </div>
+  <AuthModal client:load lang={lang} />
+</BaseLayout>
