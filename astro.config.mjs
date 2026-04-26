@@ -45,6 +45,7 @@ export default defineConfig({
         output: {
           manualChunks: {
             "react-vendor": ["react", "react-dom"],
+            "supabase-vendor": ["@supabase/supabase-js"],
             "radix-vendor": [
               "@radix-ui/react-dialog",
               "@radix-ui/react-select",
