@@ -16,6 +16,7 @@
 import BaseLayout from "./BaseLayout.astro";
 import type { ToolMetadata } from "../lib/types";
 import type { Locale } from "../i18n/config";
+import { useTranslations, localizeUrl } from "../i18n/utils";
 
 export interface Props {
   tool: ToolMetadata;
@@ -25,6 +26,9 @@ export interface Props {
 }
 
 const { tool, lang = "en", dir = "ltr", hreflangAlternates = [] } = Astro.props;
+
+// Load translations for the current locale
+const t = await useTranslations(lang);
 
 // Build JSON-LD structured data
 const breadcrumbSchema = {
@@ -139,10 +143,10 @@ const categories = [
         <!-- Breadcrumb (static HTML) -->
         <nav aria-label="Breadcrumb" class="mb-6">
           <ol class="flex items-center gap-1.5 text-sm" style="font-family:'Inter',sans-serif;color:#6B7280">
-            <li><a href="/" class="hover:text-[#1B6B45] transition-colors" style="color:#6B7280">Home</a></li>
+            <li><a href={localizeUrl("/", lang)} class="hover:text-[#1B6B45] transition-colors" style="color:#6B7280">{t("tool.breadcrumb.home")}</a></li>
             <li style="color:#D1D5DB">›</li>
             <li>
-              <a href={tool.categoryHref} class="hover:text-[#1B6B45] transition-colors" style="color:#6B7280">
+              <a href={localizeUrl(tool.categoryHref, lang)} class="hover:text-[#1B6B45] transition-colors" style="color:#6B7280">
                 {tool.categoryLabel}
               </a>
             </li>
@@ -189,7 +193,7 @@ const categories = [
               id="how-to-heading"
               style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.4rem;color:#1A1A1A;letter-spacing:-0.02em;margin-bottom:1.25rem"
             >
-              How to Use
+              {t("tool.howTo.title")}
             </h2>
             <ol style="display:flex;flex-direction:column;gap:0.75rem;padding:0;margin:0;list-style:none">
               {tool.howTo.map((step, i) => (
@@ -215,12 +219,12 @@ const categories = [
               id="related-heading"
               style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.4rem;color:#1A1A1A;letter-spacing:-0.02em;margin-bottom:1.25rem"
             >
-              Related Tools
+              {t("tool.related.title")}
             </h2>
             <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:0.75rem">
               {tool.relatedTools.map((rt) => (
                 <a
-                  href={rt.slug.startsWith('/') ? rt.slug : `/${rt.slug}`}
+                  href={localizeUrl(rt.slug.startsWith('/') ? rt.slug : `/${rt.slug}`, lang)}
                   style="display:flex;align-items:center;gap:0.75rem;padding:0.875rem 1rem;border:1.5px solid #E8E6DE;border-radius:0.875rem;background:white;text-decoration:none;transition:border-color 0.15s,background 0.15s"
                   class="hover:border-[#1B6B45] hover:bg-[#F7FBF9]"
                 >
@@ -241,7 +245,7 @@ const categories = [
               id="faq-heading"
               style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.4rem;color:#1A1A1A;letter-spacing:-0.02em;margin-bottom:1.25rem"
             >
-              Frequently Asked Questions
+              {t("tool.faq.title")}
             </h2>
             <!-- FAQ accordion is a React island for interactivity -->
             <slot name="faq-accordion" />
