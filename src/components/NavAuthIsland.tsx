@@ -31,9 +31,16 @@ export default function NavAuthIsland({
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Fallback: if Supabase doesn't respond in 1.5s, show logged-out state
+    const fallbackTimer = setTimeout(() => setLoading(false), 1500);
+
     // Get initial session
     supabaseBrowser.auth.getSession().then(({ data }) => {
+      clearTimeout(fallbackTimer);
       setUser(data.session?.user ?? null);
+      setLoading(false);
+    }).catch(() => {
+      clearTimeout(fallbackTimer);
       setLoading(false);
     });
 

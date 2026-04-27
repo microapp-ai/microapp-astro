@@ -33,6 +33,15 @@ export function getSupabaseBrowser(): SupabaseClient {
       "[Supabase Browser] Missing VITE_SUPABASE_URL or VITE_SUPABASE_ANON_KEY. " +
         "Auth operations will fail. Set these in your Cloudflare Pages environment variables."
     );
+    // Return a no-op mock so getSession() resolves immediately (no hang)
+    _client = {
+      auth: {
+        getSession: () => Promise.resolve({ data: { session: null }, error: null }),
+        onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } }),
+        signOut: () => Promise.resolve({ error: null }),
+      },
+    } as unknown as SupabaseClient;
+    return _client;
   }
 
   _client = createClient(url, key, {
