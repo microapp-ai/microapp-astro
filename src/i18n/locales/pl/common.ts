@@ -173,5 +173,391 @@ const common = {
       description: "Konwerter kolorów, Hex na RGB, generator palety kolorów, generator gradientu, wyszukiwarka nazw kolorów i więcej.",
     },
   },
+    toolList: {
+      "word-counter": {
+        label: "Licznik Słów",
+        desc: "Zlicz słowa, znaki i czas czytania",
+      },
+      "case-converter": {
+        label: "Konwerter Wielkości Liter",
+        desc: "UPPER, lower, Title, camelCase i więcej",
+      },
+      "lorem-ipsum": {
+        label: "Lorem Ipsum",
+        desc: "Generuj tekst-wypełniacz natychmiast",
+      },
+      "sentence-counter": {
+        label: "Licznik Zdań",
+        desc: "Zlicz zdania, akapity i więcej",
+      },
+      "line-break-removal-tool": {
+        label: "Usuwanie Znaków Nowej Linii",
+        desc: "Usuń lub oczyść znaki nowej linii",
+      },
+      "character-counter": {
+        label: "Licznik Znaków",
+        desc: "Zlicz znaki ze spacjami i bez",
+      },
+      "palindrome-checker": {
+        label: "Sprawdzanie Palindromów",
+        desc: "Sprawdź, czy słowo to palindrom",
+      },
+      "vowel-counter": {
+        label: "Licznik Samogłosek",
+        desc: "Zlicz samogłoski i spółgłoski w tekście",
+      },
+      "text-repeater": {
+        label: "Powtarzanie Tekstu",
+        desc: "Powtórz dowolny tekst N razy",
+      },
+      "remove-duplicate-lines": {
+        label: "Usuń Duplikaty Linii",
+        desc: "Usuń zduplikowane linie z tekstu",
+      },
+      "sort-lines": {
+        label: "Sortuj Linie",
+        desc: "Sortuj linie alfabetycznie lub numerycznie",
+      },
+      "whitespace-remover": {
+        label: "Usuwanie Białych Znaków",
+        desc: "Usuń dodatkowe spacje, tabulatory, puste linie",
+      },
+      "reverse-text-generator": {
+        label: "Odwracanie Tekstu",
+        desc: "Odwróć dowolny tekst lub zdanie",
+      },
+      "tiny-text-generator": {
+        label: "Generator Małego Tekstu",
+        desc: "Konwertuj tekst na małe znaki Unicode",
+      },
+      "text-diff-checker": {
+        label: "Porównywarka Tekstu",
+        desc: "Porównaj dwa teksty, wyróżnij różnice",
+      },
+      "reading-time-calculator": {
+        label: "Kalkulator Czasu Czytania",
+        desc: "Oszacuj czas czytania dowolnego tekstu",
+      },
+      "readability-checker": {
+        label: "Sprawdzanie Czytelności",
+        desc: "Sprawdź wynik czytelności Flesch-Kincaid",
+      },
+      "merge-words": {
+        label: "Łączenie Słów",
+        desc: "Połącz dwie listy słów",
+      },
+      "word-frequency-counter": {
+        label: "Licznik Częstotliwości Słów",
+        desc: "Zlicz, jak często pojawia się słowo",
+      },
+      "morse-code": {
+        label: "Konwerter Kodu Morse'a",
+        desc: "Konwertuj tekst na kod Morse'a i z powrotem",
+      },
+      "signature-generator": {
+        label: "Generator Podpisów",
+        desc: "Twórz stylowe podpisy tekstowe",
+      },
+      "percentage-calculator": {
+        label: "Kalkulator Procentowy",
+        desc: "Oblicz procenty, rabaty i więcej",
+      },
+      "unit-converter": {
+        label: "Konwerter Jednostek",
+        desc: "Konwertuj między jednostkami miary",
+      },
+      "tip-calculator": {
+        label: "Kalkulator Napiwków",
+        desc: "Oblicz napiwki i podziel rachunki",
+      },
+      "bmi-calculator": {
+        label: "Kalkulator BMI",
+        desc: "Oblicz swój wskaźnik masy ciała BMI",
+      },
+      "calorie-calculator": {
+        label: "Kalkulator Kalorii",
+        desc: "Oszacuj dzienne zapotrzebowanie na kalorie",
+      },
+      "gpa-calculator": {
+        label: "Kalkulator GPA",
+        desc: "Oblicz swoją średnią ocen GPA",
+      },
+      "salary-to-hourly": {
+        label: "Pensja na Stawkę Godzinową",
+        desc: "Konwertuj roczną pensję na stawkę godzinową",
+      },
+      "loan-calculator": {
+        label: "Kalkulator Kredytowy",
+        desc: "Oblicz miesięczne raty i odsetki",
+      },
+      "compound-interest-calculator": {
+        label: "Kalkulator Odsetek Składanych",
+        desc: "Oblicz odsetki składane w czasie",
+      },
+      "discount-calculator": {
+        label: "Kalkulator Rabatów",
+        desc: "Znajdź cenę sprzedaży po rabacie",
+      },
+      "random-number-generator": {
+        label: "Generator Liczb Losowych",
+        desc: "Generuj losowe liczby w dowolnym zakresie",
+      },
+      "number-to-words": {
+        label: "Liczby na Słowa",
+        desc: "Konwertuj liczby na słowa",
+      },
+      "roman-numeral-converter": {
+        label: "Konwerter Liczb Rzymskich",
+        desc: "Konwertuj liczby na rzymskie i odwrotnie",
+      },
+      "binary-to-decimal": {
+        label: "Binarny na Dziesiętny",
+        desc: "Konwertuj binarny, dziesiętny, szesnastkowy, ósemkowy",
+      },
+      "geometric-mean-calculator": {
+        label: "Kalkulator Średniej Geometrycznej",
+        desc: "Oblicz średnią geometryczną liczb",
+      },
+      "mass-calculator": {
+        label: "Kalkulator Masy",
+        desc: "Oblicz masę z gęstości i objętości",
+      },
+      "fuel-cost-calculator": {
+        label: "Kalkulator Kosztów Paliwa",
+        desc: "Oszacuj koszty paliwa podróży",
+      },
+      "army-body-fat-calculator": {
+        label: "Wojskowy Kalkulator Tłuszczu",
+        desc: "Oblicz tkankę tłuszczową metodą wojskową",
+      },
+      "histogram-maker": {
+        label: "Tworzenie Histogramów",
+        desc: "Twórz histogramy z Twoich danych",
+      },
+      "temperature-converter": {
+        label: "Konwerter temperatury",
+        desc: "Konwertuj między Celsjuszem, Fahrenheitem i Kelvinem",
+      },
+      "weight-converter": {
+        label: "Konwerter wagi",
+        desc: "Konwertuj między jednostkami wagi",
+      },
+      "length-converter": {
+        label: "Konwerter długości",
+        desc: "Konwertuj między jednostkami długości i odległości",
+      },
+      "date-time-calculator": {
+        label: "Kalkulator daty i czasu",
+        desc: "Dodawaj lub odejmuj daty i godziny",
+      },
+      "age-calculator": {
+        label: "Kalkulator wieku",
+        desc: "Oblicz dokładny wiek w latach, miesiącach i dniach",
+      },
+      "days-between": {
+        label: "Dni między datami",
+        desc: "Policz dni między dwiema datami",
+      },
+      "age-difference-calculator": {
+        label: "Kalkulator różnicy wieku",
+        desc: "Znajdź różnicę wieku między dwiema osobami",
+      },
+      "countdown-timer": {
+        label: "Minutnik",
+        desc: "Odliczaj do dowolnej daty lub wydarzenia",
+      },
+      "stopwatch": {
+        label: "Stoper",
+        desc: "Precyzyjny stoper online z czasami okrążeń",
+      },
+      "pomodoro-timer": {
+        label: "Timer Pomodoro",
+        desc: "Timer skupienia z techniką Pomodoro",
+      },
+      "color-converter": {
+        label: "Konwerter kolorów",
+        desc: "Konwertuj między HEX, RGB, HSL i innymi",
+      },
+      "hex-to-rgb": {
+        label: "HEX na RGB",
+        desc: "Konwertuj kody kolorów HEX na wartości RGB",
+      },
+      "hex-color-picker": {
+        label: "Wybierak kolorów HEX",
+        desc: "Wybieraj i eksploruj kody kolorów HEX",
+      },
+      "color-palette-generator": {
+        label: "Generator palet kolorów",
+        desc: "Generuj piękne palety kolorów",
+      },
+      "gradient-generator": {
+        label: "Generator gradientów",
+        desc: "Twórz tła z gradientem CSS",
+      },
+      "base64": {
+        label: "Koder/Dekoder Base64",
+        desc: "Koduj i dekoduj ciągi Base64",
+      },
+      "json-formatter": {
+        label: "Formatowanie JSON",
+        desc: "Formatuj, waliduj i minimalizuj JSON",
+      },
+      "url-encoder-decoder": {
+        label: "Koder/Dekoder URL",
+        desc: "Koduj i dekoduj ciągi URL",
+      },
+      "password-generator": {
+        label: "Generator haseł",
+        desc: "Generuj bezpieczne losowe hasła",
+      },
+      "uuid-generator": {
+        label: "Generator UUID",
+        desc: "Generuj losowe UUID natychmiast",
+      },
+      "md5-hash-generator": {
+        label: "Generator haszy MD5",
+        desc: "Generuj hasze MD5 z tekstu",
+      },
+      "sha256-generator": {
+        label: "Generator SHA-256",
+        desc: "Generuj hasze SHA-256 z tekstu",
+      },
+      "html-encoder-decoder": {
+        label: "Koder/Dekoder HTML",
+        desc: "Koduj i dekoduj encje HTML",
+      },
+      "markdown-to-html": {
+        label: "Markdown na HTML",
+        desc: "Konwertuj Markdown na HTML natychmiast",
+      },
+      "text-to-binary": {
+        label: "Tekst na binarny",
+        desc: "Konwertuj tekst na kod binarny",
+      },
+      "regex-tester": {
+        label: "Tester Regex",
+        desc: "Testuj i debuguj wyrażenia regularne",
+      },
+      "slug-generator": {
+        label: "Generator slugów",
+        desc: "Generuj przyjazne dla URL slugi z tekstu",
+      },
+      "curl-builder": {
+        label: "Kreator cURL",
+        desc: "Wizualnie buduj polecenia cURL",
+      },
+      "csv-to-json": {
+        label: "CSV na JSON",
+        desc: "Konwertuj dane CSV na format JSON",
+      },
+      "json-to-csv": {
+        label: "JSON na CSV",
+        desc: "Konwertuj dane JSON na format CSV",
+      },
+      "rem-to-px-converter": {
+        label: "Konwerter REM na PX",
+        desc: "Konwertuj jednostki REM na piksele",
+      },
+      "css-animation-generator": {
+        label: "Generator animacji CSS",
+        desc: "Generuj animacje klatek kluczowych CSS",
+      },
+      "generate-random-ip": {
+        label: "Generator losowych IP",
+        desc: "Generuj losowe adresy IP",
+      },
+      "qr-code-reader": {
+        label: "Czytnik kodów QR",
+        desc: "Czytaj i dekoduj kody QR",
+      },
+      "coin-flip": {
+        label: "Rzut monetą",
+        desc: "Rzuć wirtualną monetą online",
+      },
+      "dice-roller": {
+        label: "Rzut kostką",
+        desc: "Rzuć wirtualnymi kostkami dowolnego typu",
+      },
+      "random-name-generator": {
+        label: "Generator losowych imion",
+        desc: "Generuj losowe imiona natychmiast",
+      },
+      "random-state-generator": {
+        label: "Generator losowych stanów",
+        desc: "Wybierz losowy stan USA",
+      },
+      "random-word-generator": {
+        label: "Generator losowych słów",
+        desc: "Generuj losowe słowa natychmiast",
+      },
+      "goofy-ahh-names-generator": {
+        label: "Generator śmiesznych imion",
+        desc: "Generuj zabawne, głupkowate imiona",
+      },
+      "acronym-generator": {
+        label: "Generator akronimów",
+        desc: "Twórz akronimy z dowolnej frazy",
+      },
+      "outline-generator-ai": {
+        label: "Generator konspektów AI",
+        desc: "Generuj konspekty za pomocą AI",
+      },
+      "thank-you-note": {
+        label: "Generator podziękowań",
+        desc: "Pisz podziękowania za pomocą AI",
+      },
+      "ai-joke-generator": {
+        label: "Generator żartów AI",
+        desc: "Generuj żarty za pomocą AI",
+      },
+      "ai-poem-writer": {
+        label: "AI Pisarz wierszy",
+        desc: "Pisz wiersze za pomocą AI",
+      },
+      "ai-bio-generator": {
+        label: "Generator biogramów AI",
+        desc: "Generuj profesjonalne biogramy za pomocą AI",
+      },
+      "email-subject-line-generator": {
+        label: "Generator tematów e-maili",
+        desc: "Generuj tematy e-maili za pomocą AI",
+      },
+      "hashtag-generator": {
+        label: "Generator hashtagów",
+        desc: "Generuj hashtagi do mediów społecznościowych",
+      },
+      "caption-generator": {
+        label: "Generator podpisów",
+        desc: "Generuj podpisy za pomocą AI",
+      },
+      "cover-letter-generator": {
+        label: "Generator listów motywacyjnych",
+        desc: "Pisz listy motywacyjne za pomocą AI",
+      },
+      "product-description-generator": {
+        label: "Generator opisów produktów",
+        desc: "Generuj opisy produktów za pomocą AI",
+      },
+      "paraphrasing-tool": {
+        label: "Narzędzie do parafrazy",
+        desc: "Przepisz tekst innymi słowami",
+      },
+      "summarizer": {
+        label: "Sumator tekstu",
+        desc: "Streszczaj długi tekst za pomocą AI",
+      },
+      "text-to-bullet-points": {
+        label: "Tekst na punkty",
+        desc: "Konwertuj tekst na punkty",
+      },
+      "meeting-agenda-generator": {
+        label: "Generator agend spotkań",
+        desc: "Generuj agendy spotkań za pomocą AI",
+      },
+      "email-generator": {
+        label: "Generator e-maili",
+        desc: "Pisz profesjonalne e-maile za pomocą AI",
+      },
+    },
 } as const;
 export default common;

@@ -173,6 +173,392 @@ const common = {
       description: "Color converter, hex to RGB, color palette generator, gradient generator, color name finder, and more.",
     },
   },
+    toolList: {
+      "word-counter": {
+        label: "Word Counter",
+        desc: "Count words, characters & reading time",
+      },
+      "case-converter": {
+        label: "Case Converter",
+        desc: "UPPER, lower, Title, camelCase & more",
+      },
+      "lorem-ipsum": {
+        label: "Lorem Ipsum",
+        desc: "Generate placeholder text instantly",
+      },
+      "sentence-counter": {
+        label: "Sentence Counter",
+        desc: "Count sentences, paragraphs & more",
+      },
+      "line-break-removal-tool": {
+        label: "Line Break Remover",
+        desc: "Remove or clean up line breaks in text",
+      },
+      "character-counter": {
+        label: "Character Counter",
+        desc: "Count characters with and without spaces",
+      },
+      "palindrome-checker": {
+        label: "Palindrome Checker",
+        desc: "Check if a word or phrase is a palindrome",
+      },
+      "vowel-counter": {
+        label: "Vowel Counter",
+        desc: "Count vowels and consonants in any text",
+      },
+      "text-repeater": {
+        label: "Text Repeater",
+        desc: "Repeat any text N times instantly",
+      },
+      "remove-duplicate-lines": {
+        label: "Remove Duplicate Lines",
+        desc: "Remove duplicate lines from any text",
+      },
+      "sort-lines": {
+        label: "Sort Lines",
+        desc: "Sort lines alphabetically or numerically",
+      },
+      "whitespace-remover": {
+        label: "Whitespace Remover",
+        desc: "Remove extra spaces, tabs, and blank lines",
+      },
+      "reverse-text-generator": {
+        label: "Reverse Text",
+        desc: "Reverse any text or sentence instantly",
+      },
+      "tiny-text-generator": {
+        label: "Tiny Text Generator",
+        desc: "Convert text to tiny Unicode characters",
+      },
+      "text-diff-checker": {
+        label: "Text Diff Checker",
+        desc: "Compare two texts and highlight differences",
+      },
+      "reading-time-calculator": {
+        label: "Reading Time Calculator",
+        desc: "Estimate how long it takes to read any text",
+      },
+      "readability-checker": {
+        label: "Readability Checker",
+        desc: "Check Flesch-Kincaid readability score",
+      },
+      "merge-words": {
+        label: "Merge Words",
+        desc: "Combine two lists of words together",
+      },
+      "word-frequency-counter": {
+        label: "Word Frequency Counter",
+        desc: "Count how often each word appears",
+      },
+      "morse-code": {
+        label: "Morse Code Converter",
+        desc: "Convert text to Morse code and back",
+      },
+      "signature-generator": {
+        label: "Signature Generator",
+        desc: "Create stylish text-based signatures",
+      },
+      "percentage-calculator": {
+        label: "Percentage Calculator",
+        desc: "Calculate percentages, discounts & more",
+      },
+      "unit-converter": {
+        label: "Unit Converter",
+        desc: "Convert between any units of measurement",
+      },
+      "tip-calculator": {
+        label: "Tip Calculator",
+        desc: "Calculate tips and split bills",
+      },
+      "bmi-calculator": {
+        label: "BMI Calculator",
+        desc: "Calculate your Body Mass Index",
+      },
+      "calorie-calculator": {
+        label: "Calorie Calculator",
+        desc: "Estimate daily calorie needs",
+      },
+      "gpa-calculator": {
+        label: "GPA Calculator",
+        desc: "Calculate your Grade Point Average",
+      },
+      "salary-to-hourly": {
+        label: "Salary to Hourly",
+        desc: "Convert annual salary to hourly rate",
+      },
+      "loan-calculator": {
+        label: "Loan Calculator",
+        desc: "Calculate monthly payments and total interest",
+      },
+      "compound-interest-calculator": {
+        label: "Compound Interest Calculator",
+        desc: "Calculate compound interest over time",
+      },
+      "discount-calculator": {
+        label: "Discount Calculator",
+        desc: "Find sale price after discount",
+      },
+      "random-number-generator": {
+        label: "Random Number Generator",
+        desc: "Generate random numbers in any range",
+      },
+      "number-to-words": {
+        label: "Number to Words",
+        desc: "Convert numbers to written words",
+      },
+      "roman-numeral-converter": {
+        label: "Roman Numeral Converter",
+        desc: "Convert between numbers and Roman numerals",
+      },
+      "binary-to-decimal": {
+        label: "Binary to Decimal",
+        desc: "Convert binary, decimal, hex & octal",
+      },
+      "geometric-mean-calculator": {
+        label: "Geometric Mean Calculator",
+        desc: "Calculate the geometric mean of numbers",
+      },
+      "mass-calculator": {
+        label: "Mass Calculator",
+        desc: "Calculate mass from density and volume",
+      },
+      "fuel-cost-calculator": {
+        label: "Fuel Cost Calculator",
+        desc: "Estimate trip fuel costs",
+      },
+      "army-body-fat-calculator": {
+        label: "Army Body Fat Calculator",
+        desc: "Calculate body fat using Army method",
+      },
+      "histogram-maker": {
+        label: "Histogram Maker",
+        desc: "Create histograms from your data",
+      },
+      "temperature-converter": {
+        label: "Temperature Converter",
+        desc: "Convert between Celsius, Fahrenheit & Kelvin",
+      },
+      "weight-converter": {
+        label: "Weight Converter",
+        desc: "Convert between weight units",
+      },
+      "length-converter": {
+        label: "Length Converter",
+        desc: "Convert between length and distance units",
+      },
+      "date-time-calculator": {
+        label: "Date & Time Calculator",
+        desc: "Add or subtract dates and times",
+      },
+      "age-calculator": {
+        label: "Age Calculator",
+        desc: "Calculate exact age in years, months & days",
+      },
+      "days-between": {
+        label: "Days Between Dates",
+        desc: "Count days between two dates",
+      },
+      "age-difference-calculator": {
+        label: "Age Difference Calculator",
+        desc: "Find the age difference between two people",
+      },
+      "countdown-timer": {
+        label: "Countdown Timer",
+        desc: "Count down to any date or event",
+      },
+      "stopwatch": {
+        label: "Stopwatch",
+        desc: "Precise online stopwatch with lap times",
+      },
+      "pomodoro-timer": {
+        label: "Pomodoro Timer",
+        desc: "Focus timer using the Pomodoro technique",
+      },
+      "color-converter": {
+        label: "Color Converter",
+        desc: "Convert between HEX, RGB, HSL & more",
+      },
+      "hex-to-rgb": {
+        label: "HEX to RGB",
+        desc: "Convert HEX color codes to RGB values",
+      },
+      "hex-color-picker": {
+        label: "HEX Color Picker",
+        desc: "Pick and explore hex color codes",
+      },
+      "color-palette-generator": {
+        label: "Color Palette Generator",
+        desc: "Generate beautiful color palettes",
+      },
+      "gradient-generator": {
+        label: "Gradient Generator",
+        desc: "Create CSS gradient backgrounds",
+      },
+      "base64": {
+        label: "Base64 Encoder/Decoder",
+        desc: "Encode and decode Base64 strings",
+      },
+      "json-formatter": {
+        label: "JSON Formatter",
+        desc: "Format, validate and minify JSON",
+      },
+      "url-encoder-decoder": {
+        label: "URL Encoder/Decoder",
+        desc: "Encode and decode URL strings",
+      },
+      "password-generator": {
+        label: "Password Generator",
+        desc: "Generate secure random passwords",
+      },
+      "uuid-generator": {
+        label: "UUID Generator",
+        desc: "Generate random UUIDs instantly",
+      },
+      "md5-hash-generator": {
+        label: "MD5 Hash Generator",
+        desc: "Generate MD5 hashes from text",
+      },
+      "sha256-generator": {
+        label: "SHA-256 Generator",
+        desc: "Generate SHA-256 hashes from text",
+      },
+      "html-encoder-decoder": {
+        label: "HTML Encoder/Decoder",
+        desc: "Encode and decode HTML entities",
+      },
+      "markdown-to-html": {
+        label: "Markdown to HTML",
+        desc: "Convert Markdown to HTML instantly",
+      },
+      "text-to-binary": {
+        label: "Text to Binary",
+        desc: "Convert text to binary code",
+      },
+      "regex-tester": {
+        label: "Regex Tester",
+        desc: "Test and debug regular expressions",
+      },
+      "slug-generator": {
+        label: "Slug Generator",
+        desc: "Generate URL-friendly slugs from text",
+      },
+      "curl-builder": {
+        label: "cURL Builder",
+        desc: "Build cURL commands visually",
+      },
+      "csv-to-json": {
+        label: "CSV to JSON",
+        desc: "Convert CSV data to JSON format",
+      },
+      "json-to-csv": {
+        label: "JSON to CSV",
+        desc: "Convert JSON data to CSV format",
+      },
+      "rem-to-px-converter": {
+        label: "REM to PX Converter",
+        desc: "Convert REM units to pixels",
+      },
+      "css-animation-generator": {
+        label: "CSS Animation Generator",
+        desc: "Generate CSS keyframe animations",
+      },
+      "generate-random-ip": {
+        label: "Random IP Generator",
+        desc: "Generate random IP addresses",
+      },
+      "qr-code-reader": {
+        label: "QR Code Reader",
+        desc: "Read and decode QR codes",
+      },
+      "coin-flip": {
+        label: "Coin Flip",
+        desc: "Flip a virtual coin online",
+      },
+      "dice-roller": {
+        label: "Dice Roller",
+        desc: "Roll virtual dice of any type",
+      },
+      "random-name-generator": {
+        label: "Random Name Generator",
+        desc: "Generate random names instantly",
+      },
+      "random-state-generator": {
+        label: "Random State Generator",
+        desc: "Pick a random US state",
+      },
+      "random-word-generator": {
+        label: "Random Word Generator",
+        desc: "Generate random words instantly",
+      },
+      "goofy-ahh-names-generator": {
+        label: "Goofy Name Generator",
+        desc: "Generate funny goofy names",
+      },
+      "acronym-generator": {
+        label: "Acronym Generator",
+        desc: "Create acronyms from any phrase",
+      },
+      "outline-generator-ai": {
+        label: "AI Outline Generator",
+        desc: "Generate outlines with AI",
+      },
+      "thank-you-note": {
+        label: "Thank You Note Generator",
+        desc: "Write thank you notes with AI",
+      },
+      "ai-joke-generator": {
+        label: "AI Joke Generator",
+        desc: "Generate jokes with AI",
+      },
+      "ai-poem-writer": {
+        label: "AI Poem Writer",
+        desc: "Write poems with AI",
+      },
+      "ai-bio-generator": {
+        label: "AI Bio Generator",
+        desc: "Generate professional bios with AI",
+      },
+      "email-subject-line-generator": {
+        label: "Email Subject Line Generator",
+        desc: "Generate email subject lines with AI",
+      },
+      "hashtag-generator": {
+        label: "Hashtag Generator",
+        desc: "Generate hashtags for social media",
+      },
+      "caption-generator": {
+        label: "Caption Generator",
+        desc: "Generate captions with AI",
+      },
+      "cover-letter-generator": {
+        label: "Cover Letter Generator",
+        desc: "Write cover letters with AI",
+      },
+      "product-description-generator": {
+        label: "Product Description Generator",
+        desc: "Generate product descriptions with AI",
+      },
+      "paraphrasing-tool": {
+        label: "Paraphrasing Tool",
+        desc: "Rewrite text in different words",
+      },
+      "summarizer": {
+        label: "Text Summarizer",
+        desc: "Summarize long text with AI",
+      },
+      "text-to-bullet-points": {
+        label: "Text to Bullet Points",
+        desc: "Convert text to bullet points",
+      },
+      "meeting-agenda-generator": {
+        label: "Meeting Agenda Generator",
+        desc: "Generate meeting agendas with AI",
+      },
+      "email-generator": {
+        label: "Email Generator",
+        desc: "Write professional emails with AI",
+      },
+    },
 } as const;
 
 export default common;
