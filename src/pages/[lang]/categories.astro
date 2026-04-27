@@ -34,10 +34,12 @@ const categoriesWithCount = CATEGORIES.map(cat => ({
   ...cat,
   toolCount: getToolsByCategory(cat.id).length,
 }));
+
+const totalTools = categoriesWithCount.reduce((sum, c) => sum + c.toolCount, 0);
 ---
 
 <BaseLayout
-  title={`${t("common.nav.categories")} — Microapp`}
+  title={`${t("common.categories.pageTitle")} — Microapp`}
   description="Browse all 7 categories of free online tools on Microapp: text tools, calculators, dev tools, generators, writing & AI, time tools, and color tools."
   canonical={`${siteUrl}/categories`}
   lang={lang}
@@ -55,13 +57,13 @@ const categoriesWithCount = CATEGORIES.map(cat => ({
           <nav style="font-family:'Inter',sans-serif;font-size:0.8rem;color:#6B7280;margin-bottom:1.5rem;display:flex;align-items:center;gap:0.375rem" dir={dir}>
             <a href={localizeUrl("/", lang)} style="color:#1B6B45;text-decoration:none;font-weight:500">{t("common.nav.home")}</a>
             <span>›</span>
-            <span>{t("common.nav.categories")}</span>
+            <span>{t("common.categories.breadcrumb")}</span>
           </nav>
           <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:clamp(2rem,5vw,3rem);color:#1A1A1A;letter-spacing:-0.03em;margin:0 0 1rem">
-            {t("common.nav.categories")}
+            {t("common.categories.pageTitle")}
           </h1>
           <p style="font-family:'Inter',sans-serif;font-size:1.1rem;color:#4B5563;line-height:1.7;max-width:52ch;margin:0">
-            {categoriesWithCount.reduce((sum, c) => sum + c.toolCount, 0)}+ free tools organised into {categoriesWithCount.length} categories — no account needed.
+            {t("common.categories.pageDesc").replace("{count}", String(totalTools)).replace("{cats}", String(categoriesWithCount.length))}
           </p>
         </div>
       </section>
@@ -89,7 +91,7 @@ const categoriesWithCount = CATEGORIES.map(cat => ({
                     />
                   </div>
                   <span style="font-family:'Inter',sans-serif;font-size:0.75rem;font-weight:600;color:#6B7280;background:#F3F4F6;padding:0.25rem 0.625rem;border-radius:9999px;white-space:nowrap;margin-top:0.25rem">
-                    {cat.toolCount} tools
+                    {t("common.categories.toolCount").replace("{count}", String(cat.toolCount))}
                   </span>
                 </div>
                 <div>
@@ -101,7 +103,7 @@ const categoriesWithCount = CATEGORIES.map(cat => ({
                   </p>
                 </div>
                 <div style={`display:inline-flex;align-items:center;gap:0.375rem;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.8rem;font-weight:700;color:${cat.iconColor};margin-top:auto`}>
-                  Browse {cat.label}
+                  {t("common.categories.browseCta").replace("{label}", cat.label)}
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </div>
               </a>

@@ -78,6 +78,17 @@ const common = {
     notFoundDesc: "The page you're looking for doesn't exist.",
     backHome: "Back to home",
   },
+  categories: {
+    pageTitle: "Browse by Category",
+    pageDesc: "{count}+ free tools organised into {cats} categories. No account needed, no ads.",
+    breadcrumb: "Categories",
+    toolCount: "{count} tools",
+    browseCta: "Browse {label}",
+    freeToolsCount: "{count} free tools — no account needed",
+    useFree: "Use free",
+    allCategories: "All categories",
+    browseAllTools: "Browse all tools",
+  },
 } as const;
 
 export default common;

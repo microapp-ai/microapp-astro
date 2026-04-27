@@ -74,6 +74,16 @@ const common = {
     notFoundDesc: "आप जिस पृष्ठ की तलाश कर रहे हैं वह मौजूद नहीं है।",
     backHome: "होम पर वापस",
   },
+  categories: {
+    pageTitle: "श्रेणी के अनुसार ब्राउज़ करें",
+    pageDesc: "{count}+ मुफ्त टूल्स {cats} श्रेणियों में। कोई खाता नहीं, कोई विज्ञापन नहीं।",
+    breadcrumb: "श्रेणियाँ",
+    toolCount: "{count} टूल्स",
+    browseCta: "{label} ब्राउज़ करें",
+    freeToolsCount: "{count} मुफ्त टूल्स — कोई खाता आवश्यक नहीं",
+    useFree: "मुफ्त उपयोग करें",
+    allCategories: "सभी श्रेणियाँ",
+    browseAllTools: "सभी टूल्स ब्राउज़ करें",
+  },
 } as const;
-
 export default common;

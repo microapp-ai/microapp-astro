@@ -78,6 +78,16 @@ const common = {
     notFoundDesc: "Strona, której szukasz, nie istnieje.",
     backHome: "Wróć do strony głównej",
   },
+  categories: {
+    pageTitle: "Przeglądaj według kategorii",
+    pageDesc: "{count}+ darmowych narzędzi w {cats} kategoriach. Bez konta, bez reklam.",
+    breadcrumb: "Kategorie",
+    toolCount: "{count} narzędzi",
+    browseCta: "Przeglądaj {label}",
+    freeToolsCount: "{count} darmowych narzędzi — bez konta",
+    useFree: "Użyj za darmo",
+    allCategories: "Wszystkie kategorie",
+    browseAllTools: "Przeglądaj wszystkie narzędzia",
+  },
 } as const;
-
 export default common;

@@ -74,6 +74,17 @@ const common = {
     notFoundDesc: "Die gesuchte Seite existiert nicht.",
     backHome: "Zurück zur Startseite",
   },
+  categories: {
+    pageTitle: "Nach Kategorie durchsuchen",
+    pageDesc: "{count}+ kostenlose Tools in {cats} Kategorien. Kein Konto erforderlich, keine Werbung.",
+    breadcrumb: "Kategorien",
+    toolCount: "{count} Tools",
+    browseCta: "{label} durchsuchen",
+    freeToolsCount: "{count} kostenlose Tools — kein Konto erforderlich",
+    useFree: "Kostenlos nutzen",
+    allCategories: "Alle Kategorien",
+    browseAllTools: "Alle Tools durchsuchen",
+  },
 } as const;
 
 export default common;

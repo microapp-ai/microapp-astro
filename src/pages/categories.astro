@@ -10,8 +10,10 @@ import HomeFooter from "../components/HomeFooter.astro";
 import AuthModal from "../components/AuthModal";
 import { CATEGORIES, getToolsByCategory } from "../lib/categories";
 import { NON_DEFAULT_LOCALES } from "../i18n/config";
+import { useTranslations } from "../i18n/utils";
 
 const siteUrl = "https://microapp.io";
+const t = await useTranslations("en");
 
 const hreflangAlternates = [
   { hreflang: "x-default", href: `${siteUrl}/categories` },
@@ -26,6 +28,8 @@ const categoriesWithCount = CATEGORIES.map(cat => ({
   ...cat,
   toolCount: getToolsByCategory(cat.id).length,
 }));
+
+const totalTools = categoriesWithCount.reduce((sum, c) => sum + c.toolCount, 0);
 ---
 
 <BaseLayout
@@ -43,15 +47,15 @@ const categoriesWithCount = CATEGORIES.map(cat => ({
         <div class="max-w-5xl mx-auto px-4 sm:px-6">
           <!-- Breadcrumb -->
           <nav style="font-family:'Inter',sans-serif;font-size:0.8rem;color:#6B7280;margin-bottom:1.5rem;display:flex;align-items:center;gap:0.375rem">
-            <a href="/" style="color:#1B6B45;text-decoration:none;font-weight:500">Home</a>
+            <a href="/" style="color:#1B6B45;text-decoration:none;font-weight:500">{t("common.nav.home")}</a>
             <span>›</span>
-            <span>Categories</span>
+            <span>{t("common.categories.breadcrumb")}</span>
           </nav>
           <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:clamp(2rem,5vw,3rem);color:#1A1A1A;letter-spacing:-0.03em;margin:0 0 1rem">
-            Browse by Category
+            {t("common.categories.pageTitle")}
           </h1>
           <p style="font-family:'Inter',sans-serif;font-size:1.1rem;color:#4B5563;line-height:1.7;max-width:52ch;margin:0">
-            {categoriesWithCount.reduce((sum, c) => sum + c.toolCount, 0)}+ free tools organised into {categoriesWithCount.length} categories. No account needed, no ads.
+            {t("common.categories.pageDesc").replace("{count}", String(totalTools)).replace("{cats}", String(categoriesWithCount.length))}
           </p>
         </div>
       </section>
@@ -68,7 +72,6 @@ const categoriesWithCount = CATEGORIES.map(cat => ({
               >
                 <!-- Illustration + count row -->
                 <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:0.75rem">
-                  <!-- Cartoon app-icon tile -->
                   <div style="width:72px;height:72px;flex-shrink:0;border-radius:1rem;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.12)">
                     <img
                       src={cat.illustration}
@@ -81,7 +84,7 @@ const categoriesWithCount = CATEGORIES.map(cat => ({
                     />
                   </div>
                   <span style="font-family:'Inter',sans-serif;font-size:0.75rem;font-weight:600;color:#6B7280;background:#F3F4F6;padding:0.25rem 0.625rem;border-radius:9999px;white-space:nowrap;margin-top:0.25rem">
-                    {cat.toolCount} tools
+                    {t("common.categories.toolCount").replace("{count}", String(cat.toolCount))}
                   </span>
                 </div>
 
@@ -97,7 +100,7 @@ const categoriesWithCount = CATEGORIES.map(cat => ({
 
                 <!-- CTA -->
                 <div style={`display:inline-flex;align-items:center;gap:0.375rem;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.8rem;font-weight:700;color:${cat.iconColor};margin-top:auto`}>
-                  Browse {cat.label}
+                  {t("common.categories.browseCta").replace("{label}", cat.label)}
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </div>
               </a>
