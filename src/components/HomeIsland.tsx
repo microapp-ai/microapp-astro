@@ -152,21 +152,13 @@ const tools = [
 // Deduplicate by href
 const uniqueTools = tools.filter((t, i, arr) => arr.findIndex(x => x.href === t.href) === i);
 
-const categories = [
-  { id: "text", label: "Text Tools", icon: Type },
-  { id: "numbers", label: "Numbers", icon: Percent },
-  { id: "time", label: "Time & Date", icon: Clock },
-  { id: "design", label: "Colors & Design", icon: Palette },
-  { id: "dev", label: "Dev Tools", icon: Braces },
-  { id: "generators", label: "Generators", icon: Key },
-  { id: "writing", label: "Writing / AI", icon: FileText },
-];
+const CATEGORY_IDS = ["text", "numbers", "time", "design", "dev", "generators", "writing"] as const;
+type CategoryId = typeof CATEGORY_IDS[number];
+const CATEGORY_ICONS: Record<CategoryId, React.ElementType> = {
+  text: Type, numbers: Percent, time: Clock, design: Palette, dev: Braces, generators: Key, writing: FileText,
+};
 
-const testimonials = [
-  "Incredibly fast", "No signup needed", "Actually useful", "Saves me daily",
-  "Clean and simple", "My go-to toolkit", "Bookmark worthy", "Love this site",
-  "Works perfectly", "Totally free!", "Super reliable", "Best utility site",
-];
+// testimonials now come from tr.ticker
 
 const HOME_STRUCTURED_DATA = {
   "@context": "https://schema.org",
@@ -194,8 +186,155 @@ const HOME_STRUCTURED_DATA = {
   ]
 };
 
-export default function Home() {
-   // Auth state available for future use (e.g. save favourites)
+// ── Translations type ─────────────────────────────────────────────────────────
+interface HomeIslandTranslations {
+  hero: {
+    badge: string;
+    headline1: string;
+    headline2: string;
+    subheadline: string;
+    ctaPrimary: string;
+    ctaSecondary: string;
+  };
+  search: {
+    placeholder: string;
+    resultsCount: string;
+    resultsCountPlural: string;
+  };
+  categories: {
+    all: string;
+    text: string;
+    numbers: string;
+    time: string;
+    generators: string;
+    dev: string;
+    writing: string;
+    design: string;
+    browseByCategory: string;
+  };
+  grid: {
+    useTool: string;
+    loadMore: string;
+    noMatch: string;
+    clearFilters: string;
+  };
+  ticker: string[];
+  whySection: {
+    title: string;
+    subtitle: string;
+    items: {
+      fast: { title: string; desc: string };
+      private: { title: string; desc: string };
+      oneJob: { title: string; desc: string };
+    };
+  };
+  stats: {
+    tools: string;
+    signups: string;
+    browserBased: string;
+  };
+  featured: {
+    badge: string;
+    title: string;
+    desc: string;
+    cta: string;
+  };
+}
+
+const EN_TRANSLATIONS: HomeIslandTranslations = {
+  hero: {
+    badge: "{count}+ free tools \u2014 no account needed",
+    headline1: "Every tool you need,",
+    headline2: "right here.",
+    subheadline: "Microapp is the #1 collection of free online utility tools. Word counters, calculators, converters \u2014 instant results, zero friction.",
+    ctaPrimary: "Try Word Counter",
+    ctaSecondary: "Generate Password",
+  },
+  search: {
+    placeholder: "Search tools\u2026",
+    resultsCount: "{count} result for",
+    resultsCountPlural: "{count} results for",
+  },
+  categories: {
+    all: "All Tools ({count})",
+    text: "Text Tools",
+    numbers: "Numbers",
+    time: "Time & Date",
+    generators: "Generators",
+    dev: "Dev Tools",
+    writing: "Writing / AI",
+    design: "Colors & Design",
+    browseByCategory: "Browse by category",
+  },
+  grid: {
+    useTool: "Use tool",
+    loadMore: "Load more tools ({count} remaining)",
+    noMatch: "No tools match your search.",
+    clearFilters: "Clear filters",
+  },
+  ticker: [
+    "Incredibly fast", "No signup needed", "Actually useful", "Saves me daily",
+    "Clean and simple", "My go-to toolkit", "Bookmark worthy", "Love this site",
+    "Works perfectly", "Totally free!", "Super reliable", "Best utility site",
+  ],
+  whySection: {
+    title: "Why Microapp?",
+    subtitle: "Tools that just work. No nonsense.",
+    items: {
+      fast: {
+        title: "Instant results",
+        desc: "Every tool runs in your browser \u2014 no waiting, no servers, no loading spinners.",
+      },
+      private: {
+        title: "Private by default",
+        desc: "Your data never leaves your device. We don't store, track, or sell anything you type.",
+      },
+      oneJob: {
+        title: "One tool, one job",
+        desc: "No bloat, no upsells, no dark patterns. Each tool does exactly what it says.",
+      },
+    },
+  },
+  stats: {
+    tools: "{count}+ Free tools",
+    signups: "0 Signups required",
+    browserBased: "100% Browser-based",
+  },
+  featured: {
+    badge: "Featured tool",
+    title: "Word Counter \u2014 done right.",
+    desc: "Paste any text and instantly see word count, character count, sentence count, paragraph count, and estimated reading time. No ads, no signup, no fluff.",
+    cta: "Try Word Counter",
+  },
+};
+
+interface HomeProps {
+  lang?: string;
+  translations?: HomeIslandTranslations;
+}
+
+// Deep merge helper: locale values override EN_TRANSLATIONS, missing keys fall back to English
+function deepMerge<T extends object>(base: T, override: Partial<T>): T {
+  const result = { ...base };
+  for (const key in override) {
+    const v = override[key];
+    if (v !== undefined && v !== null) {
+      if (typeof v === 'object' && !Array.isArray(v) && typeof base[key] === 'object' && !Array.isArray(base[key])) {
+        (result as Record<string, unknown>)[key] = deepMerge(base[key] as object, v as Partial<object>);
+      } else {
+        (result as Record<string, unknown>)[key] = v;
+      }
+    }
+  }
+  return result;
+}
+
+export default function Home({ lang = "en", translations }: HomeProps) {
+  // Merge locale translations over English fallback so missing keys don't break the UI
+  const tr = translations ? deepMerge(EN_TRANSLATIONS, translations as Partial<HomeIslandTranslations>) : EN_TRANSLATIONS;
+  const fmt = (s: string, count: number) => s.replace("{count}", String(count));
+  const tickerItems = (tr.ticker && tr.ticker.length > 0) ? tr.ticker : EN_TRANSLATIONS.ticker;
+  // Auth state available for future use (e.g. save favourites)
 
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
@@ -214,7 +353,11 @@ export default function Home() {
   // Reset visible count when filter/search changes so users see fresh results
   const visibleTools = filtered.slice(0, search || activeCategory ? filtered.length : visibleCount);
 
-  const catCounts = Object.fromEntries(categories.map(c => [c.id, uniqueTools.filter(t => t.category === c.id).length]));
+  const catCounts = Object.fromEntries(CATEGORY_IDS.map(c => [c, uniqueTools.filter(t => t.category === c).length]));
+  const categoryLabels: Record<string, string> = {
+    text: tr.categories.text, numbers: tr.categories.numbers, time: tr.categories.time,
+    design: tr.categories.design, dev: tr.categories.dev, generators: tr.categories.generators, writing: tr.categories.writing,
+  };
 
   return (
       <>
@@ -226,27 +369,27 @@ export default function Home() {
               <div className="inline-flex items-center gap-2 bg-[#E8F5EE] rounded-full px-4 py-1.5 mb-6">
                 <Zap size={13} className="text-[#1B6B45]" fill="#1B6B45" />
                 <span style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 700, fontSize: "0.8rem", color: "#1B6B45" }}>
-                  {uniqueTools.length}+ free tools — no account needed
+                  {fmt(tr.hero.badge, uniqueTools.length)}
                 </span>
               </div>
 
               <h1 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 800, fontSize: "clamp(2.4rem, 5vw, 3.8rem)", color: "#1A1A1A", letterSpacing: "-0.03em", lineHeight: 1.1, marginBottom: "1.25rem" }}>
-                Every tool you need,{" "}
+                {tr.hero.headline1}{" "}
                 <span style={{ position: "relative", display: "inline-block" }}>
-                  <span className="highlight-yellow">right here.</span>
+                  <span className="highlight-yellow">{tr.hero.headline2}</span>
                 </span>
               </h1>
 
               <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "1.15rem", color: "#4B5563", lineHeight: 1.7, marginBottom: "2rem", maxWidth: "480px" }}>
-                Microapp is the #1 collection of free online utility tools. Word counters, calculators, converters — instant results, zero friction.
+                {tr.hero.subheadline}
               </p>
 
               <div className="flex flex-wrap gap-3 mb-8">
-                <a href="/word-counter" className="btn-primary">
-                  Try Word Counter <ArrowRight size={15} />
+                <a href={lang === "en" ? "/word-counter" : `/${lang}/word-counter`} className="btn-primary">
+                  {tr.hero.ctaPrimary} <ArrowRight size={15} />
                 </a>
-                <a href="/password-generator" className="btn-outline">
-                  Generate Password
+                <a href={lang === "en" ? "/password-generator" : `/${lang}/password-generator`} className="btn-outline">
+                  {tr.hero.ctaSecondary}
                 </a>
               </div>
 
@@ -255,7 +398,7 @@ export default function Home() {
                 <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#9CA3AF]" />
                 <input
                   type="text"
-                  placeholder="Search tools…"
+                  placeholder={tr.search.placeholder}
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   className="tool-input pl-10"
@@ -282,7 +425,7 @@ export default function Home() {
         {/* Testimonial ticker */}
         <div className="mt-12 bg-[#1B6B45] py-3 overflow-hidden">
           <div style={{ display: "flex", gap: "2.5rem", animation: "ticker 28s linear infinite", whiteSpace: "nowrap", width: "max-content" }}>
-            {[...testimonials, ...testimonials].map((t, i) => (
+            {[...tickerItems, ...tickerItems].map((t, i) => (
               <span key={i} style={{ fontFamily: "'Caveat', cursive", fontWeight: 700, fontSize: "1.1rem", color: "white", display: "inline-flex", alignItems: "center", gap: "0.6rem" }}>
                 <span style={{ color: "#FFE234" }}>★</span> {t}
               </span>
@@ -309,7 +452,7 @@ export default function Home() {
       <section className="section-cream py-12" id="categories">
         <div className="container">
           <h2 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 800, fontSize: "clamp(1.5rem, 3vw, 2rem)", color: "#1A1A1A", letterSpacing: "-0.02em", marginBottom: "1.5rem" }}>
-            Browse by category
+            {tr.categories.browseByCategory}
           </h2>
           <div className="flex flex-wrap gap-3">
             <button
@@ -324,27 +467,30 @@ export default function Home() {
                 cursor: "pointer",
               }}
             >
-              All Tools ({uniqueTools.length})
+              {fmt(tr.categories.all, uniqueTools.length)}
             </button>
-            {categories.map((cat) => (
+            {CATEGORY_IDS.map((catId) => {
+              const CatIcon = CATEGORY_ICONS[catId];
+              return (
               <button
-                key={cat.id}
-                onClick={() => setActiveCategory(activeCategory === cat.id ? null : cat.id)}
+                key={catId}
+                onClick={() => setActiveCategory(activeCategory === catId ? null : catId)}
                 style={{
                   fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 700, fontSize: "0.875rem",
                   padding: "0.5rem 1.1rem", borderRadius: "9999px", border: "2px solid",
-                  borderColor: activeCategory === cat.id ? "#1B6B45" : "#E8E6DE",
-                  background: activeCategory === cat.id ? "#1B6B45" : "white",
-                  color: activeCategory === cat.id ? "white" : "#4B5563",
+                  borderColor: activeCategory === catId ? "#1B6B45" : "#E8E6DE",
+                  background: activeCategory === catId ? "#1B6B45" : "white",
+                  color: activeCategory === catId ? "white" : "#4B5563",
                   transition: "all 0.15s ease",
                   display: "inline-flex", alignItems: "center", gap: "0.4rem",
                   cursor: "pointer",
                 }}
               >
-                <cat.icon size={13} />
-                {cat.label} ({catCounts[cat.id] || 0})
+                <CatIcon size={13} />
+                {categoryLabels[catId]} ({catCounts[catId] || 0})
               </button>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -354,23 +500,23 @@ export default function Home() {
         <div className="container">
           {search && (
             <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.9rem", color: "#6B7280", marginBottom: "1.5rem" }}>
-              {filtered.length} result{filtered.length !== 1 ? "s" : ""} for "<strong>{search}</strong>"
+              {filtered.length === 1 ? `${fmt(tr.search.resultsCount, filtered.length)} "` : `${fmt(tr.search.resultsCountPlural, filtered.length)} "`}<strong>{search}</strong>"
             </p>
           )}
           {filtered.length === 0 ? (
             <div className="text-center py-16">
               <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 700, fontSize: "1.2rem", color: "#6B7280" }}>
-                No tools match your search.
+                {tr.grid.noMatch}
               </p>
               <button onClick={() => { setSearch(""); setActiveCategory(null); }} className="btn-outline mt-4">
-                Clear filters
+                {tr.grid.clearFilters}
               </button>
             </div>
           ) : (
             <>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {visibleTools.map((tool) => (
-                <a key={tool.href + tool.label} href={tool.href} className="tool-card group" style={{ textDecoration: "none" }}>
+                <a key={tool.href + tool.label} href={lang === "en" ? tool.href : `/${lang}${tool.href}`} className="tool-card group" style={{ textDecoration: "none" }}>
                   <div className="flex items-start gap-4">
                     <div style={{ width: "44px", height: "44px", borderRadius: "0.75rem", background: tool.color, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                       <tool.icon size={20} style={{ color: tool.iconColor }} />
@@ -390,7 +536,7 @@ export default function Home() {
                     </div>
                   </div>
                   <div className="mt-4 flex items-center gap-1" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 700, fontSize: "0.8rem", color: "#1B6B45" }}>
-                    Use tool <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
+                    {tr.grid.useTool} <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
                   </div>
                 </a>
               ))}
@@ -403,7 +549,7 @@ export default function Home() {
                   className="btn-outline"
                   style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 700 }}
                 >
-                  Load more tools ({filtered.length - visibleCount} remaining)
+                  {fmt(tr.grid.loadMore, filtered.length - visibleCount)}
                 </button>
               </div>
             )}
@@ -415,17 +561,17 @@ export default function Home() {
       <section className="section-cream py-16" id="why">
         <div className="container">
           <div className="max-w-xl mb-10">
-            <span className="badge-handwritten mb-4 inline-block">Why Microapp?</span>
+            <span className="badge-handwritten mb-4 inline-block">{tr.whySection.title}</span>
             <h2 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 800, fontSize: "clamp(1.8rem, 3.5vw, 2.5rem)", color: "#1A1A1A", letterSpacing: "-0.025em", lineHeight: 1.2 }}>
-              Tools that just work. No nonsense.
+              {tr.whySection.subtitle}
             </h2>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              { emoji: "⚡", title: "Instant results", desc: "Every tool runs in your browser — no waiting, no servers, no loading spinners." },
-              { emoji: "🔒", title: "Private by default", desc: "Your data never leaves your device. We don't store, track, or sell anything you type." },
-              { emoji: "🎯", title: "One tool, one job", desc: "No bloat, no upsells, no dark patterns. Each tool does exactly what it says." },
+              { emoji: "⚡", title: tr.whySection.items.fast.title, desc: tr.whySection.items.fast.desc },
+              { emoji: "🔒", title: tr.whySection.items.private.title, desc: tr.whySection.items.private.desc },
+              { emoji: "🎯", title: tr.whySection.items.oneJob.title, desc: tr.whySection.items.oneJob.desc },
             ].map((item) => (
               <div key={item.title} style={{ background: "white", borderRadius: "1rem", padding: "1.75rem", border: "1.5px solid #E8E6DE" }}>
                 <div style={{ fontSize: "2rem", marginBottom: "0.75rem" }}>{item.emoji}</div>
@@ -442,9 +588,9 @@ export default function Home() {
         <div className="container">
           <div className="grid sm:grid-cols-3 gap-8 text-center">
             {[
-              { value: `${uniqueTools.length}+`, label: "Free tools" },
-              { value: "0", label: "Signups required" },
-              { value: "100%", label: "Browser-based" },
+              { value: `${uniqueTools.length}+`, label: fmt(tr.stats.tools, uniqueTools.length).replace(`${uniqueTools.length}+ `, "") },
+              { value: "0", label: tr.stats.signups.replace("0 ", "") },
+              { value: "100%", label: tr.stats.browserBased.replace("100% ", "") },
             ].map((s) => (
               <div key={s.label}>
                 <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 800, fontSize: "3rem", color: "#FFE234", lineHeight: 1 }}>{s.value}</div>
@@ -460,15 +606,15 @@ export default function Home() {
         <div className="container">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <span className="badge-handwritten mb-4 inline-block">Featured tool</span>
+              <span className="badge-handwritten mb-4 inline-block">{tr.featured.badge}</span>
               <h2 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 800, fontSize: "clamp(1.8rem, 3.5vw, 2.5rem)", color: "#1A1A1A", letterSpacing: "-0.025em", lineHeight: 1.2, marginBottom: "1rem" }}>
-                Word Counter — done right.
+                {tr.featured.title}
               </h2>
               <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "1rem", color: "#4B5563", lineHeight: 1.7, marginBottom: "1.5rem" }}>
-                Paste any text and instantly see word count, character count, sentence count, paragraph count, and estimated reading time. No ads, no signup, no fluff.
+                {tr.featured.desc}
               </p>
-              <a href="/word-counter" className="btn-primary" style={{ display: "inline-flex" }}>
-                Try Word Counter <ArrowRight size={15} />
+              <a href={lang === "en" ? "/word-counter" : `/${lang}/word-counter`} className="btn-primary" style={{ display: "inline-flex" }}>
+                {tr.featured.cta} <ArrowRight size={15} />
               </a>
             </div>
             <div>

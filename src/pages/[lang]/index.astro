@@ -7,7 +7,7 @@ export const prerender = true;
  * English uses /index.astro (no prefix). All other locales land here.
  */
 import { NON_DEFAULT_LOCALES, LOCALES, getDir, type Locale } from "../../i18n/config";
-import { useTranslations, localizeUrl } from "../../i18n/utils";
+import { useTranslations, getTranslations, localizeUrl } from "../../i18n/utils";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import HomeIsland from "../../components/HomeIsland";
 import HomeNav from "../../components/HomeNav.astro";
@@ -20,6 +20,7 @@ export function getStaticPaths() {
 
 const { lang } = Astro.params as { lang: Locale };
 const t = await useTranslations(lang);
+const { home: homeTranslations } = await getTranslations(lang);
 const dir = getDir(lang);
 const localeName = LOCALES[lang].label;
 
@@ -45,8 +46,8 @@ const hreflangAlternates = [
 >
   <div class="min-h-screen bg-white flex flex-col">
     <HomeNav lang={lang} />
-    <HomeIsland client:load lang={lang} />
+    <HomeIsland client:load lang={lang} translations={homeTranslations} />
     <HomeFooter lang={lang} />
   </div>
-  <AuthModal client:load lang={lang} />
+  <AuthModal client:load />
 </BaseLayout>
