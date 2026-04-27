@@ -27,7 +27,19 @@ const home = {
     dev: "Narzędzia dla programistów",
     writing: "Pisanie i AI",
     design: "Kolory i projektowanie",
+    browseByCategory: "Przeglądaj według kategorii",
   },
+  grid: {
+    useTool: "Użyj narzędzia",
+    loadMore: "Załaduj więcej ({count} pozostałych)",
+    noMatch: "Brak narzędzi pasujących do wyszukiwania.",
+    clearFilters: "Wyczyść filtry",
+  },
+  ticker: [
+    "Niesamowicie szybkie", "Bez rejestracji", "Naprawdę przydatne", "Oszczędza czas",
+    "Czyste i proste", "Mój zestaw narzędzi", "Warte zakładki", "Uwielbiam tę stronę",
+    "Działa świetnie", "Całkowicie darmowe!", "Super niezawodne", "Najlepsza strona narzędzi",
+  ],
   social: {
     title: "Ukochane przez tysiące",
     subtitle: "Prawdziwe opinie od prawdziwych użytkowników",
@@ -52,6 +64,10 @@ const home = {
       noSignup: {
         title: "Nie wymaga konta",
         desc: "Po prostu otwórz narzędzie i użyj go. Bez e-maila, bez hasła, bez tarcia.",
+      },
+      oneJob: {
+        title: "Jedno narzędzie, jedno zadanie",
+        desc: "Bez zbędnych rzeczy, bez upsellów, bez ciemnych wzorców. Każde narzędzie robi dokładnie to, co mówi.",
       },
     },
   },

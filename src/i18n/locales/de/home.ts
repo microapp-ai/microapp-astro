@@ -27,7 +27,19 @@ const home = {
     dev: "Entwickler-Tools",
     writing: "Schreiben & KI",
     design: "Farben & Design",
+    browseByCategory: "Nach Kategorie durchsuchen",
   },
+  grid: {
+    useTool: "Tool verwenden",
+    loadMore: "Mehr Tools laden ({count} verbleibend)",
+    noMatch: "Keine Tools entsprechen Ihrer Suche.",
+    clearFilters: "Filter zurücksetzen",
+  },
+  ticker: [
+    "Unglaublich schnell", "Keine Anmeldung", "Wirklich nützlich", "Spart täglich Zeit",
+    "Sauber und einfach", "Mein Werkzeugkasten", "Lesezeichen-würdig", "Liebe diese Seite",
+    "Funktioniert perfekt", "Komplett kostenlos!", "Super zuverlässig", "Beste Utility-Seite",
+  ],
   social: {
     title: "Von Tausenden geliebt",
     subtitle: "Echtes Feedback von echten Benutzern",
@@ -52,6 +64,10 @@ const home = {
       noSignup: {
         title: "Kein Konto erforderlich",
         desc: "Öffnen Sie einfach ein Tool und verwenden Sie es. Keine E-Mail, kein Passwort, keine Reibung.",
+      },
+      oneJob: {
+        title: "Ein Tool, eine Aufgabe",
+        desc: "Kein Blähwerk, keine Upsells, keine dunklen Muster. Jedes Tool tut genau das, was es verspricht.",
       },
     },
   },

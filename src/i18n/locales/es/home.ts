@@ -19,7 +19,7 @@ const home = {
     resultsCountPlural: "{count} herramientas encontradas",
   },
   categories: {
-    all: "Todas",
+    all: "Todas ({count})",
     text: "Herramientas de texto",
     numbers: "Números",
     time: "Hora y fecha",
@@ -27,7 +27,19 @@ const home = {
     dev: "Herramientas de desarrollo",
     writing: "Escritura e IA",
     design: "Colores y diseño",
+    browseByCategory: "Explorar por categoría",
   },
+  grid: {
+    useTool: "Usar herramienta",
+    loadMore: "Cargar más herramientas ({count} restantes)",
+    noMatch: "Ninguna herramienta coincide con tu búsqueda.",
+    clearFilters: "Limpiar filtros",
+  },
+  ticker: [
+    "Increíblemente rápido", "Sin registro", "Realmente útil", "Me ahorra tiempo",
+    "Limpio y simple", "Mi kit de herramientas", "Vale la pena marcar", "Me encanta este sitio",
+    "Funciona perfecto", "¡Totalmente gratis!", "Muy confiable", "El mejor sitio de utilidades",
+  ],
   social: {
     title: "Amado por miles",
     subtitle: "Comentarios reales de usuarios reales",
@@ -51,6 +63,10 @@ const home = {
       noSignup: {
         title: "No se necesita cuenta",
         desc: "Simplemente abre una herramienta y úsala. Sin correo electrónico, sin contraseña, sin fricción.",
+      },
+      oneJob: {
+        title: "Una herramienta, un trabajo",
+        desc: "Sin relleno, sin ventas adicionales, sin patrones oscuros. Cada herramienta hace exactamente lo que dice.",
       },
     },
   },
