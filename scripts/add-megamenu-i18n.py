@@ -1,0 +1,448 @@
+#!/usr/bin/env python3
+"""
+Add megaMenu category and tool name translations to all locale common.ts files.
+Inserts a `megaMenu` block inside the `nav: { ... }` section.
+"""
+import re, os
+
+BASE = "/home/ubuntu/microapp-astro/src/i18n/locales"
+
+# Translation data per locale
+TRANSLATIONS = {
+    "en": {
+        "categories": {
+            "textTools": "Text Tools",
+            "numbers": "Numbers",
+            "timeDate": "Time & Date",
+            "generators": "Generators",
+            "devTools": "Dev Tools",
+            "writingAI": "Writing & AI",
+            "colorsDesign": "Colors & Design",
+        },
+        "tools": {
+            "wordCounter": "Word Counter",
+            "characterCounter": "Character Counter",
+            "textRepeater": "Text Repeater",
+            "sortLines": "Sort Lines",
+            "textDiff": "Text Diff Checker",
+            "removeDuplicates": "Remove Duplicates",
+            "percentageCalc": "Percentage Calc",
+            "unitConverter": "Unit Converter",
+            "tipCalculator": "Tip Calculator",
+            "loanCalculator": "Loan Calculator",
+            "discountCalc": "Discount Calculator",
+            "gpaCalculator": "GPA Calculator",
+            "ageCalculator": "Age Calculator",
+            "daysBetween": "Days Between",
+            "ageDifference": "Age Difference",
+            "passwordGen": "Password Generator",
+            "loremIpsum": "Lorem Ipsum",
+            "randomNumber": "Random Number",
+            "coinFlip": "Coin Flip",
+            "diceRoller": "Dice Roller",
+            "randomName": "Random Name",
+            "jsonFormatter": "JSON Formatter",
+            "base64Tool": "Base64 Tool",
+            "qrCodeReader": "QR Code Reader",
+            "curlBuilder": "cURL Builder",
+            "sha256Gen": "SHA-256 Generator",
+            "markdownToHtml": "Markdown to HTML",
+            "aiBioGen": "AI Bio Generator",
+            "paraphrasingTool": "Paraphrasing Tool",
+            "textSummarizer": "Text Summarizer",
+            "coverLetterGen": "Cover Letter Gen",
+            "hashtagGen": "Hashtag Generator",
+            "captionGen": "Caption Generator",
+            "colorConverter": "Color Converter",
+            "hexToRgb": "Hex to RGB",
+            "colorPaletteGen": "Color Palette Gen",
+            "gradientGen": "Gradient Generator",
+            "colorNameFinder": "Color Name Finder",
+            "aspectRatioCalc": "Aspect Ratio Calc",
+        },
+        "viewAll": "View all 136 tools →",
+        "browseAll": "Browse all {cat} →",
+    },
+    "es": {
+        "categories": {
+            "textTools": "Herramientas de texto",
+            "numbers": "Números",
+            "timeDate": "Tiempo y fecha",
+            "generators": "Generadores",
+            "devTools": "Herramientas dev",
+            "writingAI": "Escritura e IA",
+            "colorsDesign": "Colores y diseño",
+        },
+        "tools": {
+            "wordCounter": "Contador de palabras",
+            "characterCounter": "Contador de caracteres",
+            "textRepeater": "Repetidor de texto",
+            "sortLines": "Ordenar líneas",
+            "textDiff": "Comparador de texto",
+            "removeDuplicates": "Eliminar duplicados",
+            "percentageCalc": "Calculadora de %",
+            "unitConverter": "Conversor de unidades",
+            "tipCalculator": "Calculadora de propina",
+            "loanCalculator": "Calculadora de préstamo",
+            "discountCalc": "Calculadora de descuento",
+            "gpaCalculator": "Calculadora GPA",
+            "ageCalculator": "Calculadora de edad",
+            "daysBetween": "Días entre fechas",
+            "ageDifference": "Diferencia de edad",
+            "passwordGen": "Generador de contraseñas",
+            "loremIpsum": "Lorem Ipsum",
+            "randomNumber": "Número aleatorio",
+            "coinFlip": "Lanzar moneda",
+            "diceRoller": "Lanzar dado",
+            "randomName": "Nombre aleatorio",
+            "jsonFormatter": "Formateador JSON",
+            "base64Tool": "Herramienta Base64",
+            "qrCodeReader": "Lector de QR",
+            "curlBuilder": "Constructor cURL",
+            "sha256Gen": "Generador SHA-256",
+            "markdownToHtml": "Markdown a HTML",
+            "aiBioGen": "Generador de bio IA",
+            "paraphrasingTool": "Parafraseador",
+            "textSummarizer": "Resumidor de texto",
+            "coverLetterGen": "Generador de carta",
+            "hashtagGen": "Generador de hashtags",
+            "captionGen": "Generador de subtítulos",
+            "colorConverter": "Conversor de color",
+            "hexToRgb": "Hex a RGB",
+            "colorPaletteGen": "Generador de paleta",
+            "gradientGen": "Generador de gradiente",
+            "colorNameFinder": "Buscador de color",
+            "aspectRatioCalc": "Calc. relación aspecto",
+        },
+        "viewAll": "Ver las 136 herramientas →",
+        "browseAll": "Explorar {cat} →",
+    },
+    "de": {
+        "categories": {
+            "textTools": "Textwerkzeuge",
+            "numbers": "Zahlen",
+            "timeDate": "Zeit & Datum",
+            "generators": "Generatoren",
+            "devTools": "Entwicklertools",
+            "writingAI": "Schreiben & KI",
+            "colorsDesign": "Farben & Design",
+        },
+        "tools": {
+            "wordCounter": "Wortzähler",
+            "characterCounter": "Zeichenzähler",
+            "textRepeater": "Textwiederholer",
+            "sortLines": "Zeilen sortieren",
+            "textDiff": "Textvergleich",
+            "removeDuplicates": "Duplikate entfernen",
+            "percentageCalc": "Prozentrechner",
+            "unitConverter": "Einheitenumrechner",
+            "tipCalculator": "Trinkgeldrechner",
+            "loanCalculator": "Kreditrechner",
+            "discountCalc": "Rabattrechner",
+            "gpaCalculator": "GPA-Rechner",
+            "ageCalculator": "Altersrechner",
+            "daysBetween": "Tage zwischen",
+            "ageDifference": "Altersunterschied",
+            "passwordGen": "Passwortgenerator",
+            "loremIpsum": "Lorem Ipsum",
+            "randomNumber": "Zufallszahl",
+            "coinFlip": "Münzwurf",
+            "diceRoller": "Würfeln",
+            "randomName": "Zufälliger Name",
+            "jsonFormatter": "JSON-Formatierer",
+            "base64Tool": "Base64-Tool",
+            "qrCodeReader": "QR-Code-Leser",
+            "curlBuilder": "cURL-Builder",
+            "sha256Gen": "SHA-256-Generator",
+            "markdownToHtml": "Markdown zu HTML",
+            "aiBioGen": "KI-Bio-Generator",
+            "paraphrasingTool": "Paraphrasierungstool",
+            "textSummarizer": "Textzusammenfassung",
+            "coverLetterGen": "Anschreiben-Generator",
+            "hashtagGen": "Hashtag-Generator",
+            "captionGen": "Untertitel-Generator",
+            "colorConverter": "Farbkonverter",
+            "hexToRgb": "Hex zu RGB",
+            "colorPaletteGen": "Farbpaletten-Generator",
+            "gradientGen": "Farbverlauf-Generator",
+            "colorNameFinder": "Farbname-Finder",
+            "aspectRatioCalc": "Seitenverhältnis-Rechner",
+        },
+        "viewAll": "Alle 136 Tools anzeigen →",
+        "browseAll": "Alle {cat} durchsuchen →",
+    },
+    "ru": {
+        "categories": {
+            "textTools": "Текстовые инструменты",
+            "numbers": "Числа",
+            "timeDate": "Время и дата",
+            "generators": "Генераторы",
+            "devTools": "Инструменты разработчика",
+            "writingAI": "Написание и ИИ",
+            "colorsDesign": "Цвета и дизайн",
+        },
+        "tools": {
+            "wordCounter": "Счётчик слов",
+            "characterCounter": "Счётчик символов",
+            "textRepeater": "Повторитель текста",
+            "sortLines": "Сортировка строк",
+            "textDiff": "Сравнение текста",
+            "removeDuplicates": "Удалить дубликаты",
+            "percentageCalc": "Калькулятор %",
+            "unitConverter": "Конвертер единиц",
+            "tipCalculator": "Калькулятор чаевых",
+            "loanCalculator": "Калькулятор кредита",
+            "discountCalc": "Калькулятор скидки",
+            "gpaCalculator": "Калькулятор GPA",
+            "ageCalculator": "Калькулятор возраста",
+            "daysBetween": "Дни между датами",
+            "ageDifference": "Разница в возрасте",
+            "passwordGen": "Генератор паролей",
+            "loremIpsum": "Lorem Ipsum",
+            "randomNumber": "Случайное число",
+            "coinFlip": "Подбросить монету",
+            "diceRoller": "Бросить кубик",
+            "randomName": "Случайное имя",
+            "jsonFormatter": "Форматтер JSON",
+            "base64Tool": "Инструмент Base64",
+            "qrCodeReader": "Читатель QR-кода",
+            "curlBuilder": "Конструктор cURL",
+            "sha256Gen": "Генератор SHA-256",
+            "markdownToHtml": "Markdown в HTML",
+            "aiBioGen": "ИИ-генератор биографий",
+            "paraphrasingTool": "Инструмент перефразирования",
+            "textSummarizer": "Краткое изложение",
+            "coverLetterGen": "Генератор сопроводительного письма",
+            "hashtagGen": "Генератор хэштегов",
+            "captionGen": "Генератор подписей",
+            "colorConverter": "Конвертер цветов",
+            "hexToRgb": "Hex в RGB",
+            "colorPaletteGen": "Генератор палитры",
+            "gradientGen": "Генератор градиента",
+            "colorNameFinder": "Поиск названия цвета",
+            "aspectRatioCalc": "Калькулятор соотношения",
+        },
+        "viewAll": "Все 136 инструментов →",
+        "browseAll": "Все {cat} →",
+    },
+    "hi": {
+        "categories": {
+            "textTools": "टेक्स्ट टूल्स",
+            "numbers": "संख्याएँ",
+            "timeDate": "समय और तारीख",
+            "generators": "जनरेटर",
+            "devTools": "डेव टूल्स",
+            "writingAI": "लेखन और AI",
+            "colorsDesign": "रंग और डिज़ाइन",
+        },
+        "tools": {
+            "wordCounter": "शब्द गणना",
+            "characterCounter": "वर्ण गणना",
+            "textRepeater": "टेक्स्ट रिपीटर",
+            "sortLines": "पंक्तियाँ क्रमबद्ध करें",
+            "textDiff": "टेक्स्ट तुलना",
+            "removeDuplicates": "डुप्लीकेट हटाएं",
+            "percentageCalc": "प्रतिशत कैलकुलेटर",
+            "unitConverter": "इकाई परिवर्तक",
+            "tipCalculator": "टिप कैलकुलेटर",
+            "loanCalculator": "ऋण कैलकुलेटर",
+            "discountCalc": "छूट कैलकुलेटर",
+            "gpaCalculator": "GPA कैलकुलेटर",
+            "ageCalculator": "आयु कैलकुलेटर",
+            "daysBetween": "दिनों के बीच",
+            "ageDifference": "आयु अंतर",
+            "passwordGen": "पासवर्ड जनरेटर",
+            "loremIpsum": "Lorem Ipsum",
+            "randomNumber": "यादृच्छिक संख्या",
+            "coinFlip": "सिक्का उछालें",
+            "diceRoller": "पासा फेंकें",
+            "randomName": "यादृच्छिक नाम",
+            "jsonFormatter": "JSON फॉर्मेटर",
+            "base64Tool": "Base64 टूल",
+            "qrCodeReader": "QR कोड रीडर",
+            "curlBuilder": "cURL बिल्डर",
+            "sha256Gen": "SHA-256 जनरेटर",
+            "markdownToHtml": "Markdown से HTML",
+            "aiBioGen": "AI बायो जनरेटर",
+            "paraphrasingTool": "पैराफ्रेजिंग टूल",
+            "textSummarizer": "टेक्स्ट सारांश",
+            "coverLetterGen": "कवर लेटर जनरेटर",
+            "hashtagGen": "हैशटैग जनरेटर",
+            "captionGen": "कैप्शन जनरेटर",
+            "colorConverter": "रंग परिवर्तक",
+            "hexToRgb": "Hex से RGB",
+            "colorPaletteGen": "रंग पैलेट जनरेटर",
+            "gradientGen": "ग्रेडिएंट जनरेटर",
+            "colorNameFinder": "रंग नाम खोजक",
+            "aspectRatioCalc": "आस्पेक्ट रेशियो कैलकुलेटर",
+        },
+        "viewAll": "सभी 136 टूल्स देखें →",
+        "browseAll": "सभी {cat} →",
+    },
+    "ar": {
+        "categories": {
+            "textTools": "أدوات النصوص",
+            "numbers": "الأرقام",
+            "timeDate": "الوقت والتاريخ",
+            "generators": "المولّدات",
+            "devTools": "أدوات المطورين",
+            "writingAI": "الكتابة والذكاء الاصطناعي",
+            "colorsDesign": "الألوان والتصميم",
+        },
+        "tools": {
+            "wordCounter": "عداد الكلمات",
+            "characterCounter": "عداد الأحرف",
+            "textRepeater": "مكرر النص",
+            "sortLines": "ترتيب الأسطر",
+            "textDiff": "مقارنة النصوص",
+            "removeDuplicates": "إزالة التكرار",
+            "percentageCalc": "حاسبة النسبة",
+            "unitConverter": "محوّل الوحدات",
+            "tipCalculator": "حاسبة الإكرامية",
+            "loanCalculator": "حاسبة القرض",
+            "discountCalc": "حاسبة الخصم",
+            "gpaCalculator": "حاسبة المعدل",
+            "ageCalculator": "حاسبة العمر",
+            "daysBetween": "الأيام بين تاريخين",
+            "ageDifference": "فارق العمر",
+            "passwordGen": "مولّد كلمات المرور",
+            "loremIpsum": "Lorem Ipsum",
+            "randomNumber": "رقم عشوائي",
+            "coinFlip": "رمي العملة",
+            "diceRoller": "رمي النرد",
+            "randomName": "اسم عشوائي",
+            "jsonFormatter": "منسّق JSON",
+            "base64Tool": "أداة Base64",
+            "qrCodeReader": "قارئ QR",
+            "curlBuilder": "منشئ cURL",
+            "sha256Gen": "مولّد SHA-256",
+            "markdownToHtml": "Markdown إلى HTML",
+            "aiBioGen": "مولّد السيرة الذاتية بالذكاء الاصطناعي",
+            "paraphrasingTool": "أداة إعادة الصياغة",
+            "textSummarizer": "ملخّص النصوص",
+            "coverLetterGen": "مولّد خطاب التقديم",
+            "hashtagGen": "مولّد الهاشتاق",
+            "captionGen": "مولّد التعليقات",
+            "colorConverter": "محوّل الألوان",
+            "hexToRgb": "Hex إلى RGB",
+            "colorPaletteGen": "مولّد لوحة الألوان",
+            "gradientGen": "مولّد التدرج",
+            "colorNameFinder": "باحث اسم اللون",
+            "aspectRatioCalc": "حاسبة نسبة العرض",
+        },
+        "viewAll": "عرض جميع الأدوات الـ 136 →",
+        "browseAll": "تصفح {cat} →",
+    },
+    "pl": {
+        "categories": {
+            "textTools": "Narzędzia tekstowe",
+            "numbers": "Liczby",
+            "timeDate": "Czas i data",
+            "generators": "Generatory",
+            "devTools": "Narzędzia deweloperskie",
+            "writingAI": "Pisanie i AI",
+            "colorsDesign": "Kolory i design",
+        },
+        "tools": {
+            "wordCounter": "Licznik słów",
+            "characterCounter": "Licznik znaków",
+            "textRepeater": "Powtarzacz tekstu",
+            "sortLines": "Sortuj linie",
+            "textDiff": "Porównywarka tekstu",
+            "removeDuplicates": "Usuń duplikaty",
+            "percentageCalc": "Kalkulator %",
+            "unitConverter": "Przelicznik jednostek",
+            "tipCalculator": "Kalkulator napiwku",
+            "loanCalculator": "Kalkulator kredytu",
+            "discountCalc": "Kalkulator rabatu",
+            "gpaCalculator": "Kalkulator GPA",
+            "ageCalculator": "Kalkulator wieku",
+            "daysBetween": "Dni między datami",
+            "ageDifference": "Różnica wieku",
+            "passwordGen": "Generator haseł",
+            "loremIpsum": "Lorem Ipsum",
+            "randomNumber": "Losowa liczba",
+            "coinFlip": "Rzut monetą",
+            "diceRoller": "Rzut kostką",
+            "randomName": "Losowe imię",
+            "jsonFormatter": "Formater JSON",
+            "base64Tool": "Narzędzie Base64",
+            "qrCodeReader": "Czytnik QR",
+            "curlBuilder": "Kreator cURL",
+            "sha256Gen": "Generator SHA-256",
+            "markdownToHtml": "Markdown do HTML",
+            "aiBioGen": "Generator bio AI",
+            "paraphrasingTool": "Narzędzie parafrazy",
+            "textSummarizer": "Podsumowanie tekstu",
+            "coverLetterGen": "Generator listu motywacyjnego",
+            "hashtagGen": "Generator hashtagów",
+            "captionGen": "Generator podpisów",
+            "colorConverter": "Konwerter kolorów",
+            "hexToRgb": "Hex na RGB",
+            "colorPaletteGen": "Generator palety kolorów",
+            "gradientGen": "Generator gradientu",
+            "colorNameFinder": "Wyszukiwarka nazw kolorów",
+            "aspectRatioCalc": "Kalkulator proporcji",
+        },
+        "viewAll": "Zobacz wszystkie 136 narzędzi →",
+        "browseAll": "Przeglądaj {cat} →",
+    },
+}
+
+def build_megamenu_block(data):
+    cats = data["categories"]
+    tools = data["tools"]
+    view_all = data["viewAll"]
+    browse_all = data["browseAll"]
+
+    lines = ["    megaMenu: {"]
+    lines.append("      categories: {")
+    for k, v in cats.items():
+        lines.append(f'        {k}: "{v}",')
+    lines.append("      },")
+    lines.append("      tools: {")
+    for k, v in tools.items():
+        # Escape any quotes in the value
+        v_escaped = v.replace('"', '\\"')
+        lines.append(f'        {k}: "{v_escaped}",')
+    lines.append("      },")
+    lines.append(f'      viewAll: "{view_all}",')
+    lines.append(f'      browseAll: "{browse_all}",')
+    lines.append("    },")
+    return "\n".join(lines)
+
+for locale, data in TRANSLATIONS.items():
+    filepath = os.path.join(BASE, locale, "common.ts")
+    if not os.path.exists(filepath):
+        print(f"SKIP: {filepath} not found")
+        continue
+
+    with open(filepath, "r") as f:
+        content = f.read()
+
+    # Check if megaMenu already exists
+    if "megaMenu:" in content:
+        print(f"SKIP: {locale} already has megaMenu")
+        continue
+
+    # Insert megaMenu block just before the closing of nav: { ... }
+    # Find the nav block closing brace
+    block = build_megamenu_block(data)
+
+    # Find "closeMenu" or "openMenu" line (last item in nav) and insert after it
+    # Pattern: find the last key in nav before the closing },
+    # We'll insert before the closing `  },` of nav
+    # Strategy: find `    openMenu:` line and insert after it
+    if '    openMenu:' in content:
+        content = content.replace(
+            '    openMenu:',
+            block + '\n    openMenu:',
+            1
+        )
+        with open(filepath, "w") as f:
+            f.write(content)
+        print(f"OK: {locale} — megaMenu block added")
+    else:
+        print(f"WARN: {locale} — could not find insertion point (openMenu key missing)")
+
+print("Done!")
