@@ -305,3 +305,76 @@
     display: inline-block;
   }
 }
+
+/* ── SEO Article Content (rendered server-side via set:html from Supabase) ── */
+.seo-article-content h2 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  font-size: 1.4rem;
+  color: #1A1A1A;
+  letter-spacing: -0.02em;
+  margin-bottom: 1rem;
+  margin-top: 0;
+}
+.seo-article-content h3 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #1A1A1A;
+  margin-bottom: 0.75rem;
+  margin-top: 1.5rem;
+}
+.seo-article-content p {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  color: #4B5563;
+  line-height: 1.75;
+  margin-bottom: 1.5rem;
+}
+.seo-article-content .callout {
+  background: #F7F6F1;
+  border: 1.5px solid #E8E6DE;
+  border-radius: 0.875rem;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.seo-article-content .callout p {
+  font-size: 0.9rem;
+  color: #374151;
+  margin: 0;
+}
+.seo-article-content .table-wrap {
+  overflow-x: auto;
+  border-radius: 0.875rem;
+  border: 1.5px solid #E8E6DE;
+  margin-bottom: 1.5rem;
+}
+.seo-article-content table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.seo-article-content thead {
+  background: #F7F6F1;
+}
+.seo-article-content th {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #1A1A1A;
+  border-bottom: 2px solid #E8E6DE;
+}
+.seo-article-content td {
+  padding: 0.65rem 1rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  color: #374151;
+  border-bottom: 1px solid #F0EEE8;
+}
+.seo-article-content tr:nth-child(odd) td {
+  background: #FAFAF7;
+}
+.seo-article-content tr:nth-child(even) td {
+  background: white;
+}

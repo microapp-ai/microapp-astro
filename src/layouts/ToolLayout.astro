@@ -268,6 +268,14 @@ const categories = [
           <slot name="ratings" />
         </div>
 
+        <!-- ── SEO Article (server-rendered from Supabase seo_article field) ── -->
+        {tool.seoArticle && (
+          <div
+            class="seo-article-content max-w-3xl mt-14 pt-10 border-t border-[#E8E6DE]"
+            set:html={tool.seoArticle}
+          />
+        )}
+
       </div>
     </main>
 

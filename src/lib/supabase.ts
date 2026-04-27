@@ -51,7 +51,10 @@ export async function getAllTools(): Promise<ToolMetadata[]> {
     return [];
   }
 
-  return (data || []) as ToolMetadata[];
+  return (data || []).map((row: Record<string, unknown>) => ({
+    ...row,
+    seoArticle: row.seo_article as string | undefined,
+  })) as ToolMetadata[];
 }
 
 /**
@@ -69,7 +72,11 @@ export async function getToolBySlug(slug: string): Promise<ToolMetadata | null> 
     return null;
   }
 
-  return data as ToolMetadata;
+  const row = data as Record<string, unknown>;
+  return {
+    ...row,
+    seoArticle: row.seo_article as string | undefined,
+  } as ToolMetadata;
 }
 
 /**
@@ -91,7 +98,7 @@ export async function getToolTranslation(
   try {
     const { data, error } = await supabase
       .from("tool_metadata_translations")
-      .select("slug, locale, label, short_desc, title, description, intro, how_to, faqs, keywords")
+      .select("slug, locale, label, short_desc, title, description, intro, how_to, faqs, keywords, seo_article")
       .eq("slug", slug)
       .eq("locale", locale)
       .single();
@@ -99,11 +106,12 @@ export async function getToolTranslation(
     if (error || !data) return null;
 
     // Map DB column names → ToolMetadata field names
-    const { short_desc, how_to, ...rest } = data as Record<string, unknown>;
+    const { short_desc, how_to, seo_article, ...rest } = data as Record<string, unknown>;
     return {
       ...rest,
       ...(short_desc != null ? { desc: short_desc as string } : {}),
       ...(how_to != null ? { howTo: how_to as string[] } : {}),
+      ...(seo_article != null ? { seoArticle: seo_article as string } : {}),
     } as Partial<ToolMetadata>;
   } catch {
     // Table doesn't exist yet — return null so caller falls back to English

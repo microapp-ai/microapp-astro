@@ -4,6 +4,10 @@
  * Translates tool metadata from English into one or more locales
  * and upserts the results into the `tool_metadata_translations` table in Supabase.
  *
+ * Also generates a translated seo_article HTML string for each tool/locale.
+ * The English seo_article is read from the `tool_metadata` table (seo_article column)
+ * and translated into the target locale, then stored in tool_metadata_translations.
+ *
  * Usage:
  *   node scripts/translate-tools.mjs --locale es
  *   node scripts/translate-tools.mjs --locale es --slug word-counter
@@ -108,7 +112,7 @@ async function callLLM(messages, responseFormat) {
   return json.choices?.[0]?.message?.content || "";
 }
 
-// ── Translation function ───────────────────────────────────────────────────────
+// ── Translation function (metadata fields) ───────────────────────────────────
 async function translateTool(tool, locale) {
   const langName = LOCALE_NAMES[locale] || locale;
 
@@ -131,7 +135,7 @@ ${JSON.stringify({
   title: tool.title,
   description: tool.description,
   intro: tool.intro,
-  how_to: tool.howTo,
+  how_to: tool.howTo || tool.how_to,
   faqs: tool.faqs,
   keywords: tool.keywords,
 }, null, 2)}`;
@@ -190,6 +194,53 @@ ${JSON.stringify({
   return JSON.parse(content);
 }
 
+// ── SEO Article translation function ─────────────────────────────────────────
+/**
+ * Translates the English seo_article HTML into the target locale.
+ * Returns the translated HTML string, or null if no English article exists.
+ *
+ * The HTML uses these CSS classes (styled in global.css):
+ *   .callout  — highlighted info box
+ *   .table-wrap — scrollable table wrapper
+ * Standard tags: h2, h3, p, table, thead, tbody, tr, th, td
+ */
+async function translateSeoArticle(englishHtml, locale) {
+  if (!englishHtml) return null;
+
+  const langName = LOCALE_NAMES[locale] || locale;
+
+  const prompt = `You are a professional web content translator for a utility tools website called Microapp.
+
+Translate the following HTML article from English into ${langName}.
+
+CRITICAL RULES:
+1. Return ONLY the translated HTML — no markdown, no code fences, no explanation
+2. Keep ALL HTML tags, attributes, and CSS class names EXACTLY as-is (do not translate class names)
+3. Only translate the visible text content inside tags
+4. Keep numbers, units, and technical terms accurate
+5. Preserve the exact HTML structure — do not add or remove tags
+6. The HTML uses these CSS classes: .callout (info box), .table-wrap (table wrapper)
+7. Make the translation natural and fluent in ${langName}, not word-for-word literal
+
+English HTML to translate:
+${englishHtml}`;
+
+  const content = await callLLM([
+    {
+      role: "system",
+      content: `You are a professional HTML content translator. Return only the translated HTML, preserving all tags and attributes exactly.`,
+    },
+    { role: "user", content: prompt },
+  ]);
+
+  // Strip any accidental markdown code fences
+  return content
+    .replace(/^```html\s*/i, "")
+    .replace(/^```\s*/i, "")
+    .replace(/\s*```$/i, "")
+    .trim();
+}
+
 // ── Main ───────────────────────────────────────────────────────────────────────
 async function main() {
   console.log(`\n🌐 Translating tools into: ${locales.join(", ")}`);
@@ -216,26 +267,38 @@ async function main() {
     for (const locale of locales) {
       process.stdout.write(`  [${locale}] ${tool.slug} ... `);
       try {
+        // Translate metadata fields
         const translated = await translateTool(tool, locale);
+
+        // Translate seo_article if it exists in the English tool_metadata
+        let translatedSeoArticle = null;
+        if (tool.seo_article) {
+          process.stdout.write(`(translating article) `);
+          translatedSeoArticle = await translateSeoArticle(tool.seo_article, locale);
+        }
+
+        const upsertData = {
+          slug: tool.slug,
+          locale,
+          label: translated.label,
+          short_desc: translated.short_desc,
+          title: translated.title,
+          description: translated.description,
+          intro: translated.intro,
+          how_to: translated.how_to,
+          faqs: translated.faqs,
+          keywords: translated.keywords,
+          updated_at: new Date().toISOString(),
+        };
+
+        // Only include seo_article if we have a translation
+        if (translatedSeoArticle) {
+          upsertData.seo_article = translatedSeoArticle;
+        }
 
         const { error: upsertError } = await supabase
           .from("tool_metadata_translations")
-          .upsert(
-            {
-              slug: tool.slug,
-              locale,
-              label: translated.label,
-              short_desc: translated.short_desc,
-              title: translated.title,
-              description: translated.description,
-              intro: translated.intro,
-              how_to: translated.how_to,
-              faqs: translated.faqs,
-              keywords: translated.keywords,
-              updated_at: new Date().toISOString(),
-            },
-            { onConflict: "slug,locale" }
-          );
+          .upsert(upsertData, { onConflict: "slug,locale" });
 
         if (upsertError) {
           console.log(`❌ DB error: ${upsertError.message}`);

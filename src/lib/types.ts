@@ -33,4 +33,5 @@ export interface ToolMetadata {
   relatedTools: RelatedTool[];
   tier: number;
   isActive: boolean;
+  seoArticle?: string;
 }
