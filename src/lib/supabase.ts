@@ -76,11 +76,13 @@ export async function getToolBySlug(slug: string): Promise<ToolMetadata | null> 
  * Fetch a translated version of a tool's metadata for a given locale.
  * Returns null if no translation exists (caller should fall back to English).
  *
- * This assumes a `tool_metadata_translations` table with columns:
- *   slug TEXT, locale TEXT, title TEXT, description TEXT, intro TEXT,
- *   keywords TEXT[], how_to_steps JSONB, faqs JSONB
+ * Table: tool_metadata_translations
+ *   slug TEXT, locale TEXT, label TEXT, short_desc TEXT, title TEXT,
+ *   description TEXT, intro TEXT, how_to JSONB, faqs JSONB, keywords TEXT[]
  *
- * If the table doesn't exist yet, this returns null gracefully.
+ * Column name mapping:
+ *   short_desc → desc   (desc is a reserved word in PostgreSQL)
+ *   how_to     → howTo  (snake_case → camelCase for ToolMetadata)
  */
 export async function getToolTranslation(
   slug: string,
@@ -89,13 +91,20 @@ export async function getToolTranslation(
   try {
     const { data, error } = await supabase
       .from("tool_metadata_translations")
-      .select("*")
+      .select("slug, locale, label, short_desc, title, description, intro, how_to, faqs, keywords")
       .eq("slug", slug)
       .eq("locale", locale)
       .single();
 
     if (error || !data) return null;
-    return data as Partial<ToolMetadata>;
+
+    // Map DB column names → ToolMetadata field names
+    const { short_desc, how_to, ...rest } = data as Record<string, unknown>;
+    return {
+      ...rest,
+      ...(short_desc != null ? { desc: short_desc as string } : {}),
+      ...(how_to != null ? { howTo: how_to as string[] } : {}),
+    } as Partial<ToolMetadata>;
   } catch {
     // Table doesn't exist yet — return null so caller falls back to English
     return null;
