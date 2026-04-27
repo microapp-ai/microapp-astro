@@ -14,6 +14,7 @@
  * The interactive tool widget is a React island (client:load).
  */
 import BaseLayout from "./BaseLayout.astro";
+import HomeFooter from "../components/HomeFooter.astro";
 import type { ToolMetadata } from "../lib/types";
 import type { Locale } from "../i18n/config";
 import { useTranslations, localizeUrl } from "../i18n/utils";
@@ -283,56 +284,7 @@ const categories = [
       </div>
     </main>
 
-    <!-- ── Footer (static HTML) ── -->
-    <footer style="background:#1A1A1A;color:white;padding:3rem 0 2rem">
-      <div class="container">
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2rem;margin-bottom:2.5rem">
-          <div>
-            <a href="/" style="display:inline-block;margin-bottom:1rem">
-              <picture>
-                <source srcset={logoWebpUrl} type="image/webp" />
-                <img src={logoPngUrl} alt="Microapp" width="120" height="28" style="height:22px;width:auto;filter:brightness(0) invert(1)" />
-              </picture>
-            </a>
-            <p style="font-family:'Inter',sans-serif;font-size:0.875rem;color:#9CA3AF;line-height:1.6;max-width:28ch">
-              Free online utility tools for everyone. No signup, no ads on tools.
-            </p>
-          </div>
-          <div>
-            <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.875rem;color:white;margin-bottom:0.875rem;text-transform:uppercase;letter-spacing:0.05em">
-              Categories
-            </h3>
-            <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.5rem">
-              {categories.map((c) => (
-                <li>
-                  <a href={c.href} style="font-family:'Inter',sans-serif;font-size:0.875rem;color:#9CA3AF;text-decoration:none" class="hover:text-white transition-colors">
-                    {c.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.875rem;color:white;margin-bottom:0.875rem;text-transform:uppercase;letter-spacing:0.05em">
-              Company
-            </h3>
-            <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.5rem">
-              <li><a href="/about" style="font-family:'Inter',sans-serif;font-size:0.875rem;color:#9CA3AF;text-decoration:none" class="hover:text-white transition-colors">About</a></li>
-              <li><a href="/privacy-policy" style="font-family:'Inter',sans-serif;font-size:0.875rem;color:#9CA3AF;text-decoration:none" class="hover:text-white transition-colors">Privacy Policy</a></li>
-              <li><a href="/terms-of-service" style="font-family:'Inter',sans-serif;font-size:0.875rem;color:#9CA3AF;text-decoration:none" class="hover:text-white transition-colors">Terms</a></li>
-            </ul>
-          </div>
-        </div>
-        <div style="border-top:1px solid #374151;padding-top:1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
-          <p style="font-family:'Inter',sans-serif;font-size:0.8rem;color:#6B7280;margin:0">
-            © {new Date().getFullYear()} Microapp. All rights reserved.
-          </p>
-          <p style="font-family:'Inter',sans-serif;font-size:0.8rem;color:#6B7280;margin:0">
-            Made with ♥ for the web
-          </p>
-        </div>
-      </div>
-    </footer>
+    <HomeFooter lang={lang} />
     <!-- Default slot for global overlays (AuthModal, etc.) -->
     <slot />
   </div>

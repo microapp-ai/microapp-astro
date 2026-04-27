@@ -2,6 +2,7 @@
 export const prerender = true;
 import BaseLayout from "../layouts/BaseLayout.astro";
 import HomeNav from "../components/HomeNav.astro";
+import HomeFooter from "../components/HomeFooter.astro";
 import AuthModal from "../components/AuthModal";
 ---
 <BaseLayout
@@ -66,13 +67,7 @@ import AuthModal from "../components/AuthModal";
       </div>
     </main>
 
-    <footer style="background:#1A1A1A;color:white;padding:2rem 0;text-align:center">
-      <p style="font-family:'Inter',sans-serif;font-size:0.85rem;color:#6B7280;margin:0">
-        © {new Date().getFullYear()} Microapp. All rights reserved. ·
-        <a href="/privacy-policy" style="color:#9CA3AF;text-decoration:none;margin:0 0.5rem">Privacy</a> ·
-        <a href="/terms-of-service" style="color:#9CA3AF;text-decoration:none;margin:0 0.5rem">Terms</a>
-      </p>
-    </footer>
+    <HomeFooter />
   </div>
   <AuthModal client:load />
 </BaseLayout>

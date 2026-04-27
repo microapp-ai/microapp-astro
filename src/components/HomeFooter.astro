@@ -1,42 +1,57 @@
 ---
 /**
- * HomeFooter.astro — Improved home page footer
+ * HomeFooter.astro — Shared footer used on all pages
+ * Accepts an optional lang prop; defaults to "en"
  */
-import { localizeUrl } from "../i18n/utils";
+import { useTranslations, localizeUrl } from "../i18n/utils";
 import { type Locale } from "../i18n/config";
 
 interface Props { lang?: Locale; }
 const { lang = "en" } = Astro.props;
+const t = await useTranslations(lang);
 const l = (path: string) => localizeUrl(path, lang);
 
 const logoWebpUrl = "/images/microapp-logo-optimized.webp";
 const logoPngUrl  = "/images/microapp-logo-optimized.png";
 
 const categories = [
-  { label: "Text Tools",      href: l("/categories/text-tools"),         icon: "T" },
-  { label: "Numbers",         href: l("/categories/number-calculators"),  icon: "#" },
-  { label: "Time & Date",     href: l("/categories/time-date-tools"),    icon: "⏱" },
-  { label: "Generators",      href: l("/categories/generators"),         icon: "⚡" },
-  { label: "Dev Tools",       href: l("/categories/dev-tools"),          icon: "></" },
-  { label: "Writing & AI",    href: l("/categories/writing-ai"),         icon: "✍" },
-  { label: "Colors & Design", href: l("/categories/color-design-tools"), icon: "🎨" },
+  { label: t("common.footer.catText"),       href: l("/categories/text-tools"),         icon: "T" },
+  { label: t("common.footer.catNumbers"),    href: l("/categories/number-calculators"),  icon: "#" },
+  { label: t("common.footer.catTime"),       href: l("/categories/time-date-tools"),    icon: "⏱" },
+  { label: t("common.footer.catGenerators"), href: l("/categories/generators"),         icon: "⚡" },
+  { label: t("common.footer.catDev"),        href: l("/categories/dev-tools"),          icon: "></"},
+  { label: t("common.footer.catWriting"),    href: l("/categories/writing-ai"),         icon: "✍" },
+  { label: t("common.footer.catColors"),     href: l("/categories/color-design-tools"), icon: "🎨" },
 ];
 
 const popularTools = [
-  { label: "Word Counter",        href: l("/word-counter") },
-  { label: "Age Calculator",      href: l("/age-calculator") },
-  { label: "Password Generator",  href: l("/password-generator") },
-  { label: "JSON Formatter",      href: l("/json-formatter") },
-  { label: "Unit Converter",      href: l("/unit-converter") },
-  { label: "Percentage Calc",     href: l("/percentage-calculator") },
-  { label: "QR Code Reader",      href: l("/qr-code-reader") },
-  { label: "Color Converter",     href: l("/color-converter") },
+  { label: t("common.footer.toolWordCounter"),       href: l("/word-counter") },
+  { label: t("common.footer.toolAgeCalculator"),     href: l("/age-calculator") },
+  { label: t("common.footer.toolPasswordGenerator"), href: l("/password-generator") },
+  { label: t("common.footer.toolJsonFormatter"),     href: l("/json-formatter") },
+  { label: t("common.footer.toolUnitConverter"),     href: l("/unit-converter") },
+  { label: t("common.footer.toolPercentageCalc"),    href: l("/percentage-calculator") },
+  { label: t("common.footer.toolQrCodeReader"),      href: l("/qr-code-reader") },
+  { label: t("common.footer.toolColorConverter"),    href: l("/color-converter") },
 ];
 
 const company = [
-  { label: "About",          href: "/about" },
-  { label: "Privacy Policy", href: "/privacy-policy" },
-  { label: "Terms of Service", href: "/terms-of-service" },
+  { label: t("common.footer.companyAbout"),   href: l("/about") },
+  { label: t("common.footer.companyPrivacy"), href: l("/privacy-policy") },
+  { label: t("common.footer.companyTerms"),   href: l("/terms-of-service") },
+];
+
+const trustBadges = [
+  { icon: "🔒", text: t("common.footer.privacyFirst") },
+  { icon: "⚡", text: t("common.footer.instantResults") },
+  { icon: "🆓", text: t("common.footer.alwaysFree") },
+];
+
+const stats = [
+  { value: "136+", label: t("common.footer.freeTools") },
+  { value: "0",    label: t("common.footer.signupsRequired") },
+  { value: "0",    label: t("common.footer.adsOnTools") },
+  { value: "100%", label: t("common.footer.browserBased") },
 ];
 ---
 
@@ -48,7 +63,7 @@ const company = [
 
       <!-- Left: logo + tagline -->
       <div>
-        <a href="/" style="display:inline-block;margin-bottom:1.25rem">
+        <a href={l("/")} style="display:inline-block;margin-bottom:1.25rem">
           <picture>
             <source srcset={logoWebpUrl} type="image/webp" />
             <img
@@ -61,15 +76,11 @@ const company = [
           </picture>
         </a>
         <p style="font-family:'Inter',sans-serif;font-size:0.95rem;color:#9CA3AF;line-height:1.7;max-width:36ch;margin:0 0 1.25rem">
-          136+ free online utility tools — no account needed, no ads on tools, no tracking of your inputs.
+          {t("common.footer.tagline")}
         </p>
         <!-- Trust badges -->
         <div style="display:flex;flex-wrap:wrap;gap:0.625rem">
-          {[
-            { icon: "🔒", text: "Privacy-first" },
-            { icon: "⚡", text: "Instant results" },
-            { icon: "🆓", text: "Always free" },
-          ].map(b => (
+          {trustBadges.map(b => (
             <span style="display:inline-flex;align-items:center;gap:0.375rem;padding:0.3rem 0.75rem;background:#1F2937;border-radius:9999px;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.75rem;font-weight:600;color:#D1D5DB">
               {b.icon} {b.text}
             </span>
@@ -77,23 +88,23 @@ const company = [
         </div>
       </div>
 
-      <!-- Right: newsletter / CTA -->
+      <!-- Right: CTA -->
       <div style="background:#1F2937;border-radius:1.25rem;padding:1.75rem">
         <p style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:1rem;color:white;margin:0 0 0.375rem">
-          New tools added every week
+          {t("common.footer.newTools")}
         </p>
         <p style="font-family:'Inter',sans-serif;font-size:0.875rem;color:#9CA3AF;margin:0 0 1.25rem;line-height:1.6">
-          Browse all categories and bookmark your favourites — no email required.
+          {t("common.footer.newToolsDesc")}
         </p>
         <a
-          href="/"
+          href={l("/")}
           style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.65rem 1.25rem;background:#1B6B45;border-radius:0.75rem;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.875rem;color:white;text-decoration:none;transition:background 0.15s"
           class="hover:bg-[#155538]"
         >
           <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
           </svg>
-          Browse all 136 tools
+          {t("common.footer.browseAll")}
         </a>
       </div>
 
@@ -107,7 +118,7 @@ const company = [
       <!-- Categories -->
       <div>
         <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.75rem;color:#6B7280;text-transform:uppercase;letter-spacing:0.1em;margin:0 0 1rem">
-          Categories
+          {t("common.footer.categories")}
         </h3>
         <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.5rem">
           {categories.map(c => (
@@ -128,17 +139,17 @@ const company = [
       <!-- Popular Tools -->
       <div>
         <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.75rem;color:#6B7280;text-transform:uppercase;letter-spacing:0.1em;margin:0 0 1rem">
-          Popular Tools
+          {t("common.footer.popularTools")}
         </h3>
         <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.5rem">
-          {popularTools.map(t => (
+          {popularTools.map(tool => (
             <li>
               <a
-                href={t.href}
+                href={tool.href}
                 style="font-family:'Inter',sans-serif;font-size:0.875rem;color:#9CA3AF;text-decoration:none;transition:color 0.15s"
                 class="hover:text-white"
               >
-                {t.label}
+                {tool.label}
               </a>
             </li>
           ))}
@@ -148,7 +159,7 @@ const company = [
       <!-- Company -->
       <div>
         <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.75rem;color:#6B7280;text-transform:uppercase;letter-spacing:0.1em;margin:0 0 1rem">
-          Company
+          {t("common.footer.company")}
         </h3>
         <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.5rem">
           {company.map(c => (
@@ -168,15 +179,10 @@ const company = [
       <!-- Stats / highlights -->
       <div>
         <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.75rem;color:#6B7280;text-transform:uppercase;letter-spacing:0.1em;margin:0 0 1rem">
-          By the numbers
+          {t("common.footer.byTheNumbers")}
         </h3>
         <div style="display:flex;flex-direction:column;gap:1rem">
-          {[
-            { value: "136+", label: "Free tools" },
-            { value: "0",    label: "Signups required" },
-            { value: "0",    label: "Ads on tools" },
-            { value: "100%", label: "Browser-based" },
-          ].map(s => (
+          {stats.map(s => (
             <div>
               <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.5rem;color:#FFE234;line-height:1">{s.value}</div>
               <div style="font-family:'Inter',sans-serif;font-size:0.8rem;color:#6B7280;margin-top:0.1rem">{s.label}</div>
@@ -192,13 +198,13 @@ const company = [
   <div style="border-top:1px solid #1F2937;padding:1.5rem 0">
     <div class="container flex flex-col sm:flex-row items-center justify-between gap-3">
       <p style="font-family:'Inter',sans-serif;font-size:0.8rem;color:#4B5563;margin:0">
-        © {new Date().getFullYear()} Microapp. All rights reserved.
+        © {new Date().getFullYear()} Microapp. {t("common.footer.allRightsReserved")}
       </p>
       <div style="display:flex;align-items:center;gap:1.5rem">
-        <a href="/privacy-policy" style="font-family:'Inter',sans-serif;font-size:0.8rem;color:#4B5563;text-decoration:none;transition:color 0.15s" class="hover:text-white">Privacy</a>
-        <a href="/terms-of-service" style="font-family:'Inter',sans-serif;font-size:0.8rem;color:#4B5563;text-decoration:none;transition:color 0.15s" class="hover:text-white">Terms</a>
-        <a href="/about" style="font-family:'Inter',sans-serif;font-size:0.8rem;color:#4B5563;text-decoration:none;transition:color 0.15s" class="hover:text-white">About</a>
-        <span style="font-family:'Inter',sans-serif;font-size:0.8rem;color:#4B5563">Made with ♥ for the web</span>
+        <a href={l("/privacy-policy")} style="font-family:'Inter',sans-serif;font-size:0.8rem;color:#4B5563;text-decoration:none;transition:color 0.15s" class="hover:text-white">{t("common.footer.privacy")}</a>
+        <a href={l("/terms-of-service")} style="font-family:'Inter',sans-serif;font-size:0.8rem;color:#4B5563;text-decoration:none;transition:color 0.15s" class="hover:text-white">{t("common.footer.terms")}</a>
+        <a href={l("/about")} style="font-family:'Inter',sans-serif;font-size:0.8rem;color:#4B5563;text-decoration:none;transition:color 0.15s" class="hover:text-white">{t("common.footer.about")}</a>
+        <span style="font-family:'Inter',sans-serif;font-size:0.8rem;color:#4B5563">{t("common.footer.madeWith")}</span>
       </div>
     </div>
   </div>
