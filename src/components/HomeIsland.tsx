@@ -239,6 +239,7 @@ interface HomeIslandTranslations {
     desc: string;
     cta: string;
   };
+  toolList?: Record<string, { label: string; desc: string }>;
 }
 
 const EN_TRANSLATIONS: HomeIslandTranslations = {
@@ -345,8 +346,11 @@ export default function Home({ lang = "en", translations }: HomeProps) {
   }, [search, activeCategory]);
 
   const filtered = uniqueTools.filter((t) => {
-    const matchSearch = t.label.toLowerCase().includes(search.toLowerCase()) ||
-      t.desc.toLowerCase().includes(search.toLowerCase());
+    const slug = t.href.replace(/^\//, "");
+    const tLabel = (tr.toolList?.[slug]?.label ?? t.label).toLowerCase();
+    const tDesc = (tr.toolList?.[slug]?.desc ?? t.desc).toLowerCase();
+    const matchSearch = tLabel.includes(search.toLowerCase()) ||
+      tDesc.includes(search.toLowerCase());
     const matchCat = activeCategory ? t.category === activeCategory : true;
     return matchSearch && matchCat;
   });
@@ -524,14 +528,14 @@ export default function Home({ lang = "en", translations }: HomeProps) {
                     <div>
                       <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.25rem" }}>
                         <h3 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 700, fontSize: "1rem", color: "#1A1A1A", margin: 0 }}>
-                          {tool.label}
+                          {tr.toolList?.[tool.href.replace(/^\//, "")]?.label ?? tool.label}
                         </h3>
                         {(tool as any).isNew && (
                           <span style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 700, fontSize: "0.65rem", color: "white", background: "#1B6B45", borderRadius: "9999px", padding: "0.1rem 0.45rem", letterSpacing: "0.04em", flexShrink: 0 }}>NEW</span>
                         )}
                       </div>
                       <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.875rem", color: "#6B7280", lineHeight: 1.5 }}>
-                        {tool.desc}
+                        {tr.toolList?.[tool.href.replace(/^\//, "")]?.desc ?? tool.desc}
                       </p>
                     </div>
                   </div>

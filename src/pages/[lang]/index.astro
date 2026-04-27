@@ -20,7 +20,8 @@ export function getStaticPaths() {
 
 const { lang } = Astro.params as { lang: Locale };
 const t = await useTranslations(lang);
-const { home: homeTranslations } = await getTranslations(lang);
+const { home: homeTranslations, common: commonTranslations } = await getTranslations(lang);
+const homeWithTools = { ...homeTranslations, toolList: (commonTranslations as any).toolList };
 const dir = getDir(lang);
 const localeName = LOCALES[lang].label;
 
@@ -46,7 +47,7 @@ const hreflangAlternates = [
 >
   <div class="min-h-screen bg-white flex flex-col">
     <HomeNav lang={lang} />
-    <HomeIsland client:only="react" lang={lang} translations={homeTranslations} />
+    <HomeIsland client:only="react" lang={lang} translations={homeWithTools} />
     <HomeFooter lang={lang} />
   </div>
   <AuthModal client:load />

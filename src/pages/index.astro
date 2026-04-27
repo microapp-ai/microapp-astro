@@ -15,7 +15,8 @@ import { LOCALE_CODES, NON_DEFAULT_LOCALES } from "../i18n/config";
 import { getTranslations } from "../i18n/utils";
 
 const siteUrl = "https://microapp.io";
-const { home: homeTranslations } = await getTranslations("en");
+const { home: homeTranslations, common: commonTranslations } = await getTranslations("en");
+const homeWithTools = { ...homeTranslations, toolList: (commonTranslations as any).toolList };
 
 const title = "Microapp — Free Online Tools for Everyone";
 const description = "100+ free online utility tools: word counter, age calculator, password generator, unit converter, and more. No signup required.";
@@ -41,7 +42,7 @@ const hreflangAlternates = [
   <div class="min-h-screen bg-white flex flex-col">
     <HomeNav lang="en" />
     <!-- React island: full interactive home page with category filtering -->
-    <HomeIsland client:load lang="en" translations={homeTranslations} />
+    <HomeIsland client:load lang="en" translations={homeWithTools} />
     <!-- Static footer (no JS needed) -->
     <HomeFooter lang="en" />
   </div>
