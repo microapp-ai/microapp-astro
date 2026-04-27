@@ -139,6 +139,36 @@ const common = {
     allCategories: "Alle Kategorien",
     browseAllTools: "Alle Tools durchsuchen",
   },
+  categoryList: {
+    "text-tools": {
+      label: "Textwerkzeuge",
+      description: "Wortzähler, Zeichenzähler, Textformatierer, Groß-/Kleinschreibungskonverter, Diff-Checker und mehr — alles kostenlos und sofort.",
+    },
+    "number-calculators": {
+      label: "Zahlenrechner",
+      description: "Prozentrechner, Einheitenumrechner, Kreditrechner, BMI, GPA, Trinkgeldrechner und Dutzende weiterer Mathe-Tools.",
+    },
+    "time-date-tools": {
+      label: "Zeit- und Datumswerkzeuge",
+      description: "Altersrechner, Datumsdifferenz-Tools, Countdown-Timer, Stoppuhr, Pomodoro-Timer und mehr.",
+    },
+    "generators": {
+      label: "Generatoren",
+      description: "Passwortgeneratoren, Lorem Ipsum, Zufallszahlengeneratoren, Münzwurf, Würfeln, Namensgeneratoren und mehr.",
+    },
+    "dev-tools": {
+      label: "Entwicklertools",
+      description: "JSON-Formatierer, Base64-Encoder, QR-Code-Leser, Regex-Tester, cURL-Builder, Markdown zu HTML und mehr.",
+    },
+    "writing-ai": {
+      label: "Schreiben & KI",
+      description: "KI-Bio-Generator, Paraphrasierungstool, Textzusammenfassung, Anschreiben-Generator, Hashtag-Generator und mehr.",
+    },
+    "color-design-tools": {
+      label: "Farben & Design",
+      description: "Farbkonverter, Hex zu RGB, Farbpaletten-Generator, Farbverlauf-Generator, Farbname-Finder und mehr.",
+    },
+  },
 } as const;
 
 export default common;

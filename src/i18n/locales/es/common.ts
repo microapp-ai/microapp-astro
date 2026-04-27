@@ -143,6 +143,36 @@ const common = {
     allCategories: "Todas las categorías",
     browseAllTools: "Explorar todas las herramientas",
   },
+  categoryList: {
+    "text-tools": {
+      label: "Herramientas de texto",
+      description: "Contadores de palabras, caracteres, formateadores de texto, conversores de mayúsculas, comparadores de diferencias y más — todos gratis e instantáneos.",
+    },
+    "number-calculators": {
+      label: "Calculadoras numéricas",
+      description: "Calculadoras de porcentaje, conversores de unidades, calculadoras de préstamo, IMC, GPA, propina y docenas de herramientas matemáticas más.",
+    },
+    "time-date-tools": {
+      label: "Herramientas de tiempo",
+      description: "Calculadoras de edad, diferencia de fechas, temporizadores de cuenta regresiva, cronómetro, temporizador Pomodoro y más.",
+    },
+    "generators": {
+      label: "Generadores",
+      description: "Generadores de contraseñas, lorem ipsum, números aleatorios, lanzamiento de moneda, dado, nombres y más.",
+    },
+    "dev-tools": {
+      label: "Herramientas dev",
+      description: "Formateador JSON, codificador Base64, lector de QR, probador de regex, constructor cURL, Markdown a HTML y más.",
+    },
+    "writing-ai": {
+      label: "Escritura e IA",
+      description: "Generador de bio con IA, parafraseador, resumidor de texto, generador de carta de presentación, generador de hashtags y más.",
+    },
+    "color-design-tools": {
+      label: "Colores y diseño",
+      description: "Conversor de color, hex a RGB, generador de paleta, generador de gradiente, buscador de nombres de color y más.",
+    },
+  },
 } as const;
 
 export default common;

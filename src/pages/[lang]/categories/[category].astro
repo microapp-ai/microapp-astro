@@ -43,8 +43,8 @@ const hreflangAlternates = [
 ---
 
 <BaseLayout
-  title={`${cat.label} — ${tools.length} Free Online Tools | Microapp`}
-  description={cat.description}
+  title={`${t(`common.categoryList.${cat.slug}.label`) || cat.label} — ${tools.length} Free Online Tools | Microapp`}
+  description={t(`common.categoryList.${cat.slug}.description`) || cat.description}
   canonical={`${siteUrl}/categories/${cat.slug}`}
   lang={lang}
   dir={dir}
@@ -63,14 +63,14 @@ const hreflangAlternates = [
             <span>›</span>
             <a href={localizeUrl("/categories", lang)} style="color:#1B6B45;text-decoration:none;font-weight:500">{t("common.categories.breadcrumb")}</a>
             <span>›</span>
-            <span>{cat.label}</span>
+            <span>{t(`common.categoryList.${cat.slug}.label`) || cat.label}</span>
           </nav>
 
           <div style="display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap">
             <div style="width:88px;height:88px;flex-shrink:0;border-radius:1.25rem;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,0.14)">
               <img
                 src={cat.illustration}
-                alt={cat.label}
+                alt={t(`common.categoryList.${cat.slug}.label`) || cat.label}
                 width="88"
                 height="88"
                 loading="eager"
@@ -80,7 +80,7 @@ const hreflangAlternates = [
             </div>
             <div>
               <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:clamp(1.75rem,4vw,2.75rem);color:#1A1A1A;letter-spacing:-0.03em;margin:0 0 0.375rem">
-                {cat.label}
+                {t(`common.categoryList.${cat.slug}.label`) || cat.label}
               </h1>
               <p style="font-family:'Inter',sans-serif;font-size:0.95rem;color:#6B7280;margin:0">
                 {t("common.categories.freeToolsCount").replace("{count}", String(tools.length))}
@@ -89,7 +89,7 @@ const hreflangAlternates = [
           </div>
 
           <p style="font-family:'Inter',sans-serif;font-size:1.05rem;color:#374151;line-height:1.75;max-width:60ch;margin:1.5rem 0 0">
-            {cat.description}
+            {t(`common.categoryList.${cat.slug}.description`) || cat.description}
           </p>
         </div>
       </section>

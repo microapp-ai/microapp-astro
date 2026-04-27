@@ -143,5 +143,35 @@ const common = {
     allCategories: "Wszystkie kategorie",
     browseAllTools: "Przeglądaj wszystkie narzędzia",
   },
+  categoryList: {
+    "text-tools": {
+      label: "Narzędzia tekstowe",
+      description: "Liczniki słów, znaków, formatery tekstu, konwertery wielkości liter, narzędzia porównywania i więcej — wszystko bezpłatne i natychmiastowe.",
+    },
+    "number-calculators": {
+      label: "Kalkulatory liczbowe",
+      description: "Kalkulatory procentów, przeliczniki jednostek, kalkulatory kredytów, BMI, GPA, napiwku i dziesiątki innych narzędzi matematycznych.",
+    },
+    "time-date-tools": {
+      label: "Narzędzia czasu i daty",
+      description: "Kalkulatory wieku, różnicy dat, liczniki odliczania, stoper, timer Pomodoro i więcej.",
+    },
+    "generators": {
+      label: "Generatory",
+      description: "Generatory haseł, Lorem Ipsum, losowych liczb, rzut monetą, kostką, generatory imion i więcej.",
+    },
+    "dev-tools": {
+      label: "Narzędzia deweloperskie",
+      description: "Formater JSON, koder Base64, czytnik QR, tester regex, kreator cURL, Markdown do HTML i więcej.",
+    },
+    "writing-ai": {
+      label: "Pisanie i AI",
+      description: "Generator bio AI, narzędzie parafrazy, podsumowanie tekstu, generator listu motywacyjnego, generator hashtagów i więcej.",
+    },
+    "color-design-tools": {
+      label: "Kolory i design",
+      description: "Konwerter kolorów, Hex na RGB, generator palety kolorów, generator gradientu, wyszukiwarka nazw kolorów i więcej.",
+    },
+  },
 } as const;
 export default common;

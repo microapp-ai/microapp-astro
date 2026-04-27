@@ -143,6 +143,36 @@ const common = {
     allCategories: "All categories",
     browseAllTools: "Browse all tools",
   },
+  categoryList: {
+    "text-tools": {
+      label: "Text Tools",
+      description: "Word counters, character counters, text formatters, case converters, diff checkers, and more — all free, all instant.",
+    },
+    "number-calculators": {
+      label: "Number Calculators",
+      description: "Percentage calculators, unit converters, loan calculators, BMI, GPA, tip calculator, and dozens more math tools.",
+    },
+    "time-date-tools": {
+      label: "Time & Date Tools",
+      description: "Age calculators, date difference tools, countdown timers, stopwatch, Pomodoro timer, and more.",
+    },
+    "generators": {
+      label: "Generators",
+      description: "Password generators, lorem ipsum, random number generators, coin flip, dice roller, name generators, and more.",
+    },
+    "dev-tools": {
+      label: "Dev Tools",
+      description: "JSON formatter, Base64 encoder, QR code reader, regex tester, cURL builder, Markdown to HTML, and more.",
+    },
+    "writing-ai": {
+      label: "Writing & AI",
+      description: "AI bio generator, paraphrasing tool, text summarizer, cover letter generator, hashtag generator, and more.",
+    },
+    "color-design-tools": {
+      label: "Colors & Design",
+      description: "Color converter, hex to RGB, color palette generator, gradient generator, color name finder, and more.",
+    },
+  },
 } as const;
 
 export default common;
