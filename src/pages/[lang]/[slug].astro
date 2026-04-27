@@ -1,38 +1,43 @@
 ---
 export const prerender = true;
 /**
- * [lang]/[slug].astro — Locale-prefixed tool page
- * e.g. /es/word-counter, /ru/age-calculator
+ * [lang]/[slug].astro — Locale-prefixed tool page with translated slugs
+ * e.g. /es/contador-palabras, /de/wort-zahler, /ru/счетчик-слов
  *
  * English uses /[slug].astro (no prefix). All other locales land here.
+ * The [slug] param is the TRANSLATED slug for the locale.
  * Tool metadata is fetched from Supabase with locale fallback to English.
  */
 import { NON_DEFAULT_LOCALES, getDir, type Locale } from "../../i18n/config";
-import { useTranslations, localizeUrl } from "../../i18n/utils";
+import { useTranslations } from "../../i18n/utils";
 import ToolLayout from "../../layouts/ToolLayout.astro";
 import ToolIsland from "../../components/ToolIsland";
 import FaqAccordion from "../../components/FaqAccordion";
 import ToolRatings from "../../components/ToolRatings";
 import AuthModal from "../../components/AuthModal";
 import { getAllTools, getToolTranslation } from "../../lib/supabase";
+import { getLocalSlug } from "../../i18n/slug-mappings";
 import type { ToolMetadata } from "../../lib/types";
 
 export async function getStaticPaths() {
   const tools = await getAllTools();
 
   // Generate one path per locale × tool combination
+  // The slug param is the TRANSLATED slug for the locale
   const paths = [];
   for (const lang of NON_DEFAULT_LOCALES) {
     for (const tool of tools) {
+      const localSlug = getLocalSlug(tool.slug, lang);
       // Try to get a translated version of the tool metadata
       const translated = await getToolTranslation(tool.slug, lang);
       paths.push({
-        params: { lang, slug: tool.slug },
+        params: { lang, slug: localSlug },
         props: {
           tool: translated
             ? { ...tool, ...translated }  // merge translated fields over English base
             : tool,                        // fallback: use English metadata
           lang,
+          engSlug: tool.slug,
           hasTranslation: !!translated,
         },
       });
@@ -44,27 +49,28 @@ export async function getStaticPaths() {
 interface Props {
   tool: ToolMetadata;
   lang: Locale;
+  engSlug: string;
   hasTranslation: boolean;
 }
 
-const { tool, lang, hasTranslation } = Astro.props;
+const { tool, lang, engSlug, hasTranslation } = Astro.props;
 const t = await useTranslations(lang);
 const dir = getDir(lang);
 
 const siteUrl = "https://microapp.io";
 const hreflangAlternates = [
-  { hreflang: "x-default", href: `${siteUrl}/${tool.slug}` },
-  { hreflang: "en",        href: `${siteUrl}/${tool.slug}` },
+  { hreflang: "x-default", href: `${siteUrl}/${engSlug}` },
+  { hreflang: "en",        href: `${siteUrl}/${engSlug}` },
   ...NON_DEFAULT_LOCALES.map(l => ({
     hreflang: l,
-    href: `${siteUrl}/${l}/${tool.slug}`,
+    href: `${siteUrl}/${l}/${getLocalSlug(engSlug, l)}`,
   })),
 ];
 ---
 
 <ToolLayout tool={tool} lang={lang} dir={dir} hreflangAlternates={hreflangAlternates}>
   <div slot="tool-widget">
-    <ToolIsland slug={tool.slug} client:load lang={lang} />
+    <ToolIsland slug={engSlug} client:load lang={lang} />
   </div>
 
   {tool.faqs && tool.faqs.length > 0 && (
@@ -74,7 +80,7 @@ const hreflangAlternates = [
   )}
 
   <div slot="ratings">
-    <ToolRatings slug={tool.slug} client:visible lang={lang} />
+    <ToolRatings slug={engSlug} client:visible lang={lang} />
   </div>
 
   <AuthModal client:load lang={lang} />

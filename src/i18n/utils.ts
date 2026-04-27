@@ -10,6 +10,7 @@
 
 import { DEFAULT_LOCALE, isValidLocale, type Locale } from "./config";
 import type { Translations } from "./types";
+import { getLocalSlug } from "./slug-mappings";
 
 // ─── Dynamic locale loader ────────────────────────────────────────────────────
 // We use a cache so each locale is only loaded once per build.
@@ -96,14 +97,25 @@ export function stripLocale(pathname: string): string {
 }
 
 /**
- * Prepend a locale prefix to a path.
- * localizeUrl("/word-counter", "es") → "/es/word-counter"
+ * Prepend a locale prefix to a path, translating tool slugs when applicable.
+ * localizeUrl("/word-counter", "es") → "/es/contador-palabras"
  * localizeUrl("/word-counter", "en") → "/word-counter"  (no prefix for default)
+ * localizeUrl("/categories/text-tools", "es") → "/es/categories/text-tools" (non-tool paths unchanged)
  */
 export function localizeUrl(path: string, locale: Locale): string {
   // Strip any existing locale prefix first
   const cleanPath = stripLocale(path);
   if (locale === DEFAULT_LOCALE) return cleanPath;
+
+  // Translate tool slugs: only for top-level paths like /word-counter
+  // (not /categories/..., /about, /privacy-policy, etc.)
+  const segments = cleanPath.replace(/^\//, '').split('/');
+  if (segments.length === 1 && segments[0] && !segments[0].includes('.')) {
+    const engSlug = segments[0];
+    const localSlug = getLocalSlug(engSlug, locale);
+    return `/${locale}/${localSlug}`;
+  }
+
   return `/${locale}${cleanPath.startsWith("/") ? cleanPath : "/" + cleanPath}`;
 }
 
