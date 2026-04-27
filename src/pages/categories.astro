@@ -44,7 +44,7 @@ const totalTools = categoriesWithCount.reduce((sum, c) => sum + c.toolCount, 0);
     <main class="flex-1">
       <!-- Hero -->
       <section style="background:linear-gradient(135deg,#F9F8F4 0%,#EEF7F2 100%);padding:4rem 0 3rem;border-bottom:1px solid #E8E6DE">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6">
+        <div class="container">
           <!-- Breadcrumb -->
           <nav style="font-family:'Inter',sans-serif;font-size:0.8rem;color:#6B7280;margin-bottom:1.5rem;display:flex;align-items:center;gap:0.375rem">
             <a href="/" style="color:#1B6B45;text-decoration:none;font-weight:500">{t("common.nav.home")}</a>
@@ -62,7 +62,7 @@ const totalTools = categoriesWithCount.reduce((sum, c) => sum + c.toolCount, 0);
 
       <!-- Category Grid -->
       <section style="padding:3.5rem 0 5rem">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6">
+        <div class="container">
           <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:1.5rem">
             {categoriesWithCount.map(cat => (
               <a
