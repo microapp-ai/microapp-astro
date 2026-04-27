@@ -30,6 +30,19 @@ export default function LanguageSwitcher({ currentLang, mode = "dropdown", onSel
     return localizeUrl(clean, locale);
   }
 
+  // Save selected language to localStorage so all pages redirect to it
+  function handleLangSelect(locale: Locale) {
+    try {
+      if (locale === DEFAULT_LOCALE) {
+        localStorage.removeItem("microapp_lang");
+      } else {
+        localStorage.setItem("microapp_lang", locale);
+      }
+    } catch {}
+    setOpen(false);
+    onSelect?.();
+  }
+
   // Close dropdown when clicking outside
   useEffect(() => {
     if (mode !== "dropdown") return;
@@ -53,7 +66,7 @@ export default function LanguageSwitcher({ currentLang, mode = "dropdown", onSel
             <a
               key={code}
               href={getLocaleUrl(code)}
-              onClick={onSelect}
+              onClick={() => handleLangSelect(code)}
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -158,7 +171,7 @@ export default function LanguageSwitcher({ currentLang, mode = "dropdown", onSel
                 href={getLocaleUrl(code)}
                 role="option"
                 aria-selected={isCurrent}
-                onClick={() => setOpen(false)}
+                onClick={() => handleLangSelect(code)}
                 style={{
                   display: "flex",
                   alignItems: "center",

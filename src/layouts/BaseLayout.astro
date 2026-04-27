@@ -54,6 +54,25 @@ const analyticsWebsiteId = import.meta.env.VITE_ANALYTICS_WEBSITE_ID || "";
     {keywords.length > 0 && <meta name="keywords" content={keywords.join(", ")} />}
     {noIndex && <meta name="robots" content="noindex, nofollow" />}
 
+    <!-- Language persistence: redirect to saved locale before first paint -->
+    <script is:inline define:vars={{ currentLang: lang }}>
+      (function() {
+        try {
+          var saved = localStorage.getItem('microapp_lang');
+          if (!saved || saved === currentLang) return;
+          var valid = ['ru','es','hi','ar','de','pl'];
+          if (valid.indexOf(saved) === -1) { localStorage.removeItem('microapp_lang'); return; }
+          var path = window.location.pathname;
+          var localeRe = new RegExp('^/(' + valid.join('|') + ')(/|$)');
+          var clean = path.replace(localeRe, function(m, l, sep) { return sep || '/'; });
+          var newPath = '/' + saved + (clean === '/' ? '' : clean);
+          if (path !== newPath) {
+            window.location.replace(newPath + window.location.search + window.location.hash);
+          }
+        } catch(e) {}
+      })();
+    </script>
+
     <!-- Canonical -->
     <link rel="canonical" href={canonicalUrl} />
 
