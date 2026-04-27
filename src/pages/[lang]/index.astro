@@ -46,7 +46,7 @@ const hreflangAlternates = [
 >
   <div class="min-h-screen bg-white flex flex-col">
     <HomeNav lang={lang} />
-    <HomeIsland client:load lang={lang} translations={homeTranslations} />
+    <HomeIsland client:only="react" lang={lang} translations={homeTranslations} />
     <HomeFooter lang={lang} />
   </div>
   <AuthModal client:load />
