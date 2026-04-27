@@ -1,0 +1,67 @@
+<!DOCTYPE html><html lang="en" dir="ltr"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Page Not Found — Microapp</title><meta name="description" content="The page you're looking for doesn't exist. Browse 100+ free tools on Microapp."><!-- Language persistence: redirect to saved locale before first paint --><script>(function(){const currentLang = "en";
+
+      (function() {
+        try {
+          var saved = localStorage.getItem('microapp_lang');
+          if (!saved || saved === currentLang) return;
+          var valid = ['ru','es','hi','ar','de','pl'];
+          if (valid.indexOf(saved) === -1) { localStorage.removeItem('microapp_lang'); return; }
+          var path = window.location.pathname;
+          var localeRe = new RegExp('^/(' + valid.join('|') + ')(/|$)');
+          var clean = path.replace(localeRe, function(m, l, sep) { return sep || '/'; });
+          var newPath = '/' + saved + (clean === '/' ? '' : clean);
+          if (path !== newPath) {
+            window.location.replace(newPath + window.location.search + window.location.hash);
+          }
+        } catch(e) {}
+      })();
+    })();</script><!-- Canonical --><link rel="canonical" href="https://microapp.io/"><!-- hreflang alternates for i18n SEO --><!-- Open Graph --><meta property="og:type" content="website"><meta property="og:site_name" content="Microapp"><meta property="og:title" content="Page Not Found — Microapp"><meta property="og:description" content="The page you're looking for doesn't exist. Browse 100+ free tools on Microapp."><meta property="og:url" content="https://microapp.io/"><meta property="og:image" content="https://microapp.io/og-image.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@microapp_io"><meta name="twitter:title" content="Page Not Found — Microapp"><meta name="twitter:description" content="The page you're looking for doesn't exist. Browse 100+ free tools on Microapp."><meta name="twitter:image" content="https://microapp.io/og-image.png"><!-- Sitemap --><link rel="sitemap" type="application/xml" href="/sitemap.xml"><!-- Favicon --><link rel="icon" type="image/x-icon" href="/favicon.ico"><!-- ═══════════════════════════════════════════════════════════════
+         PERFORMANCE: Resource hints
+    ════════════════════════════════════════════════════════════════ --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://pagead2.googlesyndication.com"><link rel="preconnect" href="https://d36hbw14aib5lz.cloudfront.net" crossorigin><link rel="dns-prefetch" href="https://www.googletagservices.com"><link rel="dns-prefetch" href="https://googleads.g.doubleclick.net"><link rel="dns-prefetch" href="https://tpc.googlesyndication.com"><link rel="dns-prefetch" href="https://manus-analytics.com"><link rel="dns-prefetch" href="https://plausible.io"><!-- ═══════════════════════════════════════════════════════════════
+         FONTS: Non-blocking with font-display=optional
+         Eliminates render-blocking font chain entirely.
+    ════════════════════════════════════════════════════════════════ --><link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800&family=Inter:wght@400;500;600&family=Caveat:wght@600;700&display=optional" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800&family=Inter:wght@400;500;600&family=Caveat:wght@600;700&display=optional"></noscript><!-- ═══════════════════════════════════════════════════════════════
+         ADSENSE: Lazy-loaded AFTER page is interactive
+         The script is NOT in <head>. It is injected by JS only after
+         the browser fires 'load' + a 2s idle delay, ensuring it never
+         blocks FCP, LCP, or TBT.
+    ════════════════════════════════════════════════════════════════ --><!-- JSON-LD Structured Data --><link rel="stylesheet" href="/_astro/_slug_.qURFg9NY.css"></head> <body>  <main style="min-height:60vh;display:flex;align-items:center;justify-content:center;padding:4rem 1rem;text-align:center;"> <div> <div style="font-size:5rem;font-weight:900;color:#FFE234;font-family:'Plus Jakarta Sans',sans-serif;line-height:1;">404</div> <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:clamp(1.5rem,3vw,2rem);color:#1A1A1A;margin:1rem 0 0.5rem;">
+Page not found
+</h1> <p style="font-family:'Inter',sans-serif;color:#6B7280;font-size:1rem;margin-bottom:2rem;max-width:400px;margin-left:auto;margin-right:auto;">
+The page you're looking for doesn't exist or has been moved.
+        Browse our full collection of free tools below.
+</p> <a href="/" style="display:inline-flex;align-items:center;gap:0.5rem;background:#1A1A1A;color:#FFE234;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;padding:0.75rem 1.75rem;border-radius:0.5rem;text-decoration:none;font-size:1rem;">
+← Back to all tools
+</a> </div> </main>  <!-- Analytics: defer so it never blocks rendering --> <script defer src="https://manus-analytics.com/umami" data-website-id="c54b41f5-d4a7-48cb-8de7-e6c5f179f6e6"></script> <!-- ═══════════════════════════════════════════════════════════════
+         ADSENSE LAZY LOADER
+         Waits for 'load' event + requestIdleCallback (or 2s fallback)
+         before injecting the AdSense script. This removes adsbygoogle.js
+         from the critical path entirely — FCP and LCP are never blocked.
+    ════════════════════════════════════════════════════════════════ --> <script>
+      (function () {
+        var adsLoaded = false;
+        function loadAds() {
+          if (adsLoaded) return;
+          adsLoaded = true;
+          var s = document.createElement('script');
+          s.async = true;
+          s.crossOrigin = 'anonymous';
+          s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4016939081639634';
+          document.head.appendChild(s);
+        }
+        function scheduleAds() {
+          if ('requestIdleCallback' in window) {
+            // Fire during browser idle time, max 2s wait
+            requestIdleCallback(loadAds, { timeout: 2000 });
+          } else {
+            // Fallback: 2s after load for browsers without rIC
+            setTimeout(loadAds, 2000);
+          }
+        }
+        if (document.readyState === 'complete') {
+          scheduleAds();
+        } else {
+          window.addEventListener('load', scheduleAds, { once: true });
+        }
+      })();
+    </script> </body> </html>
