@@ -12,7 +12,19 @@ import { useState, useEffect, useRef } from "react";
 import { supabaseBrowser } from "../lib/supabase-browser";
 import type { User } from "../lib/supabase-browser";
 
-export default function NavAuthIsland() {
+interface Props {
+  loginLabel?: string;
+  signupLabel?: string;
+  logoutLabel?: string;
+  myAccountLabel?: string;
+}
+
+export default function NavAuthIsland({
+  loginLabel = "Log in",
+  signupLabel = "Sign up",
+  logoutLabel = "Log out",
+  myAccountLabel = "My account",
+}: Props = {}) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -193,7 +205,7 @@ export default function NavAuthIsland() {
                   marginBottom: "0.125rem",
                 }}
               >
-                My account
+                {myAccountLabel}
               </div>
               <div
                 style={{
@@ -250,7 +262,7 @@ export default function NavAuthIsland() {
                   <polyline points="16 17 21 12 16 7" />
                   <line x1="21" y1="12" x2="9" y2="12" />
                 </svg>
-                Log out
+                {logoutLabel}
               </button>
             </div>
           </div>
@@ -286,7 +298,7 @@ export default function NavAuthIsland() {
           (e.currentTarget as HTMLButtonElement).style.color = "#374151";
         }}
       >
-        Log in
+        {loginLabel}
       </button>
       <button
         onClick={() => openAuth("signup")}
@@ -310,7 +322,7 @@ export default function NavAuthIsland() {
           (e.currentTarget as HTMLButtonElement).style.background = "#1B6B45";
         }}
       >
-        Sign up
+        {signupLabel}
       </button>
     </div>
   );
