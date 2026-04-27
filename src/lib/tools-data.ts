@@ -122,6 +122,7 @@ export const ALL_TOOLS: ToolEntry[] = [
   { label: "Text to Bullet Points", desc: "Convert paragraphs to bullet points", href: "/text-to-bullet-points", category: "writing" },
   { label: "Meeting Agenda Generator", desc: "Generate structured meeting agendas", href: "/meeting-agenda-generator", category: "writing" },
   { label: "Email Generator", desc: "Generate professional emails instantly", href: "/email-generator", category: "writing" },
+  { label: "AI Hairstyle Analyzer", desc: "Find your best haircuts and hair colors by face shape", href: "/ai-hairstyle-analyzer", category: "writing", keywords: ["hairstyle", "haircut", "hair color", "face shape", "hair analysis"] },
 ];
 
 /** Simple fuzzy search: returns tools matching query against label, desc, keywords */
