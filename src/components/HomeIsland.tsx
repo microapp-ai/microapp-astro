@@ -444,13 +444,6 @@ export default function Home({ lang = "en", translations }: HomeProps) {
         `}</style>
       </section>
 
-      {/* Ad: Leaderboard — between hero and tools grid (high viewability, above the fold) */}
-      <div className="bg-white py-4">
-        <div className="container">
-          <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.72rem", color: "#9CA3AF", textAlign: "center", marginBottom: "0.4rem" }}>Advertisement</p>
-          
-        </div>
-      </div>
 
       {/* ── Category Filter ── */}
       <section className="section-cream py-12" id="categories">
